@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Моніторинг Грантів | Impactum</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="ambient-light"></div>
+
+    <header>
+        <a href="index.html" class="logo-wrapper">
+            <div class="css-logo"><div class="logo-top">IMPACTUM</div><div class="logo-btm">AGENCY</div><div class="logo-slash"></div></div>
+        </a>
+        <nav>
+            <ul>
+                <li><a href="about.html">Про нас</a></li>
+                <li><a href="consulting.html">Консультації</a></li>
+                <li><a href="monitoring.html" class="active">Моніторинг</a></li>
+                <li><a href="turnkey.html">Гранти</a></li>
+                <li><a href="strategy.html">Стратегія</a></li>
+                <li><a href="#" onclick="openOrderModal('Загальний запит')" class="nav-btn">Зв'язатися</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="page-header">
+            <div class="container">
+                <h1>Підбір Грантів</h1>
+                <p class="page-subtitle">Натисніть на картку, щоб дізнатися детальний склад послуги.</p>
+            </div>
+        </section>
+
+        <section>
+            <div class="container">
+                <div class="grid-3">
+                    
+                    <!-- Card 1: Micro -->
+                    <div class="card" onclick="openInfo('micro')" style="cursor: pointer;">
+                        <h3>Micro / NGO</h3>
+                        <p>Гранти до $15 000</p>
+                        <ul class="card-list">
+                            <li>Соціальні проєкти</li>
+                            <li>Мікропідприємці</li>
+                            <li>Щотижневий звіт</li>
+                        </ul>
+                        <div style="margin-top: auto; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.1);">
+                            <div style="display:flex; justify-content:space-between; margin-bottom:5px;">3 міс: <b>8 000 ₴</b></div>
+                            <div style="display:flex; justify-content:space-between;">12 міс: <b>28 000 ₴</b></div>
+                        </div>
+                        <button class="card-btn" style="margin-top: 20px;">Детальніше</button>
+                    </div>
+
+                    <!-- Card 2: SME -->
+                    <div class="card" onclick="openInfo('sme')" style="cursor: pointer; border-color: var(--primary-accent);">
+                        <h3 style="color: var(--primary-accent);">SME Business</h3>
+                        <p>Гранти до $200 000</p>
+                        <ul class="card-list">
+                            <li>Розвиток бізнесу</li>
+                            <li>Експорт та обладнання</li>
+                            <li>Пріоритетний супровід</li>
+                        </ul>
+                        <div style="margin-top: auto; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.1);">
+                            <div style="display:flex; justify-content:space-between; margin-bottom:5px;">3 міс: <b>15 000 ₴</b></div>
+                            <div style="display:flex; justify-content:space-between;">12 міс: <b>55 000 ₴</b></div>
+                        </div>
+                        <button class="card-btn" style="margin-top: 20px; background: var(--primary-accent);">Детальніше</button>
+                    </div>
+
+                    <!-- Card 3: Enterprise -->
+                    <div class="card" onclick="openInfo('enterprise')" style="cursor: pointer;">
+                        <h3>Enterprise</h3>
+                        <p>Гранти від $200 000</p>
+                        <ul class="card-list">
+                            <li>Міжнародні фонди</li>
+                            <li>Великі інвестиції</li>
+                            <li>Індивідуальна стратегія</li>
+                        </ul>
+                        <div style="margin-top: auto; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.1);">
+                            <div style="display:flex; justify-content:space-between; margin-bottom:5px;">3 міс: <b>25 000 ₴</b></div>
+                            <div style="display:flex; justify-content:space-between;">12 міс: <b>100 000 ₴</b></div>
+                        </div>
+                        <button class="card-btn" style="margin-top: 20px;">Детальніше</button>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer><div class="container"><p>&copy; 2025 Impactum Agency</p></div></footer>
+
+    <!-- INFO MODAL (ДЕТАЛЬНИЙ ОПИС) -->
+    <div class="info-modal-overlay" id="infoModal">
+        <div class="info-modal">
+            <div class="info-header">
+                <div>
+                    <h2 class="info-title" id="iTitle">Заголовок</h2>
+                    <span class="info-price" id="iPrice">000 грн</span>
+                </div>
+                <span class="close-info" onclick="closeInfo()">✕</span>
+            </div>
+            <div class="info-body" id="iBody">
+                <!-- Сюди JS вставить текст -->
+            </div>
+            <div class="info-footer">
+                <button class="btn" id="iOrderBtn">Оформити підписку</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ORDER MODAL (ФОРМА) -->
+    <div class="modal-overlay" id="orderModal">
+        <div class="modal">
+            <span class="close-modal" onclick="closeOrderModal()">✕</span>
+            <h3>Залишити заявку</h3>
+            <form onsubmit="event.preventDefault(); submitForm();">
+                <input type="text" id="serviceInput" class="form-input" readonly>
+                <input type="text" class="form-input" placeholder="Ім'я" required>
+                <input type="text" class="form-input" placeholder="Телефон" required>
+                <button type="submit" class="btn" style="width: 100%;">Відправити</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // --- ДАНІ ДЛЯ ВІКОН ---
+        const servicesData = {
+            'micro': {
+                title: "Micro / NGO",
+                price: "від 8 000 ₴",
+                html: `
+                    <h4>Для кого ця послуга?</h4>
+                    <p>Ідеально підходить для благодійних фондів, громадських організацій (ГО) та мікропідприємців (ФОП), які шукають фінансування на соціальні проєкти, закупівлю дрібного обладнання або навчання.</p>
+                    
+                    <h4>Що ви отримуєте:</h4>
+                    <ul>
+                        <li><strong>Щотижневий звіт:</strong> Підбірка грантів у PDF форматі щопонеділка.</li>
+                        <li><strong>Фільтрація сміття:</strong> Ми відкидаємо конкурси, де ви не проходите за КВЕДами або віком реєстрації.</li>
+                        <li><strong>База донорів:</strong> Доступ до грантів від "Єднання", фондів посольств, локальних адміністрацій.</li>
+                        <li><strong>Шаблони документів:</strong> Надаємо приклади листів підтримки та резюме.</li>
+                    </ul>
+                    
+                    <h4>Переваги:</h4>
+                    <p>Ви не витрачаєте час на моніторинг сайтів донорів. Ви отримуєте лише те, що реально можна виграти з вашим оборотом та історією.</p>
+                `
+            },
+            'sme': {
+                title: "SME Business",
+                price: "від 15 000 ₴",
+                html: `
+                    <h4>Для кого ця послуга?</h4>
+                    <p>Для діючого малого та середнього бізнесу, що планує масштабування, експортну діяльність або модернізацію виробництва. (Гранти USAID, EBRD, GIZ).</p>
+                    
+                    <h4>Розширений функціонал:</h4>
+                    <ul>
+                        <li><strong>Пріоритетний пошук:</strong> Гранти на обладнання, маркетинг, консалтинг та енергоефективність.</li>
+                        <li><strong>Аналіз відповідності:</strong> Експрес-аудит вашої компанії перед кожною рекомендацією (перевірка зв'язків, боргів).</li>
+                        <li><strong>Календар дедлайнів:</strong> Ми нагадуємо про наближення термінів подачі.</li>
+                        <li><strong>Знижка 10%:</strong> На послуги написання гранту "Під ключ".</li>
+                    </ul>
+
+                    <h4>Результат:</h4>
+                    <p>Ви завжди знаєте, де можна взяти гроші на розвиток бізнесу (до $200 000) та маєте стратегічну перевагу перед конкурентами.</p>
+                `
+            },
+            'enterprise': {
+                title: "Enterprise",
+                price: "від 25 000 ₴",
+                html: `
+                    <h4>Для кого ця послуга?</h4>
+                    <p>Для великих компаній, холдингів та консорціумів, які цікавляться складними інфраструктурними проєктами та міжнародною співпрацею (Horizon Europe, LIFE, Digital Europe).</p>
+                    
+                    <h4>VIP можливості:</h4>
+                    <ul>
+                        <li><strong>Міжнародний моніторинг:</strong> Пошук партнерів у ЄС для створення консорціумів.</li>
+                        <li><strong>Інсайдерська інформація:</strong> Аналіз програм, які тільки готуються до відкриття.</li>
+                        <li><strong>Персональний менеджер:</strong> Зв'язок 24/7 та консультації щодо лобіювання інтересів.</li>
+                        <li><strong>Стратегічна сесія:</strong> Раз на квартал розбираємо вектор розвитку компанії.</li>
+                    </ul>
+
+                    <h4>Глобальні цілі:</h4>
+                    <p>Залучення інвестицій від 200 000 євро до кількох мільйонів для технологічних проривів та екологічної трансформації.</p>
+                `
+            }
+        };
+
+        // --- ЛОГІКА ІНФО-МОДАЛКИ ---
+        const infoModal = document.getElementById('infoModal');
+        const infoModalContent = document.querySelector('.info-modal');
+        const iTitle = document.getElementById('iTitle');
+        const iPrice = document.getElementById('iPrice');
+        const iBody = document.getElementById('iBody');
+        const iOrderBtn = document.getElementById('iOrderBtn');
+
+        function openInfo(key) {
+            const data = servicesData[key];
+            if(!data) return;
+
+            iTitle.innerText = data.title;
+            iPrice.innerText = data.price;
+            iBody.innerHTML = data.html;
+            
+            // Налаштування кнопки замовлення всередині інфо-вікна
+            iOrderBtn.onclick = function() {
+                closeInfo();
+                setTimeout(() => openOrderModal(data.title), 300); // Невелика затримка для краси
+            };
+
+            infoModal.style.display = 'flex';
+            setTimeout(() => {
+                infoModal.style.opacity = '1';
+                infoModalContent.classList.add('open');
+            }, 10);
+        }
+
+        function closeInfo() {
+            infoModal.style.opacity = '0';
+            infoModalContent.classList.remove('open');
+            setTimeout(() => {
+                infoModal.style.display = 'none';
+            }, 300);
+        }
+
+        // --- ЛОГІКА ФОРМИ ЗАМОВЛЕННЯ ---
+        const orderModal = document.getElementById('orderModal');
+        const serviceInput = document.getElementById('serviceInput');
+
+        function openOrderModal(serviceName) {
+            serviceInput.value = serviceName;
+            orderModal.style.display = 'flex';
+        }
+
+        function closeOrderModal() {
+            orderModal.style.display = 'none';
+        }
+
+        function submitForm() {
+            alert('Дякуємо! Вашу заявку прийнято.');
+            closeOrderModal();
+        }
+
+        // Закриття по кліку на фон
+        window.onclick = function(e) {
+            if(e.target == infoModal) closeInfo();
+            if(e.target == orderModal) closeOrderModal();
+        }
+    </script>
+</body>
+</html>

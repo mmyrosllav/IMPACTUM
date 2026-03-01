@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Гранти Під Ключ | Impactum</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="ambient-light"></div>
+
+    <header>
+        <a href="index.html" class="logo-wrapper">
+            <div class="css-logo"><div class="logo-top">IMPACTUM</div><div class="logo-btm">AGENCY</div><div class="logo-slash"></div></div>
+        </a>
+        <nav>
+            <ul>
+                <li><a href="about.html">Про нас</a></li>
+                <li><a href="consulting.html">Консультації</a></li>
+                <li><a href="monitoring.html">Моніторинг</a></li>
+                <li><a href="turnkey.html" class="active">Гранти</a></li>
+                <li><a href="strategy.html">Стратегія</a></li>
+                <li><a href="#" onclick="openOrderModal('Грант під ключ')" class="nav-btn">Зв'язатися</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="page-header">
+            <div class="container">
+                <h1>Написання Під Ключ</h1>
+                <p class="page-subtitle">Натисніть на пакет послуг, щоб побачити повний перелік робіт.</p>
+            </div>
+        </section>
+
+        <section>
+            <div class="container">
+                <div class="grid-3">
+                    
+                    <!-- Card 1: Basic -->
+                    <div class="card" onclick="openInfo('basic')" style="cursor: pointer;">
+                        <h3>Базовий</h3>
+                        <p>Малий бюджет</p>
+                        <div class="price">8k – 12k ₴</div>
+                        <ul class="card-list">
+                            <li>Написання заявки</li>
+                            <li>Бюджет + документи</li>
+                            <li>1 раунд правок</li>
+                        </ul>
+                        <button class="card-btn">Детальніше</button>
+                    </div>
+
+                    <!-- Card 2: Standard -->
+                    <div class="card" onclick="openInfo('standard')" style="cursor: pointer; border-color: var(--primary-accent);">
+                        <h3 style="color: var(--primary-accent);">Середній</h3>
+                        <p>Розвиток бізнесу</p>
+                        <div class="price">15k – 25k ₴</div>
+                        <ul class="card-list">
+                            <li>Повний аналіз</li>
+                            <li>Заявка + додатки</li>
+                            <li>3 раунди правок</li>
+                        </ul>
+                        <button class="card-btn" style="background: var(--primary-accent);">Детальніше</button>
+                    </div>
+
+                    <!-- Card 3: VIP -->
+                    <div class="card" onclick="openInfo('vip')" style="cursor: pointer;">
+                        <h3>Складний (VIP)</h3>
+                        <p>Міжнародні програми</p>
+                        <div class="price">30k – 60k ₴</div>
+                        <ul class="card-list">
+                            <li>Повний аудит вимог</li>
+                            <li>Безлімітні правки</li>
+                            <li>Презентації</li>
+                        </ul>
+                        <button class="card-btn">Детальніше</button>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer><div class="container"><p>&copy; 2025 Impactum Agency</p></div></footer>
+
+    <!-- INFO MODAL (Детальний опис) -->
+    <div class="info-modal-overlay" id="infoModal">
+        <div class="info-modal">
+            <div class="info-header">
+                <div><h2 class="info-title" id="iTitle"></h2><span class="info-price" id="iPrice"></span></div>
+                <span class="close-info" onclick="closeInfo()">✕</span>
+            </div>
+            <div class="info-body" id="iBody"></div>
+            <div class="info-footer"><button class="btn" id="iOrderBtn">Замовити написання</button></div>
+        </div>
+    </div>
+
+    <!-- ORDER MODAL (Форма) -->
+    <div class="modal-overlay" id="orderModal">
+        <div class="modal">
+            <span class="close-modal" onclick="closeOrderModal()">✕</span>
+            <h3>Залишити заявку</h3>
+            <form onsubmit="event.preventDefault(); submitForm();">
+                <input type="text" id="serviceInput" class="form-input" readonly>
+                <input type="text" class="form-input" placeholder="Ім'я" required>
+                <input type="text" class="form-input" placeholder="Телефон" required>
+                <button type="submit" class="btn" style="width: 100%;">Відправити</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // ДАНІ ДЛЯ ПАКЕТІВ
+        const servicesData = {
+            'basic': {
+                title: "Пакет Базовий",
+                price: "8 000 – 12 000 ₴",
+                html: `
+                    <h4>Опис:</h4>
+                    <p>Підходить для простих грантових програм (наприклад, "єРобота: Власна справа" або мікрогранти від благодійних фондів) з бюджетом до 250 000 грн.</p>
+                    
+                    <h4>Що входить:</h4>
+                    <ul>
+                        <li><strong>Інтерв'ю:</strong> 1 година для збору інформації про вашу бізнес-ідею.</li>
+                        <li><strong>Написання:</strong> Підготовка бізнес-плану та описової частини заявки.</li>
+                        <li><strong>Бюджет:</strong> Складання кошторису в Excel згідно з вимогами.</li>
+                        <li><strong>Правки:</strong> 1 ітерація правок (ви читаєте чернетку, ми коригуємо).</li>
+                        <li><strong>Подача:</strong> Інструкція з завантаження документів на портал Дія.</li>
+                    </ul>
+                    <p><strong>Термін виконання:</strong> 7-10 робочих днів.</p>
+                `
+            },
+            'standard': {
+                title: "Пакет Середній",
+                price: "15 000 – 25 000 ₴",
+                html: `
+                    <h4>Опис:</h4>
+                    <p>Для грантів на розвиток існуючого бізнесу, переробні підприємства або складні проєкти USAID/GIZ (бюджети до $100 000).</p>
+                    
+                    <h4>Що входить:</h4>
+                    <ul>
+                        <li><strong>Глибокий аналіз:</strong> Вивчення критеріїв оцінки та адаптація проєкту під пріоритети донора.</li>
+                        <li><strong>Логіко-структурна матриця:</strong> Розробка чіткої структури цілей та результатів.</li>
+                        <li><strong>Розширений бюджет:</strong> Детальний кошторис з обґрунтуванням кожної витрати.</li>
+                        <li><strong>Додатки:</strong> Підготовка CV команди, описів партнерів, листів підтримки.</li>
+                        <li><strong>Правки:</strong> До 3 раундів консультацій та коригувань.</li>
+                        <li><strong>Супровід:</strong> Відповіді на запитання донора після подачі.</li>
+                    </ul>
+                    <p><strong>Термін виконання:</strong> 14-20 робочих днів.</p>
+                `
+            },
+            'vip': {
+                title: "Пакет Складний (VIP)",
+                price: "30 000 – 60 000 ₴",
+                html: `
+                    <h4>Опис:</h4>
+                    <p>Для міжнародних консорціумів (Horizon Europe, Creative Europe, LIFE) або великих інвестиційних грантів понад $200 000.</p>
+                    
+                    <h4>Що входить:</h4>
+                    <ul>
+                        <li><strong>Compliance Audit:</strong> Повний аудит компанії на відповідність вимогам фонду.</li>
+                        <li><strong>Англійська мова:</strong> Написання заявки англійською (з перевіркою носієм мови).</li>
+                        <li><strong>Комунікаційна стратегія:</strong> План поширення результатів проєкту (Dissemination).</li>
+                        <li><strong>Пітчинг:</strong> Підготовка графічних презентацій для захисту проєкту.</li>
+                        <li><strong>Безлімітні правки:</strong> Працюємо до ідеального результату.</li>
+                        <li><strong>Партнерство:</strong> Допомога у формуванні консорціуму.</li>
+                    </ul>
+                    <p><strong>Термін виконання:</strong> до 30 робочих днів.</p>
+                `
+            }
+        };
+
+        // --- ЛОГІКА (Стандартна) ---
+        const infoModal = document.getElementById('infoModal');
+        const infoModalContent = document.querySelector('.info-modal');
+        const iTitle = document.getElementById('iTitle');
+        const iPrice = document.getElementById('iPrice');
+        const iBody = document.getElementById('iBody');
+        const iOrderBtn = document.getElementById('iOrderBtn');
+
+        function openInfo(key) {
+            const data = servicesData[key];
+            if(!data) return;
+            iTitle.innerText = data.title; iPrice.innerText = data.price; iBody.innerHTML = data.html;
+            iOrderBtn.onclick = function() { closeInfo(); setTimeout(() => openOrderModal(data.title), 300); };
+            infoModal.style.display = 'flex';
+            setTimeout(() => { infoModal.style.opacity = '1'; infoModalContent.classList.add('open'); }, 10);
+        }
+        function closeInfo() { infoModal.style.opacity = '0'; infoModalContent.classList.remove('open'); setTimeout(() => { infoModal.style.display = 'none'; }, 300); }
+        
+        const orderModal = document.getElementById('orderModal');
+        const serviceInput = document.getElementById('serviceInput');
+        function openOrderModal(serviceName) { serviceInput.value = serviceName; orderModal.style.display = 'flex'; }
+        function closeOrderModal() { orderModal.style.display = 'none'; }
+        function submitForm() { alert('Дякуємо! Вашу заявку прийнято.'); closeOrderModal(); }
+        window.onclick = function(e) { if(e.target == infoModal) closeInfo(); if(e.target == orderModal) closeOrderModal(); }
+    </script>
+</body>
+</html>

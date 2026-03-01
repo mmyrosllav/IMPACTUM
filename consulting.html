@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Консультації та Редагування | Impactum</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="ambient-light"></div>
+
+    <header>
+        <a href="index.html" class="logo-wrapper">
+            <div class="css-logo"><div class="logo-top">IMPACTUM</div><div class="logo-btm">AGENCY</div><div class="logo-slash"></div></div>
+        </a>
+        <nav>
+            <ul>
+                <li><a href="about.html">Про нас</a></li>
+                <li><a href="consulting.html" class="active">Консультації</a></li>
+                <li><a href="monitoring.html">Моніторинг</a></li>
+                <li><a href="turnkey.html">Гранти</a></li>
+                <li><a href="strategy.html">Стратегія</a></li>
+                <li><a href="#" onclick="openOrderModal('Загальний запит')" class="nav-btn">Зв'язатися</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="page-header">
+            <div class="container">
+                <h1>Експертна Підтримка</h1>
+                <p class="page-subtitle">Натисніть на послугу, щоб дізнатися деталі процесу.</p>
+            </div>
+        </section>
+
+        <section>
+            <div class="container">
+                <div class="grid-2">
+                    
+                    <!-- Card 1: Consultation -->
+                    <div class="card" onclick="openInfo('consultation')" style="cursor: pointer;">
+                        <h3>Консультація</h3>
+                        <p>Експрес-аналіз вашого проєкту</p>
+                        <div class="price">2 000 – 4 000 ₴</div>
+                        <ul class="card-list">
+                            <li>Огляд актуальних грантів</li>
+                            <li>Оцінка шансів на успіх</li>
+                            <li>Поради щодо бюджетування</li>
+                        </ul>
+                        <button class="card-btn">Детальніше</button>
+                    </div>
+
+                    <!-- Card 2: Editing -->
+                    <div class="card" onclick="openInfo('editing')" style="cursor: pointer;">
+                        <h3>Редагування Заявки</h3>
+                        <p>Професійна вичитка готового тексту</p>
+                        <div class="price">4 000 – 7 000 ₴</div>
+                        <ul class="card-list">
+                            <li>Перевірка логіки та граматики</li>
+                            <li>Відповідність вимогам (Compliance)</li>
+                            <li>Фіналізація документів</li>
+                        </ul>
+                        <button class="card-btn">Детальніше</button>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer><div class="container"><p>&copy; 2025 Impactum Agency</p></div></footer>
+
+    <!-- INFO MODAL -->
+    <div class="info-modal-overlay" id="infoModal">
+        <div class="info-modal">
+            <div class="info-header">
+                <div><h2 class="info-title" id="iTitle"></h2><span class="info-price" id="iPrice"></span></div>
+                <span class="close-info" onclick="closeInfo()">✕</span>
+            </div>
+            <div class="info-body" id="iBody"></div>
+            <div class="info-footer"><button class="btn" id="iOrderBtn">Замовити послугу</button></div>
+        </div>
+    </div>
+
+    <!-- ORDER MODAL -->
+    <div class="modal-overlay" id="orderModal">
+        <div class="modal">
+            <span class="close-modal" onclick="closeOrderModal()">✕</span>
+            <h3>Залишити заявку</h3>
+            <form onsubmit="event.preventDefault(); submitForm();">
+                <input type="text" id="serviceInput" class="form-input" readonly>
+                <input type="text" class="form-input" placeholder="Ім'я" required>
+                <input type="text" class="form-input" placeholder="Телефон" required>
+                <button type="submit" class="btn" style="width: 100%;">Відправити</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // ДАНІ ДЛЯ КОНСУЛЬТАЦІЙ
+        const servicesData = {
+            'consultation': {
+                title: "Грантова Консультація",
+                price: "2 000 – 4 000 ₴",
+                html: `
+                    <h4>Формат:</h4>
+                    <p>Онлайн-зустріч (Zoom / Google Meet) тривалістю 60-90 хвилин з експертом.</p>
+                    
+                    <h4>Які питання вирішуємо:</h4>
+                    <ul>
+                        <li><strong>Валідація ідеї:</strong> Чи підходить ваш проєкт під умови конкретного конкурсу?</li>
+                        <li><strong>Розбір помилок:</strong> Аналіз попередніх відмов (якщо ви вже подавалися і не виграли).</li>
+                        <li><strong>Бюджетування:</strong> Що можна включати у витрати, а що заборонено (ПДВ, зарплати, оренда).</li>
+                        <li><strong>Партнерство:</strong> Як оформити відносини з партнерами, якщо цього вимагає грант.</li>
+                    </ul>
+                    
+                    <h4>Результат:</h4>
+                    <p>Ви отримуєте чітке розуміння, чи варто подаватися на цей конкурс, та план дій для підготовки заявки.</p>
+                `
+            },
+            'editing': {
+                title: "Редагування Заявки",
+                price: "4 000 – 7 000 ₴",
+                html: `
+                    <h4>Для кого:</h4>
+                    <p>Для тих, хто вже написав чернетку заявки, але хоче бути впевненим у її якості перед натисканням кнопки "Надіслати".</p>
+                    
+                    <h4>Етапи роботи:</h4>
+                    <ul>
+                        <li><strong>Логічний аудит:</strong> Перевіряємо зв'язок: Проблема → Рішення → Результат. Усуваємо "воду".</li>
+                        <li><strong>Стилістика:</strong> Адаптуємо текст під офіційно-діловий стиль, зрозумілий донорам.</li>
+                        <li><strong>Compliance Check:</strong> Перевіряємо наявність усіх обов'язкових додатків (витяги, довідки, резюме).</li>
+                        <li><strong>Фіналізація:</strong> Форматуємо документ для зручного читання грантовим комітетом.</li>
+                    </ul>
+                    
+                    <h4>Терміни:</h4>
+                    <p>3-5 робочих днів залежно від обсягу матеріалу.</p>
+                `
+            }
+        };
+
+        // JS LOGIC (стандартна для всіх сторінок)
+        const infoModal = document.getElementById('infoModal');
+        const infoModalContent = document.querySelector('.info-modal');
+        const iTitle = document.getElementById('iTitle');
+        const iPrice = document.getElementById('iPrice');
+        const iBody = document.getElementById('iBody');
+        const iOrderBtn = document.getElementById('iOrderBtn');
+
+        function openInfo(key) {
+            const data = servicesData[key];
+            if(!data) return;
+            iTitle.innerText = data.title; iPrice.innerText = data.price; iBody.innerHTML = data.html;
+            iOrderBtn.onclick = function() { closeInfo(); setTimeout(() => openOrderModal(data.title), 300); };
+            infoModal.style.display = 'flex';
+            setTimeout(() => { infoModal.style.opacity = '1'; infoModalContent.classList.add('open'); }, 10);
+        }
+        function closeInfo() { infoModal.style.opacity = '0'; infoModalContent.classList.remove('open'); setTimeout(() => { infoModal.style.display = 'none'; }, 300); }
+        
+        const orderModal = document.getElementById('orderModal');
+        const serviceInput = document.getElementById('serviceInput');
+        function openOrderModal(serviceName) { serviceInput.value = serviceName; orderModal.style.display = 'flex'; }
+        function closeOrderModal() { orderModal.style.display = 'none'; }
+        function submitForm() { alert('Дякуємо! Вашу заявку прийнято.'); closeOrderModal(); }
+        window.onclick = function(e) { if(e.target == infoModal) closeInfo(); if(e.target == orderModal) closeOrderModal(); }
+    </script>
+</body>
+</html>

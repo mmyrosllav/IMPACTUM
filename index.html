@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Impactum Agency | Гранти та Стратегії</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Новий живий фон -->
+    <div class="floating-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+    <div class="ambient-light"></div>
+
+    <header>
+        <a href="index.html" class="logo-wrapper">
+            <div class="css-logo"><div class="logo-top">IMPACTUM</div><div class="logo-btm">AGENCY</div><div class="logo-slash"></div></div>
+        </a>
+        <nav>
+            <ul>
+                <li><a href="about.html">Про нас</a></li>
+                <li><a href="consulting.html">Консультації</a></li>
+                <li><a href="monitoring.html">Моніторинг</a></li>
+                <li><a href="turnkey.html">Гранти</a></li>
+                <li><a href="strategy.html">Стратегія</a></li>
+                <li><a href="#" onclick="openModal('Запит з головної')" class="nav-btn">Зв'язатися</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section style="min-height: 85vh; display: flex; align-items: center; text-align: center; position: relative;">
+            <div class="container">
+                <span style="color: var(--primary-accent); font-weight: bold; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px; display: block;">Grantwriting & Strategy</span>
+                <h1>Професійний Грантрайтинг <br><span>для Вашого Успіху</span></h1>
+                <p style="font-size: 1.3rem; max-width: 700px; margin: 0 auto 40px; color: #ccc;">
+                    Ми будуємо стратегію залучення фінансування для бізнесу, стартапів та неприбуткових організацій.
+                </p>
+                <div>
+                    <a href="turnkey.html" class="btn">Всі Послуги</a>
+                    <a href="about.html" class="btn btn-outline" style="margin-left: 20px;">Наша Команда</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Рухомий рядок -->
+        <div class="ticker-wrap">
+            <div class="ticker">
+                <div class="ticker-item">Grantwriting</div>
+                <div class="ticker-item">Strategy</div>
+                <div class="ticker-item">Consulting</div>
+                <div class="ticker-item">Monitoring</div>
+                <div class="ticker-item">Business Development</div>
+                <!-- Дублюємо для безшовності -->
+                <div class="ticker-item">Grantwriting</div>
+                <div class="ticker-item">Strategy</div>
+                <div class="ticker-item">Consulting</div>
+                <div class="ticker-item">Monitoring</div>
+                <div class="ticker-item">Business Development</div>
+            </div>
+        </div>
+
+        <!-- Блок Статистики -->
+        <section style="padding: 0;">
+            <div class="stats-bar">
+                <div class="stat-item">
+                    <span class="stat-num">94%</span>
+                    <span class="stat-label">Success Rate</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-num">$3M+</span>
+                    <span class="stat-label">Залучених коштів</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-num">50+</span>
+                    <span class="stat-label">Успішних кейсів</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-num">24/7</span>
+                    <span class="stat-label">Підтримка</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Картки послуг -->
+        <section>
+            <div class="container">
+                <h2 style="text-align: center; margin-bottom: 50px;">Наші напрямки</h2>
+                <div class="grid-3">
+                    <div class="card" onclick="location.href='consulting.html'" style="cursor: pointer;">
+                        <h3>Консультації</h3>
+                        <p>Експертний аналіз та редагування заявок.</p>
+                        <span style="color: var(--primary-accent); margin-top: auto;">Детальніше →</span>
+                    </div>
+                    <div class="card" onclick="location.href='monitoring.html'" style="cursor: pointer;">
+                        <h3>Моніторинг</h3>
+                        <p>Щотижневий підбір грантів під ваш профіль.</p>
+                        <span style="color: var(--primary-accent); margin-top: auto;">Детальніше →</span>
+                    </div>
+                    <div class="card" onclick="location.href='turnkey.html'" style="cursor: pointer;">
+                        <h3>Під Ключ</h3>
+                        <p>Повний цикл написання заявки.</p>
+                        <span style="color: var(--primary-accent); margin-top: auto;">Детальніше →</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p style="color: #fff; font-weight: bold;">IMPACTUM AGENCY</p>
+            <p>&copy; 2025 Всі права захищені.</p>
+        </div>
+    </footer>
+
+    <!-- MODAL -->
+    <div class="modal-overlay" id="modal">
+        <div class="modal">
+            <span class="close-modal" onclick="closeModal()">✕</span>
+            <h3>Залишити заявку</h3>
+            <form onsubmit="event.preventDefault(); submitForm();">
+                <input type="text" id="serviceInput" class="form-input" readonly>
+                <input type="text" class="form-input" placeholder="Ім'я" required>
+                <input type="text" class="form-input" placeholder="Телефон" required>
+                <button type="submit" class="btn" style="width: 100%;">Відправити</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const modal = document.getElementById('modal');
+        const serviceInput = document.getElementById('serviceInput');
+        function openModal(service) { serviceInput.value = service; modal.style.display = 'flex'; }
+        function closeModal() { modal.style.display = 'none'; }
+        window.onclick = function(e) { if(e.target == modal) closeModal(); }
+        function submitForm() { alert('Дякуємо! Менеджер зв\'яжеться з вами.'); closeModal(); }
+    </script>
+</body>
+</html>
