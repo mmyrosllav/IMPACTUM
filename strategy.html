@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Стратегія Розвитку | Impactum</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="ambient-light"></div>
+
+    <header>
+        <a href="index.html" class="logo-wrapper">
+            <div class="css-logo"><div class="logo-top">IMPACTUM</div><div class="logo-btm">AGENCY</div><div class="logo-slash"></div></div>
+        </a>
+        <nav>
+            <ul>
+                <li><a href="about.html">Про нас</a></li>
+                <li><a href="consulting.html">Консультації</a></li>
+                <li><a href="monitoring.html">Моніторинг</a></li>
+                <li><a href="turnkey.html">Гранти</a></li>
+                <li><a href="strategy.html" class="active">Стратегія</a></li>
+                <li><a href="#" onclick="openOrderModal('Стратегія')" class="nav-btn">Зв'язатися</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="page-header">
+            <div class="container">
+                <h1>Стратегія Розвитку</h1>
+                <p class="page-subtitle">Натисніть на картку, щоб дізнатися структуру стратегічної сесії.</p>
+            </div>
+        </section>
+
+        <section>
+            <div class="container">
+                <div class="card" onclick="openInfo('strategy')" style="display: flex; flex-direction: row; flex-wrap: wrap; gap: 40px; align-items: center; cursor: pointer;">
+                    <div style="flex: 2; min-width: 300px;">
+                        <h2>Що ви отримаєте?</h2>
+                        <ul class="card-list">
+                            <li>Стратегічні сесії з засновниками</li>
+                            <li>Визначення мети та цінностей</li>
+                            <li>Аналіз конкурентних переваг</li>
+                            <li>Фінансове планування</li>
+                            <li>Документ "Стратегія розвитку"</li>
+                        </ul>
+                    </div>
+                    <div style="flex: 1; min-width: 300px; text-align: center; background: rgba(59, 130, 246, 0.05); padding: 40px; border-radius: 20px;">
+                        <h3 style="margin-bottom: 20px;">Індивідуальний підхід</h3>
+                        <p>Вартість залежить від масштабів організації.</p>
+                        <div class="price" style="color: var(--secondary-accent);">За запитом</div>
+                        <p>Термін: 1-2 місяці</p>
+                        <button class="btn" style="margin-top: 20px;">Детальніше про послугу</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer><div class="container"><p>&copy; 2025 Impactum Agency</p></div></footer>
+
+    <!-- INFO MODAL -->
+    <div class="info-modal-overlay" id="infoModal">
+        <div class="info-modal">
+            <div class="info-header">
+                <div><h2 class="info-title" id="iTitle"></h2><span class="info-price" id="iPrice"></span></div>
+                <span class="close-info" onclick="closeInfo()">✕</span>
+            </div>
+            <div class="info-body" id="iBody"></div>
+            <div class="info-footer"><button class="btn" id="iOrderBtn">Домовитись про зустріч</button></div>
+        </div>
+    </div>
+
+    <!-- ORDER MODAL -->
+    <div class="modal-overlay" id="orderModal">
+        <div class="modal">
+            <span class="close-modal" onclick="closeOrderModal()">✕</span>
+            <h3>Обговорення проєкту</h3>
+            <form onsubmit="event.preventDefault(); submitForm();">
+                <input type="text" id="serviceInput" class="form-input" readonly>
+                <input type="text" class="form-input" placeholder="Ім'я / Компанія" required>
+                <input type="text" class="form-input" placeholder="Телефон" required>
+                <button type="submit" class="btn" style="width: 100%;">Надіслати</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // ДАНІ ДЛЯ СТРАТЕГІЇ
+        const servicesData = {
+            'strategy': {
+                title: "Стратегія Розвитку",
+                price: "Індивідуально",
+                html: `
+                    <h4>Мета послуги:</h4>
+                    <p>Трансформація хаотичного пошуку грошей у системну роботу. Ми створюємо "дорожню карту" (Roadmap) на 3-5 років, яка відповідає на питання: куди рухається компанія і де брати на це ресурси.</p>
+                    
+                    <h4>Етапи розробки:</h4>
+                    <ul>
+                        <li><strong>1. Діагностика:</strong> Глибинні інтерв'ю з фаундерами та топ-менеджментом. Аналіз поточного фінансового стану.</li>
+                        <li><strong>2. Стратегічні сесії:</strong> Воркшопи для визначення Місії, Візії та Цінностей. Формування унікальної торговельної пропозиції (USP).</li>
+                        <li><strong>3. Аналіз ресурсів:</strong> SWOT-аналіз, оцінка команди, аудит матеріально-технічної бази.</li>
+                        <li><strong>4. Фінансове моделювання:</strong> Побудова P&L (прибутки та збитки), Cash Flow та прогнозних показників.</li>
+                        <li><strong>5. Грантова мапа:</strong> Підбір конкретних донорів та програм, які відповідають вашим довгостроковим цілям.</li>
+                    </ul>
+                    
+                    <h4>Що ви отримуєте на виході:</h4>
+                    <p>Великий PDF-документ "Стратегія розвитку", який стає настільною книгою керівника, а також презентаційні матеріали для інвесторів.</p>
+                `
+            }
+        };
+
+        // JS LOGIC
+        const infoModal = document.getElementById('infoModal');
+        const infoModalContent = document.querySelector('.info-modal');
+        const iTitle = document.getElementById('iTitle');
+        const iPrice = document.getElementById('iPrice');
+        const iBody = document.getElementById('iBody');
+        const iOrderBtn = document.getElementById('iOrderBtn');
+
+        function openInfo(key) {
+            const data = servicesData[key];
+            if(!data) return;
+            iTitle.innerText = data.title; iPrice.innerText = data.price; iBody.innerHTML = data.html;
+            iOrderBtn.onclick = function() { closeInfo(); setTimeout(() => openOrderModal(data.title), 300); };
+            infoModal.style.display = 'flex';
+            setTimeout(() => { infoModal.style.opacity = '1'; infoModalContent.classList.add('open'); }, 10);
+        }
+        function closeInfo() { infoModal.style.opacity = '0'; infoModalContent.classList.remove('open'); setTimeout(() => { infoModal.style.display = 'none'; }, 300); }
+        
+        const orderModal = document.getElementById('orderModal');
+        const serviceInput = document.getElementById('serviceInput');
+        function openOrderModal(serviceName) { serviceInput.value = serviceName; orderModal.style.display = 'flex'; }
+        function closeOrderModal() { orderModal.style.display = 'none'; }
+        function submitForm() { alert('Дякуємо! Менеджер зв\'яжеться з вами для уточнення деталей.'); closeOrderModal(); }
+        window.onclick = function(e) { if(e.target == infoModal) closeInfo(); if(e.target == orderModal) closeOrderModal(); }
+    </script>
+</body>
+</html>

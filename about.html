@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Про нас | Impactum</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="floating-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+    </div>
+    <div class="ambient-light"></div>
+
+    <header>
+        <a href="index.html" class="logo-wrapper">
+            <div class="css-logo"><div class="logo-top">IMPACTUM</div><div class="logo-btm">AGENCY</div><div class="logo-slash"></div></div>
+        </a>
+        <nav>
+            <ul>
+                <li><a href="about.html" class="active">Про нас</a></li>
+                <li><a href="consulting.html">Консультації</a></li>
+                <li><a href="monitoring.html">Моніторинг</a></li>
+                <li><a href="turnkey.html">Гранти</a></li>
+                <li><a href="strategy.html">Стратегія</a></li>
+                <li><a href="#" onclick="openModal('Запит з About')" class="nav-btn">Зв'язатися</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="page-header">
+            <div class="container">
+                <h1>Хто ми є</h1>
+                <p class="page-subtitle">Команда, що перетворює ваші амбіції на виграшні проєкти.</p>
+            </div>
+        </section>
+
+        <section>
+            <div class="container">
+                <div class="grid-2">
+                    <div>
+                        <h2>Наша Місія</h2>
+                        <p>Ми не просто пишемо текст. Ми аналізуємо бізнес-модель, знаходимо слабкі місця та підсилюємо їх, щоб ваша заявка виглядала переконливо для донора.</p>
+                        <p>Наш підхід базується на глибокій аналітиці та розумінні пріоритетів грантодавців (USAID, ЄС, національні фонди).</p>
+                    </div>
+                    <div>
+                        <div class="card" style="text-align: center; border-color: var(--primary-accent);">
+                            <span style="font-size: 3rem; font-weight: 800; color: var(--primary-accent);">94%</span>
+                            <p>Успішно пройдених технічних відборів</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h2 style="text-align: center; margin-top: 80px; margin-bottom: 40px;">Керівництво</h2>
+                
+                <!-- Блок команди з фото -->
+                <div class="grid-2" style="max-width: 900px; margin: 0 auto;">
+                    
+                    <!-- Мирослав (CEO) -->
+                    <div class="team-member">
+                        <div class="avatar">
+                            <!-- Замініть src на шлях до вашого фото -->
+                            <img src="myroslav.jpg" alt="Мирослав Немитий">
+                        </div>
+                        <h3>Мирослав Немитий</h3>
+                        <p style="color: var(--primary-accent); font-weight: bold;">CEO & Founder</p>
+                        <p style="font-size: 0.9rem; color: #aaa;">Стратегічне бачення, партнерства та розвиток.</p>
+                    </div>
+
+                    <!-- Катерина (GW) -->
+                    <div class="team-member">
+                        <div class="avatar">
+                            <!-- Замініть src на шлях до вашого фото -->
+                            <img src="kateryna.jpg" alt="Катерина Гавриш">
+                        </div>
+                        <h3>Катерина Гавриш</h3>
+                        <p style="color: var(--secondary-accent); font-weight: bold;">Co-Founder & Head of Grantwriting</p>
+                        <p style="font-size: 0.9rem; color: #aaa;">Контроль якості заявок, методологія та compliance.</p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer><div class="container"><p>&copy; 2025 Impactum Agency</p></div></footer>
+    
+    <div class="modal-overlay" id="modal">
+        <div class="modal">
+            <span class="close-modal" onclick="closeModal()">✕</span>
+            <h3>Залишити заявку</h3>
+            <form onsubmit="event.preventDefault(); submitForm();">
+                <input type="text" id="serviceInput" class="form-input" readonly>
+                <input type="text" class="form-input" placeholder="Ім'я" required>
+                <input type="text" class="form-input" placeholder="Телефон" required>
+                <button type="submit" class="btn" style="width: 100%;">Відправити</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        const modal=document.getElementById('modal'),serviceInput=document.getElementById('serviceInput');
+        function openModal(e){serviceInput.value=e,modal.style.display='flex'}
+        function closeModal(){modal.style.display='none'}
+        window.onclick=function(e){e.target==modal&&closeModal()},submitForm=function(){alert('Дякуємо!'),closeModal()};
+    </script>
+</body>
+</html>
