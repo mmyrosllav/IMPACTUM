@@ -152,8 +152,6 @@ const Home = () => {
                   '--dur':   card.dur,
                   '--delay': card.delay,
                   '--rot':   card.rotate,
-                  left: card.pos.left,
-                  top:  card.pos.top,
                 }}
               >
                 <div
@@ -188,25 +186,36 @@ const Home = () => {
         </div>
 
         <style>{`
-          /* ── Cloud container ── */
+          /* ── 3-колонковий grid з вертикальним розкидом ── */
           .t-cloud {
-            position: relative;
-            min-height: 730px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px 28px;
+            align-items: start;
+            padding: 10px 0 60px;
           }
 
-          /* ── Floating wrapper (carries position + animation) ── */
+          /* Кожна картка плаває зі своєю фазою і швидкістю */
           .t-wrap {
-            position: absolute;
-            width: 268px;
+            width: 100%;
             animation: tFloat var(--dur, 5s) ease-in-out var(--delay, 0s) infinite;
             will-change: transform;
           }
 
+          /* Вертикальний розкид через margin-top */
+          .t-wrap:nth-child(1) { margin-top: 20px; }
+          .t-wrap:nth-child(2) { margin-top: 0px;  }
+          .t-wrap:nth-child(3) { margin-top: 58px; }
+          .t-wrap:nth-child(4) { margin-top: 14px; }
+          .t-wrap:nth-child(5) { margin-top: 50px; }
+          .t-wrap:nth-child(6) { margin-top: 0px;  }
+          .t-wrap:nth-child(7) { margin-top: 38px; grid-column: 2; }
+
           @keyframes tFloat {
-            0%   { transform: rotate(var(--rot, 0deg)) translateY(0px);    }
-            33%  { transform: rotate(var(--rot, 0deg)) translateY(-18px);  }
-            66%  { transform: rotate(var(--rot, 0deg)) translateY(6px);    }
-            100% { transform: rotate(var(--rot, 0deg)) translateY(0px);    }
+            0%   { transform: rotate(var(--rot, 0deg)) translateY(0px);   }
+            33%  { transform: rotate(var(--rot, 0deg)) translateY(-18px); }
+            66%  { transform: rotate(var(--rot, 0deg)) translateY(6px);   }
+            100% { transform: rotate(var(--rot, 0deg)) translateY(0px);   }
           }
 
           /* ── Card face ── */
@@ -229,7 +238,7 @@ const Home = () => {
             transform: scale(1.04);
           }
 
-          /* Top accent stripe */
+          /* Кольорова смужка зверху */
           .t-accent-line {
             position: absolute;
             top: 0; left: 0; right: 0;
@@ -238,7 +247,6 @@ const Home = () => {
             opacity: 0.7;
           }
 
-          /* Quote */
           .t-quote {
             font-style: italic;
             font-size: 0.83rem;
@@ -248,78 +256,39 @@ const Home = () => {
             padding-top: 6px;
           }
 
-          /* Author */
-          .t-author {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-          }
+          .t-author { display: flex; align-items: center; gap: 10px; }
 
           .t-avatar {
-            width: 36px;
-            height: 36px;
+            width: 36px; height: 36px;
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.6rem;
-            font-weight: 800;
-            flex-shrink: 0;
-            letter-spacing: 0.5px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.6rem; font-weight: 800;
+            flex-shrink: 0; letter-spacing: 0.5px;
           }
 
-          .t-name {
-            font-weight: 700;
-            font-size: 0.84rem;
-            color: #fff;
-          }
+          .t-name { font-weight: 700; font-size: 0.84rem; color: #fff; }
+          .t-role { font-size: 0.71rem; color: var(--text-muted); margin-top: 2px; }
 
-          .t-role {
-            font-size: 0.71rem;
-            color: var(--text-muted);
-            margin-top: 2px;
-          }
-
-          /* simple float (no rotation) for smaller screens */
-          @keyframes tFloatSimple {
-            0%, 100% { transform: translateY(0px);   }
-            40%       { transform: translateY(-14px); }
-            70%       { transform: translateY(5px);  }
-          }
-
-          /* ── Tablet: staggered 2-col — виглядає розкидано ── */
-          @media (max-width: 1100px) {
+          /* ── Tablet: 2-col шахово ── */
+          @media (max-width: 900px) {
             .t-cloud {
-              position: static;
-              min-height: auto;
-              display: grid;
               grid-template-columns: repeat(2, 1fr);
-              gap: 24px;
-              align-items: start;
-              padding-bottom: 50px;
+              gap: 18px 22px;
             }
-            .t-wrap {
-              position: static;
-              width: 100%;
-              transform: none;
-              animation: tFloatSimple var(--dur, 5s) ease-in-out var(--delay, 0s) infinite;
-            }
-            /* Зміщуємо парні картки вниз — шаховий розкид */
-            .t-wrap:nth-child(even) { margin-top: 56px; }
-            .t-wrap:nth-child(odd)  { margin-top: 0; }
-            /* 7-а картка — центруємо в лівій колонці */
-            .t-wrap:nth-child(7) {
-              grid-column: 1;
-              margin-top: 30px;
-            }
+            .t-wrap:nth-child(1) { margin-top: 0; }
+            .t-wrap:nth-child(2) { margin-top: 50px; }
+            .t-wrap:nth-child(3) { margin-top: 0; }
+            .t-wrap:nth-child(4) { margin-top: 44px; }
+            .t-wrap:nth-child(5) { margin-top: 0; }
+            .t-wrap:nth-child(6) { margin-top: 40px; }
+            .t-wrap:nth-child(7) { grid-column: 1; margin-top: 0; }
           }
 
-          /* ── Mobile: 1-col зі зміщенням через margin ── */
-          @media (max-width: 580px) {
-            .t-cloud { grid-template-columns: 1fr; gap: 16px; padding-bottom: 20px; }
-            .t-wrap:nth-child(even) { margin-top: 0; margin-left: 18px; }
-            .t-wrap:nth-child(odd)  { margin-left: 0; }
-            .t-wrap:nth-child(7)    { grid-column: 1; margin-top: 0; margin-left: 9px; }
+          /* ── Mobile: 1-col ── */
+          @media (max-width: 520px) {
+            .t-cloud { grid-template-columns: 1fr; gap: 14px; padding-bottom: 20px; }
+            .t-wrap:nth-child(n) { margin-top: 0 !important; grid-column: auto; }
+            .t-wrap:nth-child(even) { margin-left: 16px; }
           }
         `}</style>
       </section>
