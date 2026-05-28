@@ -60,7 +60,7 @@ const MiniCrossword = () => {
   };
 
   return (
-    <div className="game-container">
+    <div className="game-container game-wide">
       <div className="game-header">
         <h2>Mini Crossword</h2>
         <p>Fill in the blanks</p>

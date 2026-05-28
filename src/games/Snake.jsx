@@ -95,7 +95,7 @@ const Snake = () => {
   };
 
   return (
-    <div className="game-container">
+    <div className="game-container" style={{ position: 'relative' }}>
       <div className="game-header">
         <div className="score-display">
           <h2>Snake</h2>

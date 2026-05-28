@@ -1,78 +1,73 @@
-/* GAMES HUB STYLING */
+/* ═══════════════════════════════════════════════
+   GAMES HUB — selection page
+   ═══════════════════════════════════════════════ */
 
 .games-header {
   text-align: center;
-  margin-bottom: 80px;
-  animation: fadeInDown 0.6s ease-out;
+  margin-bottom: 70px;
+  animation: fadeInDown 0.55s ease-out;
 }
 
 @keyframes fadeInDown {
-  from {
-    opacity: 0;
-    transform: translateY(-30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(-24px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 .games-header h1 {
-  font-size: 3.5rem;
-  margin-bottom: 20px;
+  font-size: 3.2rem;
+  margin-bottom: 16px;
   background: linear-gradient(135deg, #FFD700 0%, #FFC700 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .games-subtitle {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   color: var(--text-muted);
-  max-width: 600px;
+  max-width: 560px;
   margin: 0 auto;
+  line-height: 1.6;
 }
 
+/* ── Game cards grid ── */
 .games-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 40px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 28px;
   margin-bottom: 60px;
 }
 
 .game-card {
   cursor: pointer;
-  perspective: 1000px;
-  height: 100%;
 }
 
 .game-card-inner {
   position: relative;
-  background: rgba(20, 21, 28, 0.6);
-  border: 1.5px solid rgba(255, 255, 255, 0.12);
-  border-radius: 24px;
-  padding: 50px 40px;
+  background: rgba(14, 15, 22, 0.65);
+  border: 1.5px solid rgba(255, 215, 0, 0.15);
+  border-radius: 22px;
+  padding: 44px 36px;
   text-align: center;
-  transition: all 0.5s cubic-bezier(0.23, 1, 0.320, 1);
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
   backdrop-filter: blur(20px);
-  box-shadow:
-    0 8px 32px 0 rgba(31, 38, 135, 0.15),
-    inset 0 1px 1px 0 rgba(255, 255, 255, 0.05);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.04);
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  height: 100%;
   overflow: hidden;
 }
 
+/* Shine overlay on hover */
 .game-card-inner::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.1), transparent 50%);
+  top: -60%;
+  left: -60%;
+  width: 220%;
+  height: 220%;
+  background: radial-gradient(circle at 50% 50%, rgba(255, 215, 0, 0.07), transparent 60%);
   opacity: 0;
   transition: opacity 0.4s;
   pointer-events: none;
@@ -80,122 +75,115 @@
 
 .game-card:hover .game-card-inner {
   border-color: rgba(255, 215, 0, 0.5);
-  transform: translateY(-15px);
-  background: rgba(30, 41, 60, 0.7);
+  transform: translateY(-12px);
   box-shadow:
-    0 20px 60px 0 rgba(255, 215, 0, 0.3),
-    inset 0 1px 1px 0 rgba(255, 255, 255, 0.08);
+    0 24px 60px rgba(255, 215, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
 }
 
 .game-card:hover .game-card-inner::before {
   opacity: 1;
 }
 
+/* Emoji */
 .game-emoji {
-  font-size: 4rem;
-  margin-bottom: 20px;
+  font-size: 3.6rem;
+  margin-bottom: 18px;
   display: inline-block;
-  animation: emojiFloat 3s ease-in-out infinite;
+  animation: emojiFloat 3.2s ease-in-out infinite;
+  line-height: 1;
 }
 
 @keyframes emojiFloat {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-9px); }
 }
 
 .game-card h3 {
-  font-size: 1.8rem;
-  margin-bottom: 15px;
+  font-size: 1.55rem;
+  font-weight: 800;
+  margin-bottom: 12px;
+  color: #fff;
   position: relative;
   z-index: 1;
 }
 
 .game-card p {
   color: var(--text-muted);
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   line-height: 1.6;
-  margin-bottom: 25px;
+  margin-bottom: 26px;
   position: relative;
   z-index: 1;
 }
 
 .play-button {
   background: linear-gradient(135deg, #FFD700 0%, #FFC700 100%);
-  color: black;
-  padding: 12px 30px;
+  color: #000;
+  padding: 11px 28px;
   border-radius: 50px;
-  font-weight: 700;
-  font-size: 0.95rem;
-  transition: all 0.3s;
+  font-weight: 800;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+  transition: all 0.28s;
   position: relative;
   z-index: 1;
-  box-shadow: 0 8px 20px rgba(255, 215, 0, 0.3);
+  box-shadow: 0 6px 18px rgba(255, 215, 0, 0.28);
 }
 
 .game-card:hover .play-button {
-  transform: scale(1.05);
-  box-shadow: 0 12px 30px rgba(255, 215, 0, 0.5);
+  transform: scale(1.06);
+  box-shadow: 0 10px 28px rgba(255, 215, 0, 0.45);
 }
 
+/* ── Play area ── */
 .game-play-area {
-  animation: fadeIn 0.5s ease-out;
+  animation: fadeIn 0.4s ease-out;
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 .btn-back {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 40px;
-  padding: 12px 30px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1.5px solid rgba(255, 255, 255, 0.15);
-  color: white;
+  margin-bottom: 36px;
+  padding: 11px 26px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1.5px solid rgba(255, 255, 255, 0.13);
+  color: #fff;
   font-weight: 700;
+  font-size: 0.9rem;
   border-radius: 50px;
   cursor: pointer;
-  transition: all 0.3s;
+  transition: all 0.25s;
 }
 
 .btn-back:hover {
-  background: rgba(255, 215, 0, 0.15);
+  background: rgba(255, 215, 0, 0.12);
   border-color: rgba(255, 215, 0, 0.4);
-  transform: translateX(-5px);
+  color: #FFD700;
+  transform: translateX(-4px);
 }
 
-/* RESPONSIVE */
-
+/* ── Responsive ── */
 @media (max-width: 768px) {
-  .games-header h1 {
-    font-size: 2.5rem;
-  }
-
-  .games-subtitle {
-    font-size: 1rem;
-  }
+  .games-header { margin-bottom: 50px; }
+  .games-header h1 { font-size: 2.4rem; }
+  .games-subtitle { font-size: 1rem; }
 
   .games-grid {
     grid-template-columns: 1fr;
-    gap: 25px;
+    gap: 20px;
   }
 
-  .game-emoji {
-    font-size: 3rem;
+  .game-card-inner {
+    padding: 34px 28px;
   }
 
-  .game-card h3 {
-    font-size: 1.5rem;
-  }
+  .game-emoji { font-size: 3rem; }
+  .game-card h3 { font-size: 1.35rem; }
 }
