@@ -70,7 +70,7 @@ console.log('  📌 Запускається всередині Figma\n');
 
 console.log('Варіант 3: Браузерна автоматизація (рекомендується)');
 console.log('  ✅ Найбільш практичний,易контролюємий');
-console.log('  📌 Використовує Claude Code browser automation\n');
+console.log('  📌 Використовує браузерну автоматизацію\n');
 
 console.log('🚀 Рекомендація:');
 console.log('   Використовуйте Variant 3 (браузерна автоматизація)');
@@ -99,7 +99,7 @@ fs.writeFileSync(configPath, JSON.stringify(buildConfig, null, 2));
 
 console.log(`✅ Конфіг збережено: ${configPath}`);
 
-// Генерує інструкції для Claude Code
+// Генерує інструкції для браузерної автоматизації
 const instructions = `
 # Figma Design System Build Instructions
 
@@ -152,7 +152,7 @@ console.log(`✅ Інструкції збережено: ${instructionsPath}\n`
 console.log('📋 Наступні кроки:');
 console.log('1. Відкрийте файл Figma в браузері');
 console.log('2. Перейдіть на Design System page');
-console.log('3. Запустіть Claude Code автоматизацію:');
+console.log('3. Запустіть браузерну автоматизацію:');
 console.log(`   npm run figma:build\n`);
 
 module.exports = { designSystem, buildConfig };
