@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
@@ -7,7 +7,7 @@ import { supabase } from '../lib/supabase';
 import Header from './Header';
 import Footer from './Footer';
 
-// ─── EmailJS config (заповніть після реєстрації на emailjs.com) ─
+// ─── EmailJS config ──────────────────────────────────────────────
 const EJS_SERVICE  = import.meta.env.VITE_EMAILJS_SERVICE_ID  ?? '';
 const EJS_TEMPLATE = import.meta.env.VITE_EMAILJS_TEMPLATE_ID ?? '';
 const EJS_KEY      = import.meta.env.VITE_EMAILJS_PUBLIC_KEY  ?? '';
@@ -25,25 +25,39 @@ const GRANTS = [
   { id: 'eit-urban-mobility', name: 'EIT Urban Mobility', deadline: '05 Aug 2026', amount: '€200k – €1M',   tag: 'Cities',      color: '#60a5fa' },
 ];
 
-const LOOP = [...GRANTS, ...GRANTS];
+const LOOP     = [...GRANTS, ...GRANTS];
 const LOOP_REV = [...GRANTS].reverse().concat([...GRANTS].reverse());
 
+// ─── Reactive window-width hook ─────────────────────────────────
+const useWindowWidth = () => {
+  const [width, setWidth] = useState(
+    typeof window !== 'undefined' ? window.innerWidth : 1200
+  );
+  useEffect(() => {
+    const handler = () => setWidth(window.innerWidth);
+    window.addEventListener('resize', handler);
+    return () => window.removeEventListener('resize', handler);
+  }, []);
+  return width;
+};
+
+// ─── Grant card ─────────────────────────────────────────────────
 const GrantCard = ({ grant }) => {
   const [hovered, setHovered] = useState(false);
-  const isMobile = typeof window !== 'undefined' && window.innerWidth <= 480;
-  const cardW = isMobile ? '180px' : '240px';
+  const width  = useWindowWidth();
+  const cardW  = width <= 480 ? '160px' : '240px';
+
   return (
     <Link
       to={`/grants/${grant.id}`}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
-        minWidth: cardW,
-        maxWidth: cardW,
+        minWidth: cardW, maxWidth: cardW,
         background: hovered ? `${grant.color}12` : 'rgba(255,255,255,0.04)',
         border: `1px solid ${hovered ? grant.color : grant.color + '35'}`,
         borderRadius: '14px',
-        padding: '18px 20px',
+        padding: width <= 480 ? '14px 14px' : '18px 20px',
         marginRight: '14px',
         flexShrink: 0,
         textDecoration: 'none',
@@ -66,11 +80,11 @@ const GrantCard = ({ grant }) => {
         }}>● OPEN</span>
       </div>
       <p style={{
-        fontSize: '0.9rem', fontWeight: '700', color: '#fff', marginBottom: '8px',
-        fontFamily: 'var(--font-main)', lineHeight: '1.3',
+        fontSize: width <= 480 ? '0.8rem' : '0.9rem', fontWeight: '700', color: '#fff',
+        marginBottom: '8px', fontFamily: 'var(--font-main)', lineHeight: '1.3',
       }}>{grant.name}</p>
-      <p style={{ fontSize: '1rem', fontWeight: '700', color: grant.color, marginBottom: '6px' }}>{grant.amount}</p>
-      <p style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>⏰ {grant.deadline}</p>
+      <p style={{ fontSize: '0.95rem', fontWeight: '700', color: grant.color, marginBottom: '6px' }}>{grant.amount}</p>
+      <p style={{ fontSize: '0.68rem', color: 'var(--text-muted)' }}>⏰ {grant.deadline}</p>
       {hovered && (
         <p style={{ fontSize: '0.7rem', color: grant.color, marginTop: '8px', fontWeight: '600' }}>
           Детальніше →
@@ -80,7 +94,7 @@ const GrantCard = ({ grant }) => {
   );
 };
 
-/* Each row manages its own pause state */
+// ─── Ticker row (pauses on hover) ───────────────────────────────
 const TickerRow = ({ items, animName, duration }) => {
   const [paused, setPaused] = useState(false);
   return (
@@ -107,12 +121,18 @@ const TickerRow = ({ items, animName, duration }) => {
   );
 };
 
+// ─── Layout ─────────────────────────────────────────────────────
 const Layout = ({ children }) => {
   const { t } = useTranslation();
   const nameRef    = useRef();
   const phoneRef   = useRef();
   const messageRef = useRef();
   const [submitting, setSubmitting] = useState(false);
+
+  // Reactive breakpoints
+  const width    = useWindowWidth();
+  const isMobile = width <= 768;
+  const isTablet = width <= 1024;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -122,11 +142,9 @@ const Layout = ({ children }) => {
     const phone   = phoneRef.current.value.trim();
     const message = messageRef.current.value.trim() || null;
 
-    // 1. Зберігаємо в Supabase БД
     const { error: dbError } = await supabase.from('contacts').insert({ name, phone, message });
     if (dbError) console.error('DB error:', dbError);
 
-    // 2. Надсилаємо email-сповіщення через EmailJS (якщо налаштовано)
     if (EJS_SERVICE && EJS_TEMPLATE && EJS_KEY) {
       try {
         await emailjs.send(EJS_SERVICE, EJS_TEMPLATE, { name, phone, message: message ?? '—' }, EJS_KEY);
@@ -147,6 +165,15 @@ const Layout = ({ children }) => {
     setSubmitting(false);
   };
 
+  // ── Computed responsive styles ───────────────────────────────
+  const sectionPad  = isMobile ? '60px 0'  : '100px 0';
+  const wrapPad     = isMobile ? '0 18px'  : isTablet ? '0 40px'  : '0 60px';
+  const gridCols    = isMobile ? '1fr'      : isTablet ? '300px 1fr' : '380px 1fr';
+  const gridGap     = isMobile ? '40px'     : isTablet ? '50px'  : '80px';
+  const headingSize = isMobile ? '1.4rem'   : '1.8rem';
+  const headingAlign = isMobile ? 'center'  : 'left';
+  const subtitleAlign = isMobile ? 'center' : 'left';
+
   return (
     <>
       <div className="floating-bg">
@@ -159,22 +186,27 @@ const Layout = ({ children }) => {
       <Header />
       <main style={{ paddingTop: '80px', minHeight: '100vh' }}>{children}</main>
 
-      {/* ── Contact + Grants ── */}
-      <section id="contact-section">
-        <div className="contact-wrap">
-          <div className="contact-grid">
+      {/* ── Contact + Grants section ── */}
+      <section id="contact-section" style={{ padding: sectionPad, background: 'rgba(255,215,0,0.02)' }}>
+        <div style={{ maxWidth: '1300px', margin: '0 auto', padding: wrapPad }}>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: gridCols,
+            gap: gridGap,
+            alignItems: 'start',
+          }}>
 
-            {/* LEFT — form */}
-            <div className="contact-form-col">
-              <h2 className="contact-heading">
+            {/* LEFT — contact form */}
+            <div>
+              <h2 style={{ fontSize: headingSize, marginBottom: '10px', textAlign: headingAlign, lineHeight: '1.3', fontFamily: 'var(--font-main)' }}>
                 {t('contact.title') || 'Contact Us'}
               </h2>
-              <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem', marginBottom: '32px', lineHeight: '1.6' }}>
+              <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem', marginBottom: '32px', lineHeight: '1.6', textAlign: subtitleAlign }}>
                 {t('contact.subtitle') || 'Leave your details and we will call you back.'}
               </p>
               <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-                <input  ref={nameRef}    type="text" className="form-input" placeholder={t('contact.name')    || 'Your name'}     required />
-                <input  ref={phoneRef}   type="tel"  className="form-input" placeholder={t('contact.phone')   || 'Phone number'}   required />
+                <input  ref={nameRef}    type="text" className="form-input" placeholder={t('contact.name')    || 'Your name'}   required />
+                <input  ref={phoneRef}   type="tel"  className="form-input" placeholder={t('contact.phone')   || 'Phone number'} required />
                 <textarea
                   ref={messageRef}
                   className="form-input"
@@ -194,14 +226,14 @@ const Layout = ({ children }) => {
             </div>
 
             {/* RIGHT — ticker */}
-            <div className="contact-ticker-col">
-              <h2 className="contact-heading">
+            <div>
+              <h2 style={{ fontSize: headingSize, marginBottom: '10px', textAlign: headingAlign, lineHeight: '1.3', fontFamily: 'var(--font-main)' }}>
                 {t('contact.grantsTitle') || 'Live Grant Opportunities'}
               </h2>
-              <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginBottom: '28px' }}>
+              <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginBottom: '28px', textAlign: subtitleAlign }}>
                 {t('contact.grantsPause') || 'Hover to pause'}
               </p>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', overflow: 'hidden' }}>
                 <TickerRow items={LOOP}     animName="tickerScroll"        duration={38} />
                 <TickerRow items={LOOP_REV} animName="tickerScrollReverse" duration={48} />
               </div>
@@ -211,54 +243,8 @@ const Layout = ({ children }) => {
         </div>
 
         <style>{`
-          /* ── Contact section layout ── */
-          #contact-section {
-            padding: 100px 0;
-            background: rgba(255,215,0,0.02);
-          }
-          .contact-wrap {
-            max-width: 1300px;
-            margin: 0 auto;
-            padding: 0 60px;
-          }
-          .contact-grid {
-            display: grid;
-            grid-template-columns: 380px 1fr;
-            gap: 80px;
-            align-items: start;
-          }
-          .contact-heading {
-            font-size: 1.8rem !important;
-            margin-bottom: 10px;
-            text-align: left;
-            line-height: 1.3;
-          }
-
-          /* ── Ticker animations ── */
           @keyframes tickerScroll        { from { transform: translateX(0);    } to { transform: translateX(-50%); } }
           @keyframes tickerScrollReverse { from { transform: translateX(-50%); } to { transform: translateX(0);    } }
-
-          /* ── Tablet ── */
-          @media (max-width: 1024px) {
-            .contact-wrap { padding: 0 40px; }
-            .contact-grid { grid-template-columns: 320px 1fr; gap: 50px; }
-          }
-
-          /* ── Mobile ── */
-          @media (max-width: 768px) {
-            #contact-section  { padding: 60px 0; }
-            .contact-wrap     { padding: 0 18px; }
-            .contact-grid     { grid-template-columns: 1fr; gap: 44px; }
-            .contact-heading  { font-size: 1.5rem !important; text-align: center; }
-            .contact-form-col p,
-            .contact-ticker-col p { text-align: center; }
-          }
-
-          /* ── Ticker card size on small screens ── */
-          @media (max-width: 480px) {
-            #contact-section  { padding: 44px 0; }
-            .contact-heading  { font-size: 1.3rem !important; }
-          }
         `}</style>
       </section>
 

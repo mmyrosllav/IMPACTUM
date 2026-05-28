@@ -50,6 +50,20 @@ const Header = () => {
         </div>
       </Link>
 
+      {/* Overlay — closes menu on tap outside */}
+      {isMenuOpen && (
+        <div
+          onClick={closeMenu}
+          style={{
+            position: 'fixed', inset: 0,
+            background: 'rgba(0,0,0,0.55)',
+            backdropFilter: 'blur(3px)',
+            WebkitBackdropFilter: 'blur(3px)',
+            zIndex: 998,
+          }}
+        />
+      )}
+
       <div className="burger" onClick={() => setIsMenuOpen(!isMenuOpen)} style={{ display: 'none', cursor: 'pointer', zIndex: '1001' }}>
         <div style={{ width: '25px', height: '2px', background: '#fff', margin: '5px 0', transition: '0.3s', transform: isMenuOpen ? 'rotate(45deg) translate(5px, 5px)' : '' }}></div>
         <div style={{ width: '25px', height: '2px', background: '#fff', margin: '5px 0', opacity: isMenuOpen ? 0 : 1 }}></div>
@@ -102,14 +116,27 @@ const Header = () => {
       </nav>
 
       <style>{`
+        body { overflow-x: hidden; }
         @media (max-width: 768px) {
           .burger { display: block !important; }
           nav {
-            position: fixed; right: -100%; top: 0; height: 100vh; width: 70%;
-            background: #0a0b10; border-left: 1px solid var(--glass-border);
-            transition: 0.5s; padding: 100px 40px;
+            position: fixed;
+            right: 0;
+            top: 0;
+            height: 100vh;
+            width: 280px;
+            max-width: 82vw;
+            background: #0a0b10;
+            border-left: 1px solid var(--glass-border);
+            box-shadow: -12px 0 40px rgba(0,0,0,0.7);
+            padding: 100px 40px 40px;
+            z-index: 999;
+            /* GPU-accelerated slide — no more "hanging" */
+            transform: translateX(100%);
+            transition: transform 0.38s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            will-change: transform;
           }
-          nav.nav-active { right: 0; }
+          nav.nav-active { transform: translateX(0); }
           nav ul { flex-direction: column; align-items: flex-start; gap: 30px; }
         }
       `}</style>
