@@ -1,68 +1,134 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { registerUser } from '../store/authSlice';
+import { useTranslation } from 'react-i18next';
 import { useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
+import { supabase } from '../lib/supabase';
 import PageTransition from '../components/PageTransition';
 
 const Register = () => {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({ name: '', email: '', password: '' });
-  const dispatch = useDispatch();
+  const [loading, setLoading]   = useState(false);
+  const [emailSent, setEmailSent] = useState(false);
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Basic Validation
-    if (formData.name.length < 2) {
-      return toast.error('Name is too short');
-    }
-    if (!formData.email.includes('@')) {
-      return toast.error('Invalid email address');
-    }
-    if (formData.password.length < 6) {
-      return toast.error('Password must be at least 6 characters');
+    if (formData.name.trim().length < 2)  return toast.error(t('auth.nameTooShort') || 'Ім\'я занадто коротке');
+    if (!formData.email.includes('@'))    return toast.error(t('auth.invalidEmail') || 'Невірний email');
+    if (formData.password.length < 6)     return toast.error(t('auth.passwordShort') || 'Пароль мінімум 6 символів');
+
+    setLoading(true);
+
+    const { data, error } = await supabase.auth.signUp({
+      email:    formData.email,
+      password: formData.password,
+      options: {
+        data: { name: formData.name.trim() }, // зберігається в user_metadata
+      },
+    });
+
+    if (error) {
+      toast.error(error.message);
+    } else if (data.session) {
+      // Email confirmation вимкнено — одразу авторизований
+      toast.success(t('auth.registerSuccess') || 'Акаунт створено!');
+      navigate('/dashboard');
+    } else {
+      // Email confirmation увімкнено — просимо перевірити пошту
+      setEmailSent(true);
     }
 
-    dispatch(registerUser({ name: formData.name, email: formData.email }));
-    toast.success('Registration successful!');
-    navigate('/dashboard');
+    setLoading(false);
   };
+
+  if (emailSent) {
+    return (
+      <PageTransition>
+        <section style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', paddingTop: '80px' }}>
+          <div className="container">
+            <div className="card" style={{ maxWidth: '450px', margin: '0 auto', padding: '60px', textAlign: 'center' }}>
+              <div style={{ fontSize: '3rem', marginBottom: '20px' }}>📬</div>
+              <h2 style={{ marginBottom: '12px' }}>{t('auth.checkEmail') || 'Перевірте пошту'}</h2>
+              <p style={{ color: 'var(--text-muted)', lineHeight: '1.7', marginBottom: '30px' }}>
+                {t('auth.confirmLink') || `Ми надіслали листа на ${formData.email}. Натисніть посилання для підтвердження.`}
+              </p>
+              <Link to="/login" className="btn" style={{ display: 'inline-block' }}>
+                {t('auth.goToLogin') || 'Перейти до входу'}
+              </Link>
+            </div>
+          </div>
+        </section>
+      </PageTransition>
+    );
+  }
 
   return (
     <PageTransition>
-      <section className="page-header" style={{ minHeight: '80vh', display: 'flex', alignItems: 'center' }}>
+      <section style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', paddingTop: '80px' }}>
         <div className="container">
-          <div className="card" style={{ maxWidth: '400px', margin: '0 auto' }}>
-            <h2>Create Account</h2>
-            <form onSubmit={handleSubmit} style={{ marginTop: '20px' }}>
-              <input 
-                type="text" 
-                className="form-input" 
-                placeholder="Full Name" 
-                value={formData.name}
-                onChange={(e) => setFormData({...formData, name: e.target.value})}
-              />
-              <input 
-                type="email" 
-                className="form-input" 
-                placeholder="Email" 
-                value={formData.email}
-                onChange={(e) => setFormData({...formData, email: e.target.value})}
-              />
-              <input 
-                type="password" 
-                className="form-input" 
-                placeholder="Password (min 6 chars)" 
-                value={formData.password}
-                onChange={(e) => setFormData({...formData, password: e.target.value})}
-              />
-              <button type="submit" className="btn" style={{ width: '100%', marginTop: '10px' }}>
-                Register
+          <div className="card" style={{ maxWidth: '450px', margin: '0 auto', padding: '60px' }}>
+            <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+              <h2 style={{ marginBottom: '10px' }}>{t('auth.getStarted')}</h2>
+              <p style={{ color: 'var(--text-muted)' }}>{t('auth.registerDesc') || 'Створіть акаунт для доступу до всіх функцій'}</p>
+            </div>
+
+            <form onSubmit={handleSubmit}>
+              <div style={{ marginBottom: '20px' }}>
+                <label style={{ fontSize: '0.85rem', color: 'var(--text-muted)', display: 'block', marginBottom: '8px' }}>{t('auth.name')}</label>
+                <input
+                  type="text"
+                  className="form-input"
+                  placeholder="Іван Петренко"
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  required
+                  disabled={loading}
+                />
+              </div>
+
+              <div style={{ marginBottom: '20px' }}>
+                <label style={{ fontSize: '0.85rem', color: 'var(--text-muted)', display: 'block', marginBottom: '8px' }}>{t('auth.email')}</label>
+                <input
+                  type="email"
+                  className="form-input"
+                  placeholder="your@email.com"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  required
+                  disabled={loading}
+                />
+              </div>
+
+              <div style={{ marginBottom: '30px' }}>
+                <label style={{ fontSize: '0.85rem', color: 'var(--text-muted)', display: 'block', marginBottom: '8px' }}>{t('auth.password')}</label>
+                <input
+                  type="password"
+                  className="form-input"
+                  placeholder="••••••••"
+                  value={formData.password}
+                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                  required
+                  disabled={loading}
+                />
+              </div>
+
+              <button
+                type="submit"
+                className="btn"
+                style={{ width: '100%', marginBottom: '20px', opacity: loading ? 0.7 : 1 }}
+                disabled={loading}
+              >
+                {loading ? '...' : t('auth.register')}
               </button>
             </form>
+
             <p style={{ marginTop: '20px', fontSize: '0.85rem', textAlign: 'center' }}>
-              Already have an account? <Link to="/login" style={{ color: 'var(--primary-accent)' }}>Login</Link>
+              {t('auth.alreadyHaveAccount')}{' '}
+              <Link to="/login" style={{ color: 'var(--primary-accent)', textDecoration: 'none', fontWeight: '600' }}>
+                {t('auth.loginHere')}
+              </Link>
             </p>
           </div>
         </div>

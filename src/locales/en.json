@@ -1,0 +1,218 @@
+{
+  "nav": {
+    "home": "Home",
+    "services": "Services",
+    "about": "About",
+    "games": "Games",
+    "news": "News",
+    "dashboard": "Dashboard",
+    "settings": "Settings",
+    "logout": "Logout",
+    "login": "Login",
+    "register": "Register",
+    "survey": "Grant Finder",
+    "workshop": "Workshop"
+  },
+  "home": {
+    "title": "Impactum",
+    "subtitle": "Grants & Impact Management",
+    "description": "Professional grant management and impact tracking platform",
+    "tagline": "Grantwriting & Strategy",
+    "hero": "Professional Grantwriting for Your Success",
+    "heroDesc": "Transforming your ideas into funded projects with a 94% technical success rate.",
+    "successRate": "Success Rate",
+    "ourProcess": "Our Process",
+    "analysis": "Analysis",
+    "analysisDesc": "We study your business model and find the best grant opportunities.",
+    "strategy": "Strategy",
+    "strategyDesc": "Developing a roadmap and preparing all necessary documentation.",
+    "submission": "Submission",
+    "submissionDesc": "Finalizing the application and supporting you until the grant is won.",
+    "clientSuccess": "Client Success",
+    "faq": "Frequently Asked Questions",
+    "faq1q": "What is your success rate?",
+    "faq1a": "94% of our applications pass the technical stage. We maximise your chances by following strict compliance rules.",
+    "faq2q": "How long does it take to prepare a grant?",
+    "faq2a": "From 7 to 30 days depending on complexity. Contact us at least 3 weeks before the deadline.",
+    "faq3q": "Do you work with startups?",
+    "faq3a": "Yes, we have special packages for early-stage startups and micro-entrepreneurs.",
+    "cta": "Ready to get funded?",
+    "ctaDesc": "Join 50+ successful projects and start your journey today.",
+    "createAccount": "Create Free Account",
+    "getStarted": "Get Started",
+    "ourTeam": "Our Team",
+    "testimonial1": "Impactum Agency helped us secure a $50k grant for our manufacturing plant. Their strategy was flawless.",
+    "testimonial2": "The weekly monitoring service is a game changer. We no longer miss any opportunities in our niche."
+  },
+  "services": {
+    "title": "Our Services",
+    "subtitle": "Comprehensive Solutions for Grant Management",
+    "orderNow": "Order Now",
+    "consultation": {
+      "name": "Expert Consultation",
+      "shortDesc": "Detailed analysis of your project idea and eligibility check.",
+      "fullDesc": "Our experts provide comprehensive analysis of your project, assess grant eligibility, identify potential funding sources, and create a strategic roadmap for your application."
+    },
+    "editing": {
+      "name": "Application Editing",
+      "shortDesc": "Professional revision of your existing grant proposal.",
+      "fullDesc": "We refine your existing proposals with professional editing, strengthen weak points, improve clarity, and ensure compliance with funder requirements for maximum impact."
+    },
+    "smeMonitoring": {
+      "name": "SME Business Monitoring",
+      "shortDesc": "Weekly curated list of grants for small and medium enterprises.",
+      "fullDesc": "Receive a carefully curated weekly digest of grant opportunities specifically tailored for your business. Stay ahead of competition with exclusive grant alerts."
+    },
+    "standard": {
+      "name": "Standard Package",
+      "shortDesc": "End-to-end development of local grant applications.",
+      "fullDesc": "Complete grant writing service from research to submission. Includes strategy development, documentation preparation, and submission support for local and regional grants."
+    },
+    "vip": {
+      "name": "VIP Package",
+      "shortDesc": "Complex international grants like Horizon Europe or LIFE.",
+      "fullDesc": "Premium service for complex international grants. Includes dedicated project manager, multi-round submissions, stakeholder coordination, and comprehensive support throughout the entire process."
+    },
+    "ngoMonitoring": {
+      "name": "NGO / Micro Monitoring",
+      "shortDesc": "Focus on social projects and micro-grants for startups.",
+      "fullDesc": "Specialized support for nonprofits and startups. Curated micro-grant opportunities, simplified application processes, and grant writing specifically designed for social impact projects."
+    }
+  },
+  "about": {
+    "title": "About Impactum",
+    "subtitle": "Meet Our Team",
+    "mission": "Our Mission",
+    "missionDesc": "We analyze the business model, find weak points and strengthen them to make your application look convincing to the donor.",
+    "myroslav": {
+      "name": "Myroslav Nemytyi",
+      "role": "CEO & Founder",
+      "bio": "Grant specialist with 10+ years of experience in international funding. Myroslav has helped over 500+ organizations secure €50M+ in grants from major European and international funders."
+    },
+    "kateryna": {
+      "name": "Kateryna Havrysh",
+      "role": "Co-Founder & GW Head",
+      "bio": "Impact strategist and program evaluation expert. Kateryna specializes in designing and evaluating grant programs with focus on measurable social impact and sustainability."
+    },
+    "management": "Management"
+  },
+  "news": {
+    "title": "Impactum News",
+    "subtitle": "Grant Opportunities & Updates",
+    "writeThread": "Write a Thread",
+    "grants": "Grant Updates",
+    "discussions": "Community Discussions"
+  },
+  "auth": {
+    "loginDesc": "Sign in to your account to access the dashboard",
+    "registerDesc": "Create your account to access all features",
+    "login": "Sign In",
+    "register": "Create Account",
+    "getStarted": "Get Started",
+    "welcomeBack": "Welcome Back",
+    "email": "Email",
+    "password": "Password",
+    "name": "Full Name",
+    "alreadyHaveAccount": "Already have an account?",
+    "dontHaveAccount": "Don't have an account?",
+    "loginHere": "Login here",
+    "registerHere": "Register here"
+  },
+  "settings": {
+    "title": "Settings",
+    "subtitle": "Manage your account preferences",
+    "accountInfo": "Account Info",
+    "dangerZone": "Danger Zone",
+    "deleteAccount": "Delete My Account",
+    "deleteWarning": "Once you delete your account, there is no going back. All your data will be permanently removed."
+  },
+  "games": {
+    "title": "Game Center",
+    "subtitle": "Kill some time and have fun with our interactive games",
+    "tictactoe": "Classic game against AI. Can you outsmart the computer?",
+    "snake": "Eat food and grow. Avoid hitting yourself!",
+    "crossword": "Solve word puzzles and test your vocabulary.",
+    "playButton": "Play Now",
+    "backButton": "Back to Games"
+  },
+  "notfound": {
+    "title": "Page Not Found",
+    "description": "The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.",
+    "returnHome": "Return to Homepage"
+  },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "Leave your details and we will call you back.",
+    "name": "Your name",
+    "phone": "Phone number",
+    "message": "Your message",
+    "send": "Send Request",
+    "successMsg": "Thank you! Our manager will contact you soon.",
+    "grantsTitle": "Live Grant Opportunities",
+    "grantsPause": "Hover over a card to pause"
+  },
+  "common": {
+    "close": "Close"
+  },
+  "survey": {
+    "title": "Grant Finder",
+    "subtitle": "Answer 5 questions and get matched grants",
+    "step": "Question",
+    "back": "Back",
+    "q1": "What type of organisation are you?",
+    "q1a1": "Business / SME",
+    "q1a2": "NGO / Non-profit",
+    "q1a3": "Startup",
+    "q1a4": "Individual",
+    "q2": "What sector do you operate in?",
+    "q2a1": "Technology / IT",
+    "q2a2": "Social Impact",
+    "q2a3": "Environment / Energy",
+    "q2a4": "Education / Culture",
+    "q3": "Which geography?",
+    "q3a1": "Ukraine",
+    "q3a2": "European Union",
+    "q3a3": "International",
+    "q3a4": "Any",
+    "q4": "Approximate project budget?",
+    "q4a1": "Up to €10k",
+    "q4a2": "€10k – €50k",
+    "q4a3": "€50k – €300k",
+    "q4a4": "€300k+",
+    "q5": "Main goal of your project?",
+    "q5a1": "Innovation & R&D",
+    "q5a2": "Social Impact",
+    "q5a3": "Job Creation",
+    "q5a4": "Export & Scaling",
+    "resultsTitle": "Your Grant Matches",
+    "resultsSubtitle": "Based on your answers, here are the best-fit programmes",
+    "result1desc": "EU flagship research and innovation programme with multi-year funding cycles.",
+    "result2desc": "International development grants focusing on democracy, business, and civil society.",
+    "result3desc": "State-backed grants for innovative Ukrainian startups and tech ventures.",
+    "result4desc": "Local government grants for Ukrainian SMEs in key development sectors.",
+    "result5desc": "EU environment and climate action funding programme.",
+    "result6desc": "EBRD grants for green economy and private sector development.",
+    "result7desc": "EU grants for SMEs in Eastern Partnership countries.",
+    "result8desc": "Cultural exchange and educational grants from the British Council.",
+    "orderService": "Order Grant Writing",
+    "retake": "Retake Survey"
+  },
+  "workshop": {
+    "title": "Workshop",
+    "subtitle": "AI-powered grant management tools",
+    "tools": "Tools",
+    "toolSearch": "Grant Search",
+    "toolWriter": "Application Writer",
+    "toolAnalyzer": "Document Analyzer",
+    "toolTracker": "Progress Tracker",
+    "toolConsultant": "AI Consultant",
+    "online": "AI Online",
+    "startPrompt": "Start a demo to see how this tool works, or type your request below.",
+    "startDemo": "Start Demo",
+    "inputPlaceholder": "Type your question...",
+    "aiReply": "Processing your request about",
+    "aiReplySuffix": "Our AI agents are in beta. Full functionality coming soon.",
+    "betaLabel": "⚡ BETA",
+    "betaDesc": "AI tools are in development. Demo mode shows simulated responses."
+  }
+}

@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion as Motion } from 'framer-motion';
 
 const animations = {
   initial: { opacity: 0, y: 20 },
@@ -8,7 +8,7 @@ const animations = {
 
 const PageTransition = ({ children }) => {
   return (
-    <motion.div
+    <Motion.div
       variants={animations}
       initial="initial"
       animate="animate"
@@ -16,7 +16,7 @@ const PageTransition = ({ children }) => {
       transition={{ duration: 0.4 }}
     >
       {children}
-    </motion.div>
+    </Motion.div>
   );
 };
 

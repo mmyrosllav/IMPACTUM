@@ -1,44 +1,43 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+// Supabase управляє токенами сам — Redux тримає лише дані юзера для UI
 const initialState = {
-    user: JSON.parse(localStorage.getItem('user')) || null,
-    token: localStorage.getItem('token') || null,
+  user: null,   // { id, email, name }
+  loading: true, // true поки перевіряємо сесію при старті
 };
 
 const authSlice = createSlice({
-    name: 'auth',
-    initialState,
-    reducers: {
-        setCredentials: (state, action) => {
-            const { user, token } = action.payload;
-            state.user = user;
-            state.token = token;
-            localStorage.setItem('user', JSON.stringify(user));
-            localStorage.setItem('token', token);
-        },
-        registerUser: (state, action) => {
-            const { name, email } = action.payload;
-            const newUser = { name, email };
-            state.user = newUser;
-            state.token = 'new-fake-jwt-token';
-            localStorage.setItem('user', JSON.stringify(newUser));
-            localStorage.setItem('token', state.token);
-        },
-        // NEW: Логіка оновлення імені
-        updateProfile: (state, action) => {
-            if (state.user) {
-                state.user.name = action.payload.name;
-                localStorage.setItem('user', JSON.stringify(state.user));
-            }
-        },
-        logout: (state) => {
-            state.user = null;
-            state.token = null;
-            localStorage.removeItem('user');
-            localStorage.removeItem('token');
-        },
+  name: 'auth',
+  initialState,
+  reducers: {
+    setUser: (state, action) => {
+      state.user    = action.payload; // { id, email, name } або null
+      state.loading = false;
     },
+    setLoading: (state, action) => {
+      state.loading = action.payload;
+    },
+    updateProfile: (state, action) => {
+      if (state.user) {
+        state.user.name = action.payload.name;
+      }
+    },
+    logout: (state) => {
+      state.user    = null;
+      state.loading = false;
+    },
+  },
 });
 
-export const { setCredentials, registerUser, updateProfile, logout } = authSlice.actions;
+export const { setUser, setLoading, updateProfile, logout } = authSlice.actions;
 export default authSlice.reducer;
+
+// ─── Helper: перетворює Supabase user → наш формат ──────────────
+export const mapSupabaseUser = (sbUser) => {
+  if (!sbUser) return null;
+  return {
+    id:    sbUser.id,
+    email: sbUser.email,
+    name:  sbUser.user_metadata?.name ?? sbUser.email.split('@')[0],
+  };
+};

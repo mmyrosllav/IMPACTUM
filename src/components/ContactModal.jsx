@@ -1,11 +1,12 @@
 import React from 'react';
+import { toast } from 'react-hot-toast';
 
 const ContactModal = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert('Thank you! Our manager will contact you soon.');
+    toast.success('Thank you! Our manager will contact you soon.');
     onClose();
   };
 

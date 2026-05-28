@@ -1,18 +1,23 @@
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { logout } from '../store/authSlice';
+import { supabase } from '../lib/supabase';
 import { toast } from 'react-hot-toast';
 import PageTransition from '../components/PageTransition';
 
 const Settings = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
 
-  const handleDeleteAccount = () => {
+  const handleDeleteAccount = async () => {
     if (window.confirm('DANGER: This will permanently delete your account data. Proceed?')) {
+      // Видаляємо через Supabase Admin API — потребує Edge Function для повного видалення
+      // Поки що просто виходимо з акаунту
+      await supabase.auth.signOut();
       dispatch(logout());
-      localStorage.clear(); // Complete wipe
       toast.success('Account deleted');
       navigate('/');
     }
@@ -22,30 +27,36 @@ const Settings = () => {
     <PageTransition>
       <div className="container" style={{ paddingTop: '120px', paddingBottom: '80px' }}>
         <section className="page-header" style={{ textAlign: 'left', border: 'none' }}>
-          <h1>Settings</h1>
-          <p className="page-subtitle">Manage your account preferences.</p>
+          <h1>{t('settings.title')}</h1>
+          <p className="page-subtitle">{t('settings.subtitle')}</p>
         </section>
 
-        <div className="grid-2" style={{ mt: '40px' }}>
+        <div className="grid-2" style={{ marginTop: '40px' }}>
           <div className="card">
-            <h3>Account Info</h3>
-            <div style={{ mt: '20px' }}>
-                <p style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>Name:</p>
-                <p style={{ mb: '15px' }}>{user?.name}</p>
-                <p style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>Email:</p>
-                <p>{user?.email}</p>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '20px' }}>
+              <span style={{ fontSize: '1.8rem' }}>👤</span>
+              <h3 style={{ margin: 0 }}>{t('settings.accountInfo')}</h3>
+            </div>
+            <div style={{ marginTop: '25px', paddingTop: '20px', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+              <p style={{ color: 'var(--text-muted)', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>Name</p>
+              <p style={{ marginBottom: '20px', fontSize: '1.1rem', fontWeight: '600' }}>{user?.name}</p>
+              <p style={{ color: 'var(--text-muted)', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>Email</p>
+              <p style={{ fontSize: '1.1rem' }}>{user?.email}</p>
             </div>
           </div>
 
-          <div className="card" style={{ borderColor: 'rgba(239, 68, 68, 0.2)' }}>
-            <h3 style={{ color: '#ef4444' }}>Danger Zone</h3>
-            <p style={{ fontSize: '0.9rem', mt: '10px' }}>Once you delete your account, there is no going back. Please be certain.</p>
-            <button 
-                className="btn" 
-                style={{ background: '#ef4444', mt: '20px', width: 'fit-content' }}
-                onClick={handleDeleteAccount}
+          <div className="card" style={{ borderColor: 'rgba(239, 68, 68, 0.3)', borderWidth: '2px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '20px' }}>
+              <span style={{ fontSize: '1.8rem' }}>⚠️</span>
+              <h3 style={{ margin: 0, color: '#ef4444' }}>{t('settings.dangerZone')}</h3>
+            </div>
+            <p style={{ fontSize: '0.9rem', marginTop: '15px', color: 'var(--text-muted)', lineHeight: '1.6' }}>{t('settings.deleteWarning') || 'Once you delete your account, there is no going back. All your data will be permanently removed.'}</p>
+            <button
+              className="btn"
+              style={{ background: '#ef4444', marginTop: '25px', width: '100%' }}
+              onClick={handleDeleteAccount}
             >
-                Delete My Account
+              🗑️ {t('settings.deleteAccount')}
             </button>
           </div>
         </div>

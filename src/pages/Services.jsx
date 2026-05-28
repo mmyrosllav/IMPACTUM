@@ -1,63 +1,79 @@
-import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useState, useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { addOrder } from '../store/orderSlice';
+import { useTranslation } from 'react-i18next';
+import { supabase } from '../lib/supabase';
 import { toast } from 'react-hot-toast';
+// eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from 'framer-motion';
 import PageTransition from '../components/PageTransition';
 import SkeletonCard from '../components/SkeletonCard';
 
 const Services = () => {
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState('All');
-  const [isLoading, setIsLoading] = useState(true);
-  
-  const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
+  const [selectedService, setSelectedService] = useState(null);
+  const isFirstRender = useRef(true);
+
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
 
   const categories = ['All', 'Consulting', 'Monitoring', 'Turnkey'];
 
   const servicesData = [
-    { id: 1, category: 'Consulting', name: 'Expert Consultation', price: '2,000 - 4,000 ₴', desc: 'Detailed analysis of your project idea and eligibility check.' },
-    { id: 2, category: 'Consulting', name: 'Application Editing', price: '4,000 - 7,000 ₴', desc: 'Professional revision of your existing grant proposal.' },
-    { id: 3, category: 'Monitoring', name: 'SME Business Monitoring', price: '15,000 ₴', desc: 'Weekly curated list of grants for small and medium enterprises.' },
-    { id: 4, category: 'Turnkey', name: 'Standard Package', price: '15,000 - 25,000 ₴', desc: 'End-to-end development of local grant applications.' },
-    { id: 5, category: 'Turnkey', name: 'VIP Package', price: '30,000 - 60,000 ₴', desc: 'Complex international grants like Horizon Europe or LIFE.' },
-    { id: 6, category: 'Monitoring', name: 'NGO / Micro Monitoring', price: '8,000 ₴', desc: 'Focus on social projects and micro-grants for startups.' },
+    { id: 1, category: 'Consulting', name: t('services.consultation.name'), price: '2,000 - 4,000 ₴', shortDesc: t('services.consultation.shortDesc'), fullDesc: t('services.consultation.fullDesc') },
+    { id: 2, category: 'Consulting', name: t('services.editing.name'), price: '4,000 - 7,000 ₴', shortDesc: t('services.editing.shortDesc'), fullDesc: t('services.editing.fullDesc') },
+    { id: 3, category: 'Monitoring', name: t('services.smeMonitoring.name'), price: '15,000 ₴', shortDesc: t('services.smeMonitoring.shortDesc'), fullDesc: t('services.smeMonitoring.fullDesc') },
+    { id: 4, category: 'Turnkey', name: t('services.standard.name'), price: '15,000 - 25,000 ₴', shortDesc: t('services.standard.shortDesc'), fullDesc: t('services.standard.fullDesc') },
+    { id: 5, category: 'Turnkey', name: t('services.vip.name'), price: '30,000 - 60,000 ₴', shortDesc: t('services.vip.shortDesc'), fullDesc: t('services.vip.fullDesc') },
+    { id: 6, category: 'Monitoring', name: t('services.ngoMonitoring.name'), price: '8,000 ₴', shortDesc: t('services.ngoMonitoring.shortDesc'), fullDesc: t('services.ngoMonitoring.fullDesc') },
   ];
 
-  // Simulation of data fetching
   useEffect(() => {
-    setIsLoading(true);
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 1000); // 1 second delay
-    return () => clearTimeout(timer);
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    const timerId = setTimeout(() => {
+      setIsLoading(true);
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 800);
+    }, 100);
+    return () => clearTimeout(timerId);
   }, [activeTab]);
 
   const filteredServices = activeTab === 'All' 
     ? servicesData 
     : servicesData.filter(s => s.category === activeTab);
 
-  const handleOrder = (serviceName) => {
+  const handleOrder = async (serviceName) => {
     if (!user) {
-      toast.error('Please login to place an order');
+      toast.error('Увійдіть, щоб зробити замовлення');
       navigate('/login');
       return;
     }
-    dispatch(addOrder({ serviceName }));
-    toast.success(`${serviceName} added to dashboard!`);
+    const { error } = await supabase.from('orders').insert({
+      user_id: user.id,
+      service_name: serviceName,
+    });
+    if (error) {
+      toast.error('Помилка. Спробуйте ще раз.');
+    } else {
+      toast.success(`✅ ${serviceName} — замовлення прийнято!`);
+      navigate('/dashboard');
+    }
   };
 
   return (
     <PageTransition>
       <div className="container" style={{ paddingTop: '120px', paddingBottom: '80px' }}>
         <section className="page-header" style={{ borderBottom: 'none', paddingBottom: '20px' }}>
-          <h1>Our Expertise</h1>
-          <p className="page-subtitle">Filter by category to find the perfect match for your needs.</p>
+          <h1>{t('services.title')}</h1>
+          <p className="page-subtitle">{t('services.subtitle')}</p>
         </section>
 
-        {/* Filter Tabs */}
         <div style={{ 
           display: 'flex', 
           justifyContent: 'center', 
@@ -77,10 +93,8 @@ const Services = () => {
           ))}
         </div>
 
-        {/* Content Grid */}
         <div className="grid-3">
           {isLoading ? (
-            // Show 3 Skeletons while loading
             [1, 2, 3].map(n => <SkeletonCard key={n} />)
           ) : (
             <AnimatePresence mode='popLayout'>
@@ -94,12 +108,12 @@ const Services = () => {
                   transition={{ duration: 0.3 }}
                   className="card"
                 >
-                  <span style={{ 
-                    fontSize: '0.65rem', 
-                    color: 'var(--primary-accent)', 
-                    fontWeight: '800', 
+                  <span style={{
+                    fontSize: '0.65rem',
+                    color: 'var(--primary-accent)',
+                    fontWeight: '800',
                     textTransform: 'uppercase',
-                    background: 'rgba(59, 130, 246, 0.1)',
+                    background: 'rgba(255, 215, 0, 0.1)',
                     padding: '4px 10px',
                     borderRadius: '4px',
                     letterSpacing: '1px'
@@ -107,22 +121,161 @@ const Services = () => {
                     {service.category}
                   </span>
                   <h3 style={{ marginTop: '15px', fontSize: '1.4rem' }}>{service.name}</h3>
-                  <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', marginTop: '12px', minHeight: '60px' }}>
-                    {service.desc}
+                  <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', marginTop: '12px', flex: 1, cursor: 'pointer', width: '100%' }} onClick={() => setSelectedService(service)}>
+                    {service.shortDesc}
                   </p>
-                  <div className="price" style={{ margin: '25px 0', fontSize: '1.6rem' }}>{service.price}</div>
-                  <button 
-                    className="btn" 
-                    style={{ width: '100%' }}
-                    onClick={() => handleOrder(service.name)}
-                  >
-                    Order Now
-                  </button>
+                  <div className="price" style={{ margin: '20px 0', fontSize: '1.6rem' }}>{service.price}</div>
+                  <div style={{ display: 'flex', gap: '10px', width: '100%', marginTop: 'auto' }}>
+                    <button
+                      className="btn"
+                      style={{ flex: 1 }}
+                      onClick={() => setSelectedService(service)}
+                    >
+                      📖 {t('services.orderNow')}
+                    </button>
+                    <button
+                      className="btn"
+                      style={{ flex: 1, background: 'rgba(255, 215, 0, 0.2)' }}
+                      onClick={() => handleOrder(service.name)}
+                    >
+                      ✓ Order
+                    </button>
+                  </div>
                 </motion.div>
               ))}
             </AnimatePresence>
           )}
         </div>
+
+        {selectedService && (
+          <div
+            className="service-modal-overlay"
+            onClick={() => setSelectedService(null)}
+            style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              background: 'rgba(0, 0, 0, 0.8)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              zIndex: 1000,
+              backdropFilter: 'blur(4px)',
+              animation: 'fadeIn 0.3s ease',
+            }}
+          >
+            <div
+              className="service-modal"
+              onClick={(e) => e.stopPropagation()}
+              style={{
+                background: 'rgba(20, 21, 28, 0.95)',
+                border: '1.5px solid var(--glass-border)',
+                borderRadius: '20px',
+                padding: '50px',
+                maxWidth: '700px',
+                width: '90%',
+                backdropFilter: 'blur(20px)',
+                animation: 'slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                maxHeight: '80vh',
+                overflow: 'auto',
+              }}
+            >
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '20px' }}>
+                <div>
+                  <span style={{
+                    fontSize: '0.65rem',
+                    color: 'var(--primary-accent)',
+                    fontWeight: '800',
+                    textTransform: 'uppercase',
+                    background: 'rgba(255, 215, 0, 0.1)',
+                    padding: '6px 12px',
+                    borderRadius: '4px',
+                    letterSpacing: '1px',
+                    display: 'inline-block',
+                  }}>
+                    {selectedService.category}
+                  </span>
+                  <h2 style={{ margin: '15px 0 0 0', fontSize: '2rem' }}>{selectedService.name}</h2>
+                </div>
+                <button
+                  onClick={() => setSelectedService(null)}
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.1)',
+                    border: '1px solid rgba(255, 255, 255, 0.2)',
+                    color: '#fff',
+                    width: '40px',
+                    height: '40px',
+                    borderRadius: '50%',
+                    cursor: 'pointer',
+                    fontSize: '20px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    transition: '0.3s',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.target.style.background = 'rgba(255, 255, 255, 0.2)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.target.style.background = 'rgba(255, 255, 255, 0.1)';
+                  }}
+                >
+                  ✕
+                </button>
+              </div>
+
+              <div style={{ borderTop: '1px solid rgba(255, 255, 255, 0.1)', paddingTop: '20px', marginBottom: '30px' }}>
+                <p style={{ color: 'var(--text-muted)', lineHeight: '1.8', fontSize: '1.05rem' }}>
+                  {selectedService.fullDesc}
+                </p>
+              </div>
+
+              <div style={{ background: 'rgba(255, 215, 0, 0.05)', padding: '20px', borderRadius: '12px', marginBottom: '30px', borderLeft: '4px solid var(--primary-accent)' }}>
+                <p style={{ margin: '0 0 10px 0', color: 'var(--text-muted)', fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Price</p>
+                <p style={{ margin: 0, fontSize: '1.8rem', fontWeight: 'bold', color: 'var(--primary-accent)' }}>{selectedService.price}</p>
+              </div>
+
+              <div style={{ display: 'flex', gap: '15px' }}>
+                <button
+                  className="btn"
+                  style={{ flex: 1 }}
+                  onClick={() => {
+                    handleOrder(selectedService.name);
+                    setSelectedService(null);
+                  }}
+                >
+                  Order Now
+                </button>
+                <button
+                  className="btn btn-outline"
+                  style={{ flex: 1 }}
+                  onClick={() => setSelectedService(null)}
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        <style>{`
+          @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+          }
+          @keyframes slideUp {
+            from {
+              opacity: 0;
+              transform: translateY(30px);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
+        `}</style>
       </div>
     </PageTransition>
   );

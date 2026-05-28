@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import PageTransition from '../components/PageTransition';
 
 const NotFound = () => {
+  const { t } = useTranslation();
   return (
     <PageTransition>
       <div className="container" style={{ 
@@ -26,19 +28,19 @@ const NotFound = () => {
           404
         </h1>
         
-        <h2 style={{ fontSize: '2rem', marginBottom: '20px' }}>Page Not Found</h2>
-        
-        <p style={{ 
-          maxWidth: '500px', 
-          margin: '0 auto 40px', 
+        <h2 style={{ fontSize: '2rem', marginBottom: '20px' }}>{t('notfound.title') || 'Page Not Found'}</h2>
+
+        <p style={{
+          maxWidth: '500px',
+          margin: '0 auto 40px',
           color: 'var(--text-muted)',
-          fontSize: '1.1rem' 
+          fontSize: '1.1rem'
         }}>
-          The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.
+          {t('notfound.description') || 'The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.'}
         </p>
 
         <Link to="/" className="btn">
-          Return to Homepage
+          {t('notfound.returnHome') || 'Return to Homepage'}
         </Link>
 
         {/* Декоративний елемент (орб), щоб заповнити простір */}

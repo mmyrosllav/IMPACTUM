@@ -1,0 +1,462 @@
+/* GAMES STYLING */
+
+.game-container {
+  background: rgba(20, 21, 28, 0.6);
+  border: 1.5px solid rgba(255, 255, 255, 0.12);
+  border-radius: 24px;
+  padding: 50px;
+  backdrop-filter: blur(20px);
+  box-shadow:
+    0 8px 32px 0 rgba(31, 38, 135, 0.15),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.05);
+  max-width: 600px;
+  margin: 0 auto;
+  animation: slideUp 0.5s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.game-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.game-header h2 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  background: linear-gradient(135deg, #FFD700 0%, #FFC700 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.game-header p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.score-display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.score {
+  background: rgba(59, 130, 246, 0.2);
+  padding: 8px 20px;
+  border-radius: 50px;
+  font-weight: 700;
+  color: #FFD700;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+/* TIC TAC TOE */
+
+.tictactoe-board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 40px;
+  padding: 20px;
+  background: rgba(10, 11, 16, 0.5);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.tictactoe-cell {
+  aspect-ratio: 1;
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+}
+
+.tictactoe-cell::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.4s;
+}
+
+.tictactoe-cell:hover:not(.disabled):not(.filled-X):not(.filled-O) {
+  background: rgba(59, 130, 246, 0.15);
+  border-color: rgba(59, 130, 246, 0.4);
+  transform: scale(1.05);
+}
+
+.tictactoe-cell.filled-X {
+  background: rgba(59, 130, 246, 0.2);
+  border-color: rgba(59, 130, 246, 0.5);
+}
+
+.tictactoe-cell.filled-O {
+  background: rgba(139, 92, 246, 0.2);
+  border-color: rgba(139, 92, 246, 0.5);
+}
+
+.tictactoe-cell.disabled {
+  cursor: not-allowed;
+}
+
+.cell-value {
+  position: relative;
+  z-index: 1;
+  animation: popIn 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes popIn {
+  0% {
+    transform: scale(0) rotate(-180deg);
+  }
+  100% {
+    transform: scale(1) rotate(0);
+  }
+}
+
+/* SNAKE GAME */
+
+.snake-grid {
+  display: grid;
+  grid-template-columns: repeat(20, 1fr);
+  gap: 2px;
+  margin-bottom: 40px;
+  padding: 20px;
+  background: rgba(10, 11, 16, 0.8);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  aspect-ratio: 1;
+}
+
+.grid-cell {
+  aspect-ratio: 1;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 4px;
+  transition: all 0.1s;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.grid-cell.snake-head {
+  background: linear-gradient(135deg, #FFD700, #FFC700);
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+  animation: snakeHeadPulse 0.5s ease-in-out infinite alternate;
+}
+
+@keyframes snakeHeadPulse {
+  from {
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+  }
+  to {
+    box-shadow: 0 0 25px rgba(255, 215, 0, 0.9);
+  }
+}
+
+.grid-cell.snake-body {
+  background: #FFD700;
+  opacity: 0.7;
+}
+
+.grid-cell.food {
+  background: linear-gradient(135deg, #f43f5e, #fb7185);
+  box-shadow: 0 0 12px rgba(244, 63, 94, 0.8);
+  animation: foodPulse 0.6s ease-in-out infinite;
+}
+
+@keyframes foodPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.controls > div {
+  display: grid;
+  grid-template-columns: repeat(3, 60px);
+  gap: 8px;
+}
+
+.control-btn {
+  width: 60px;
+  height: 60px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1.5px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 1.5rem;
+  transition: all 0.2s;
+  grid-column: 2;
+}
+
+.control-btn.up {
+  grid-column: 2;
+}
+
+.control-btn.left {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.control-btn.down {
+  grid-column: 2;
+  grid-row: 3;
+}
+
+.control-btn.right {
+  grid-column: 3;
+  grid-row: 2;
+}
+
+.control-btn:hover {
+  background: rgba(59, 130, 246, 0.2);
+  border-color: rgba(59, 130, 246, 0.4);
+  transform: scale(1.05);
+}
+
+.control-btn:active {
+  transform: scale(0.95);
+}
+
+.game-over-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+}
+
+.game-over-content {
+  text-align: center;
+}
+
+.game-over-content h3 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  color: #f43f5e;
+}
+
+/* CROSSWORD */
+
+.crossword-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
+.crossword-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  padding: 20px;
+  background: rgba(10, 11, 16, 0.5);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.crossword-cell {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.revealed-cell {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(59, 130, 246, 0.15);
+  border: 2px solid rgba(59, 130, 246, 0.3);
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: #FFD700;
+}
+
+.input-cell {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  color: #fff;
+  font-family: var(--font-main);
+  transition: all 0.3s;
+  padding: 0;
+}
+
+.input-cell:focus {
+  outline: none;
+  background: rgba(59, 130, 246, 0.15);
+  border-color: rgba(59, 130, 246, 0.5);
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
+}
+
+.input-cell:disabled {
+  background: rgba(255, 255, 255, 0.02);
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.clues {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  padding: 20px;
+  background: rgba(10, 11, 16, 0.5);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.clue-section h4 {
+  color: #FFD700;
+  margin-bottom: 15px;
+  font-size: 1rem;
+}
+
+.clue-section p {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+
+/* GAME STATUS */
+
+.game-status {
+  text-align: center;
+  padding: 20px;
+  margin-bottom: 30px;
+  background: rgba(10, 11, 16, 0.5);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.status-message p {
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.win-text {
+  color: #10b981;
+  animation: slideInScale 0.5s ease-out;
+}
+
+.lose-text {
+  color: #f43f5e;
+  animation: slideInScale 0.5s ease-out;
+}
+
+.draw-text {
+  color: #f59e0b;
+  animation: slideInScale 0.5s ease-out;
+}
+
+.turn-text {
+  color: #FFD700;
+}
+
+@keyframes slideInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.solved-message {
+  text-align: center;
+  padding: 20px;
+  background: rgba(16, 185, 129, 0.15);
+  border: 1.5px solid rgba(16, 185, 129, 0.3);
+  border-radius: 12px;
+  margin-bottom: 30px;
+}
+
+.solved-message p {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #10b981;
+}
+
+.btn-reset {
+  width: 100%;
+  padding: 16px;
+  margin-top: 20px;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 768px) {
+  .game-container {
+    padding: 30px;
+  }
+
+  .crossword-wrapper {
+    grid-template-columns: 1fr;
+  }
+
+  .clues {
+    max-height: 300px;
+  }
+
+  .controls > div {
+    grid-template-columns: repeat(3, 50px);
+  }
+
+  .control-btn {
+    width: 50px;
+    height: 50px;
+    font-size: 1.2rem;
+  }
+}

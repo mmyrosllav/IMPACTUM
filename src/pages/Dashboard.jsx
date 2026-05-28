@@ -1,95 +1,133 @@
-import { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { removeOrder } from '../store/orderSlice';
-import { updateProfile } from '../store/authSlice';
+import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
+import { supabase } from '../lib/supabase';
 import PageTransition from '../components/PageTransition';
-import OrderDetailsModal from '../components/OrderDetailsModal'; // Import new modal
+import OrderDetailsModal from '../components/OrderDetailsModal';
 
 const Dashboard = () => {
-  const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
-  const { items } = useSelector((state) => state.orders);
+  const [orders, setOrders]           = useState([]);
+  const [loading, setLoading]         = useState(true);
+  const [selectedOrder, setSelectedOrder] = useState(null);
 
-  const [isEditing, setIsEditing] = useState(false);
-  const [newName, setNewName] = useState(user?.name || '');
-  const [selectedOrder, setSelectedOrder] = useState(null); // State for details
+  // ─── Завантаження замовлень ───────────────────────────────────
+  const fetchOrders = async () => {
+    const { data, error } = await supabase
+      .from('orders')
+      .select('*')
+      .order('created_at', { ascending: false });
 
-  const handleUpdateName = () => {
-    if (newName.trim().length < 2) return toast.error('Name is too short');
-    dispatch(updateProfile({ name: newName }));
-    setIsEditing(false);
-    toast.success('Profile updated');
+    if (!error) setOrders(data ?? []);
+    setLoading(false);
   };
 
-  const handleCancel = (e, id) => {
-    e.stopPropagation(); // Prevents modal from opening when clicking cancel
-    if (window.confirm('Cancel this order?')) {
-      dispatch(removeOrder(id));
-      toast.success('Order removed');
+  useEffect(() => {
+    if (user) fetchOrders();
+  }, [user]);
+
+  // ─── Видалення замовлення ─────────────────────────────────────
+  const handleDelete = async (e, id) => {
+    e.stopPropagation();
+    if (!window.confirm('Видалити це замовлення?')) return;
+
+    const { error } = await supabase.from('orders').delete().eq('id', id);
+    if (error) {
+      toast.error('Помилка видалення');
+    } else {
+      setOrders(prev => prev.filter(o => o.id !== id));
+      toast.success('Замовлення видалено');
     }
   };
 
   const getStatusStyle = (status) => {
-    switch (status) {
-      case 'Pending': return { color: '#fbbf24', background: 'rgba(251, 191, 36, 0.1)' };
-      case 'Active': return { color: '#3b82f6', background: 'rgba(59, 130, 246, 0.1)' };
-      default: return { color: '#10b981', background: 'rgba(16, 185, 129, 0.1)' };
-    }
+    if (status === 'Completed') return { color: '#10b981', background: 'rgba(16,185,129,0.1)' };
+    if (status === 'Active')    return { color: '#60a5fa', background: 'rgba(96,165,250,0.1)' };
+    return { color: '#FFD700', background: 'rgba(255,215,0,0.1)' }; // Pending
   };
 
   return (
     <PageTransition>
       <div className="container" style={{ paddingTop: '120px', paddingBottom: '80px' }}>
+
+        {/* Header */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '40px', flexWrap: 'wrap', gap: '20px' }}>
           <div>
-            {isEditing ? (
-              <div style={{ display: 'flex', gap: '10px' }}>
-                <input className="form-input" style={{ mb: 0 }} value={newName} onChange={(e) => setNewName(e.target.value)} />
-                <button className="btn" onClick={handleUpdateName}>Save</button>
-              </div>
-            ) : (
-              <h1>Welcome, {user?.name}! <span onClick={() => setIsEditing(true)} style={{ fontSize: '0.8rem', cursor: 'pointer', color: 'var(--primary-accent)' }}>(edit)</span></h1>
-            )}
-            <p style={{ color: 'var(--text-muted)' }}>{user?.email}</p>
+            <h1>Привіт, {user?.name}!</h1>
+            <p style={{ color: 'var(--text-muted)', marginTop: '6px' }}>{user?.email}</p>
           </div>
-          <div className="card" style={{ padding: '15px 30px' }}>
-              <span style={{ fontSize: '1.2rem', fontWeight: '800' }}>{items.length} Orders</span>
+          <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+            <div className="card" style={{ padding: '15px 30px', textAlign: 'center' }}>
+              <span style={{ fontSize: '1.4rem', fontWeight: '800' }}>{orders.length}</span>
+              <p style={{ color: 'var(--text-muted)', fontSize: '0.8rem', marginTop: '4px' }}>Замовлень</p>
+            </div>
+            <div className="card" style={{ padding: '15px 30px', textAlign: 'center' }}>
+              <span style={{ fontSize: '1.4rem', fontWeight: '800', color: '#4ade80' }}>
+                {orders.filter(o => o.status === 'Completed').length}
+              </span>
+              <p style={{ color: 'var(--text-muted)', fontSize: '0.8rem', marginTop: '4px' }}>Завершено</p>
+            </div>
           </div>
         </div>
 
+        {/* Orders table */}
         <div className="card">
-          <h3>Your Orders (Click for details)</h3>
-          {items.length === 0 ? (
-            <p style={{ mt: '20px' }}>No orders found.</p>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', flexWrap: 'wrap', gap: '12px' }}>
+            <h3 style={{ margin: 0 }}>Мої замовлення</h3>
+            <Link to="/services" className="btn" style={{ padding: '10px 20px', fontSize: '0.85rem' }}>
+              + Нове замовлення
+            </Link>
+          </div>
+
+          {loading ? (
+            <div style={{ textAlign: 'center', padding: '40px', color: 'var(--text-muted)' }}>
+              <div style={{ width: '32px', height: '32px', border: '3px solid rgba(255,215,0,0.2)', borderTop: '3px solid #FFD700', borderRadius: '50%', animation: 'spin 0.8s linear infinite', margin: '0 auto 16px' }} />
+              Завантаження...
+            </div>
+          ) : orders.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: '60px 20px' }}>
+              <p style={{ fontSize: '2.5rem', marginBottom: '16px' }}>📋</p>
+              <p style={{ color: 'var(--text-muted)', marginBottom: '24px' }}>Замовлень ще немає</p>
+              <Link to="/services" className="btn">Переглянути послуги</Link>
+            </div>
           ) : (
-            <div style={{ overflowX: 'auto', mt: '20px' }}>
+            <div style={{ overflowX: 'auto' }}>
               <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                 <thead>
-                  <tr style={{ textAlign: 'left', borderBottom: '1px solid var(--glass-border)', fontSize: '0.8rem' }}>
-                    <th style={{ padding: '15px' }}>SERVICE</th>
-                    <th style={{ padding: '15px' }}>DATE</th>
-                    <th style={{ padding: '15px' }}>STATUS</th>
-                    <th style={{ padding: '15px', textAlign: 'right' }}>ACTION</th>
+                  <tr style={{ textAlign: 'left', borderBottom: '1px solid var(--glass-border)', fontSize: '0.78rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '1px' }}>
+                    <th style={{ padding: '12px 15px' }}>Послуга</th>
+                    <th style={{ padding: '12px 15px' }}>Дата</th>
+                    <th style={{ padding: '12px 15px' }}>Статус</th>
+                    <th style={{ padding: '12px 15px', textAlign: 'right' }}>Дія</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {items.map((order) => (
-                    <tr 
-                        key={order.id} 
-                        onClick={() => setSelectedOrder(order)} 
-                        style={{ borderBottom: '1px solid rgba(255,255,255,0.05)', cursor: 'pointer', transition: '0.2s' }}
-                        className="table-row-hover"
+                  {orders.map((order) => (
+                    <tr
+                      key={order.id}
+                      onClick={() => setSelectedOrder(order)}
+                      style={{ borderBottom: '1px solid rgba(255,255,255,0.05)', cursor: 'pointer', transition: '0.2s' }}
+                      className="table-row-hover"
                     >
-                      <td style={{ padding: '15px', fontWeight: '600' }}>{order.serviceName}</td>
-                      <td style={{ padding: '15px' }}>{order.date}</td>
-                      <td style={{ padding: '15px' }}>
-                        <span style={{ padding: '4px 10px', borderRadius: '4px', fontSize: '0.7rem', fontWeight: '700', ...getStatusStyle(order.status) }}>
+                      <td style={{ padding: '16px 15px', fontWeight: '600' }}>{order.service_name}</td>
+                      <td style={{ padding: '16px 15px', color: 'var(--text-muted)' }}>
+                        {new Date(order.created_at).toLocaleDateString('uk-UA')}
+                      </td>
+                      <td style={{ padding: '16px 15px' }}>
+                        <span style={{ padding: '4px 12px', borderRadius: '20px', fontSize: '0.72rem', fontWeight: '700', ...getStatusStyle(order.status) }}>
                           {order.status}
                         </span>
                       </td>
-                      <td style={{ padding: '15px', textAlign: 'right' }}>
-                        <button onClick={(e) => handleCancel(e, order.id)} style={{ background: 'none', border: 'none', color: '#ff4d4d', cursor: 'pointer' }}>Delete</button>
+                      <td style={{ padding: '16px 15px', textAlign: 'right' }}>
+                        <button
+                          onClick={(e) => handleDelete(e, order.id)}
+                          style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', fontSize: '0.85rem', padding: '4px 8px', borderRadius: '6px', transition: '0.2s' }}
+                          onMouseEnter={e => e.currentTarget.style.background = 'rgba(239,68,68,0.1)'}
+                          onMouseLeave={e => e.currentTarget.style.background = 'none'}
+                        >
+                          Видалити
+                        </button>
                       </td>
                     </tr>
                   ))}
@@ -100,11 +138,11 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* Details Modal */}
       <OrderDetailsModal order={selectedOrder} onClose={() => setSelectedOrder(null)} />
 
       <style>{`
         .table-row-hover:hover { background: rgba(255,255,255,0.03); }
+        @keyframes spin { to { transform: rotate(360deg); } }
       `}</style>
     </PageTransition>
   );

@@ -1,21 +1,44 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { logout } from '../store/authSlice';
+import { supabase } from '../lib/supabase';
 
-const Header = ({ onContactClick }) => {
+const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { t, i18n } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
 
-  const handleLogout = () => {
-    dispatch(logout());
+  const handleLanguageChange = (lng) => {
+    i18n.changeLanguage(lng);
+    localStorage.setItem('language', lng);
+  };
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut(); // Supabase очищає сесію
+    dispatch(logout());            // Redux очищає UI-стан
     setIsMenuOpen(false);
     navigate('/');
   };
 
   const closeMenu = () => setIsMenuOpen(false);
+
+  const handleContactClick = () => {
+    closeMenu();
+    const contactSection = document.getElementById('contact-section');
+    if (contactSection) {
+      contactSection.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      navigate('/');
+      setTimeout(() => {
+        const el = document.getElementById('contact-section');
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }, 300);
+    }
+  };
 
   return (
     <header>
@@ -35,20 +58,46 @@ const Header = ({ onContactClick }) => {
 
       <nav className={isMenuOpen ? 'nav-active' : ''}>
         <ul>
-          <li><Link to="/about" onClick={closeMenu}>About</Link></li>
-          <li><Link to="/services" onClick={closeMenu}>Services</Link></li>
+          <li><Link to="/about" onClick={closeMenu}>{t('nav.about')}</Link></li>
+          <li><Link to="/services" onClick={closeMenu}>{t('nav.services')}</Link></li>
+          <li><Link to="/survey" onClick={closeMenu}>{t('nav.survey')}</Link></li>
+          <li><Link to="/workshop" onClick={closeMenu}>{t('nav.workshop')}</Link></li>
+          <li><Link to="/games" onClick={closeMenu}>{t('nav.games')}</Link></li>
+          <li><Link to="/news" onClick={closeMenu}>{t('nav.news')}</Link></li>
           {user ? (
             <>
-              <li><Link to="/dashboard" onClick={closeMenu}>Dashboard</Link></li>
-              <li><Link to="/settings" onClick={closeMenu} style={{ opacity: 0.8 }}>Settings</Link></li>
-              <li><button onClick={handleLogout} className="nav-btn" style={{ background: '#ef4444', border: 'none', cursor: 'pointer' }}>Exit</button></li>
+              <li><Link to="/dashboard" onClick={closeMenu}>{t('nav.dashboard')}</Link></li>
+              <li><Link to="/settings" onClick={closeMenu}>{t('nav.settings')}</Link></li>
+              <li><button onClick={handleLogout} className="nav-btn" style={{ background: '#ef4444', border: 'none', cursor: 'pointer' }}>{t('nav.logout')}</button></li>
             </>
           ) : (
             <>
-              <li><Link to="/login" onClick={closeMenu}>Login</Link></li>
-              <li><button onClick={() => { onContactClick(); closeMenu(); }} className="nav-btn" style={{ border: 'none', cursor: 'pointer' }}>Contact</button></li>
+              <li><Link to="/login" onClick={closeMenu}>{t('nav.login')}</Link></li>
+              <li><button onClick={handleContactClick} className="nav-btn" style={{ border: 'none', cursor: 'pointer' }}>Contact</button></li>
             </>
           )}
+          <li>
+            <button
+              onClick={() => handleLanguageChange(i18n.language === 'en' ? 'uk' : 'en')}
+              className="lang-btn"
+              style={{
+                background: 'linear-gradient(135deg, #FFD700 0%, #FFC700 100%)',
+                border: '2px solid #FFD700',
+                padding: '8px 16px',
+                borderRadius: '50px',
+                cursor: 'pointer',
+                color: '#000',
+                fontSize: '0.82rem',
+                transition: 'opacity 0.2s ease',
+                fontWeight: '700',
+                letterSpacing: '1px',
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.opacity = '0.8'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.opacity = '1'; }}
+            >
+              {i18n.language === 'en' ? '🇺🇦 УК' : '🇬🇧 EN'}
+            </button>
+          </li>
         </ul>
       </nav>
 
