@@ -82,7 +82,7 @@ const Header = () => {
             <>
               <li><Link to="/dashboard" onClick={closeMenu}>{t('nav.dashboard')}</Link></li>
               <li><Link to="/settings" onClick={closeMenu}>{t('nav.settings')}</Link></li>
-              <li><button onClick={handleLogout} className="nav-btn" style={{ background: '#ef4444', border: 'none', cursor: 'pointer' }}>{t('nav.logout')}</button></li>
+              <li><button onClick={handleLogout} className="nav-btn" style={{ border: 'none', cursor: 'pointer' }}>{t('nav.logout')}</button></li>
             </>
           ) : (
             <>
