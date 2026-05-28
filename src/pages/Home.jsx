@@ -29,6 +29,65 @@ const FAQItem = ({ question, answer }) => {
   );
 };
 
+const TESTIMONIALS = [
+  {
+    id: 1,
+    quote: '"Impactum допоміг нам отримати грант на $50k. Їхня стратегія була бездоганною."',
+    name: 'Olexiy K.',      role: 'CEO at TechFab',
+    initials: 'OK', accent: '#FFD700',
+    dur: '4.6s', delay: '0s',    rotate: '-1.5deg',
+    pos: { left: '0%',  top: '36px' },
+  },
+  {
+    id: 2,
+    quote: '"Сервіс щотижнього моніторингу — це революція для нашої організації."',
+    name: 'Iryna M.',        role: "Founder, NGO 'Future'",
+    initials: 'IM', accent: '#4ade80',
+    dur: '5.2s', delay: '-2.6s', rotate: '1.2deg',
+    pos: { left: '27%', top: '10px' },
+  },
+  {
+    id: 3,
+    quote: '"Від першого контакту до успішної заявки — лише 3 тижні. Неймовірний результат!"',
+    name: 'Vasyl B.',        role: 'Director, EcoStart NGO',
+    initials: 'VB', accent: '#60a5fa',
+    dur: '4.9s', delay: '-1.4s', rotate: '0.8deg',
+    pos: { left: '57%', top: '28px' },
+  },
+  {
+    id: 4,
+    quote: '"Команда — справжні профі. Грант €200k отримано з першої спроби."',
+    name: 'Kateryna L.',     role: 'Startup Founder',
+    initials: 'KL', accent: '#f472b6',
+    dur: '5.8s', delay: '-3.2s', rotate: '-0.6deg',
+    pos: { left: '12%', top: '272px' },
+  },
+  {
+    id: 5,
+    quote: '"Дуже вдячна за аналіз заявки. Виявили проблемні місця, яких ми не бачили."',
+    name: 'Olena V.',        role: 'Project Manager, GreenCity',
+    initials: 'OV', accent: '#a78bfa',
+    dur: '4.3s', delay: '-1.1s', rotate: '1.4deg',
+    pos: { left: '43%', top: '255px' },
+  },
+  {
+    id: 6,
+    quote: '"Завдяки трекеру дедлайнів жодного разу не запізнились. 10/10!"',
+    name: 'Roman S.',        role: 'CFO, SocialWave',
+    initials: 'RS', accent: '#fb923c',
+    dur: '5.5s', delay: '-4.2s', rotate: '-1deg',
+    pos: { left: '71%', top: '265px' },
+  },
+  {
+    id: 7,
+    quote: '"За 6 місяців залучили $180k з 3 різних фондів. Рекомендую всім НГО!"',
+    name: 'Dmytro P.',       role: 'Executive Director, UA Future',
+    initials: 'DP', accent: '#FFD700',
+    dur: '4.1s', delay: '-2.05s', rotate: '0.5deg',
+    pos: { left: '27%', top: '494px' },
+  },
+];
+
 const Home = () => {
   const { t } = useTranslation();
   const processSteps = [
@@ -79,26 +138,175 @@ const Home = () => {
         </div>
       </section>
 
-      <section style={{ background: 'rgba(255,255,255,0.02)' }}>
-        <div className="container">
-          <h2 style={{ textAlign: 'center', marginBottom: '50px' }}>{t('home.clientSuccess')}</h2>
-          <div className="grid-2">
-            <div className="card">
-              <p style={{ fontStyle: 'italic', marginBottom: '20px' }}>&quot;{t('home.testimonial1')}&quot;</p>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-                <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'var(--primary-accent)' }}></div>
-                <div><h4 style={{ margin: 0 }}>Olexiy K.</h4><span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>CEO at TechFab</span></div>
+      {/* ── Testimonials cloud ── */}
+      <section style={{ background: 'rgba(255,255,255,0.015)', padding: '80px 0 140px', overflow: 'hidden' }}>
+        <div className="container" style={{ maxWidth: '1300px' }}>
+          <h2 style={{ textAlign: 'center', marginBottom: '70px' }}>{t('home.clientSuccess')}</h2>
+
+          <div className="t-cloud">
+            {TESTIMONIALS.map(card => (
+              <div
+                key={card.id}
+                className="t-wrap"
+                style={{
+                  '--dur':   card.dur,
+                  '--delay': card.delay,
+                  '--rot':   card.rotate,
+                  left: card.pos.left,
+                  top:  card.pos.top,
+                }}
+              >
+                <div
+                  className="t-card"
+                  style={{ borderColor: card.accent + '38' }}
+                >
+                  <div
+                    className="t-accent-line"
+                    style={{ background: card.accent }}
+                  />
+                  <p className="t-quote">{card.quote}</p>
+                  <div className="t-author">
+                    <div
+                      className="t-avatar"
+                      style={{
+                        background: card.accent + '1a',
+                        border: `1.5px solid ${card.accent}55`,
+                        color: card.accent,
+                      }}
+                    >
+                      {card.initials}
+                    </div>
+                    <div>
+                      <div className="t-name">{card.name}</div>
+                      <div className="t-role">{card.role}</div>
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
-            <div className="card">
-              <p style={{ fontStyle: 'italic', marginBottom: '20px' }}>&quot;{t('home.testimonial2')}&quot;</p>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-                <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'var(--primary-accent)' }}></div>
-                <div><h4 style={{ margin: 0 }}>Iryna M.</h4><span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Founder of NGO &apos;Future&apos;</span></div>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
+
+        <style>{`
+          /* ── Cloud container ── */
+          .t-cloud {
+            position: relative;
+            min-height: 730px;
+          }
+
+          /* ── Floating wrapper (carries position + animation) ── */
+          .t-wrap {
+            position: absolute;
+            width: 268px;
+            animation: tFloat var(--dur, 5s) ease-in-out var(--delay, 0s) infinite;
+            will-change: transform;
+          }
+
+          @keyframes tFloat {
+            0%   { transform: rotate(var(--rot, 0deg)) translateY(0px);    }
+            33%  { transform: rotate(var(--rot, 0deg)) translateY(-18px);  }
+            66%  { transform: rotate(var(--rot, 0deg)) translateY(6px);    }
+            100% { transform: rotate(var(--rot, 0deg)) translateY(0px);    }
+          }
+
+          /* ── Card face ── */
+          .t-card {
+            background: rgba(14, 15, 24, 0.82);
+            border: 1.5px solid;
+            border-radius: 20px;
+            padding: 22px 22px 20px;
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            box-shadow: 0 8px 36px rgba(0,0,0,0.4);
+            transition: box-shadow 0.35s, transform 0.35s;
+            position: relative;
+            overflow: hidden;
+            cursor: default;
+          }
+
+          .t-card:hover {
+            box-shadow: 0 20px 56px rgba(0,0,0,0.55), 0 0 28px rgba(255,215,0,0.1);
+            transform: scale(1.04);
+          }
+
+          /* Top accent stripe */
+          .t-accent-line {
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            border-radius: 20px 20px 0 0;
+            opacity: 0.7;
+          }
+
+          /* Quote */
+          .t-quote {
+            font-style: italic;
+            font-size: 0.83rem;
+            color: #d4d4d4;
+            line-height: 1.68;
+            margin-bottom: 18px;
+            padding-top: 6px;
+          }
+
+          /* Author */
+          .t-author {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+          }
+
+          .t-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.6rem;
+            font-weight: 800;
+            flex-shrink: 0;
+            letter-spacing: 0.5px;
+          }
+
+          .t-name {
+            font-weight: 700;
+            font-size: 0.84rem;
+            color: #fff;
+          }
+
+          .t-role {
+            font-size: 0.71rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+          }
+
+          /* ── Tablet: 2-col grid ── */
+          @media (max-width: 1100px) {
+            .t-cloud {
+              position: static;
+              min-height: auto;
+              display: grid;
+              grid-template-columns: repeat(2, 1fr);
+              gap: 20px;
+            }
+            .t-wrap {
+              position: static;
+              width: 100%;
+              animation: tFloat var(--dur, 5s) ease-in-out var(--delay, 0s) infinite;
+            }
+            @keyframes tFloat {
+              0%   { transform: translateY(0px);   }
+              50%  { transform: translateY(-10px);  }
+              100% { transform: translateY(0px);   }
+            }
+          }
+
+          /* ── Mobile: 1-col ── */
+          @media (max-width: 600px) {
+            .t-cloud { grid-template-columns: 1fr; }
+            .t-wrap  { animation: none; }
+          }
+        `}</style>
       </section>
 
       <section>
