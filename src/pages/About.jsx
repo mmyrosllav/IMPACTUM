@@ -2,6 +2,40 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import PageTransition from '../components/PageTransition';
 
+// Initials avatar shown when image fails to load
+const AvatarFallback = ({ name, size = 200 }) => {
+  const initials = name
+    ? name.split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase()
+    : '?';
+  return (
+    <div style={{
+      width: size, height: size,
+      borderRadius: '50%',
+      background: 'linear-gradient(135deg, #FFD700 0%, #FFC700 100%)',
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      fontSize: size * 0.3 + 'px',
+      fontWeight: '800',
+      color: '#000',
+      flexShrink: 0,
+    }}>
+      {initials}
+    </div>
+  );
+};
+
+const TeamAvatar = ({ src, name, size = 200, style = {} }) => {
+  const [failed, setFailed] = useState(false);
+  if (failed) return <AvatarFallback name={name} size={size} />;
+  return (
+    <img
+      src={src}
+      alt={name}
+      onError={() => setFailed(true)}
+      style={{ width: size, height: size, borderRadius: '50%', objectFit: 'cover', ...style }}
+    />
+  );
+};
+
 const About = () => {
   const { t } = useTranslation();
   const [selectedMember, setSelectedMember] = useState(null);
@@ -64,25 +98,11 @@ const About = () => {
               style={{ cursor: 'pointer' }}
             >
               <div className="avatar-circle" style={{ position: 'relative', marginBottom: '20px' }}>
-                <img
+                <TeamAvatar
                   src={member.image}
-                  alt={member.name}
-                  style={{
-                    width: '200px',
-                    height: '200px',
-                    borderRadius: '50%',
-                    filter: 'grayscale(100%)',
-                    transition: 'all 0.4s ease',
-                    cursor: 'pointer',
-                  }}
-                  onMouseEnter={(e) => {
-                    e.target.style.filter = 'grayscale(0%)';
-                    e.target.style.transform = 'scale(1.04)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.target.style.filter = 'grayscale(100%)';
-                    e.target.style.transform = 'scale(1)';
-                  }}
+                  name={member.name}
+                  size={200}
+                  style={{ objectFit: 'cover', cursor: 'pointer' }}
                 />
               </div>
               <h3 style={{ color: '#ffffff' }}>{member.name}</h3>
@@ -121,11 +141,9 @@ const About = () => {
                 animation: 'slideUp 0.25s ease',
               }}
             >
-              <img
-                src={selectedMember.image}
-                alt={selectedMember.name}
-                style={{ width: '150px', height: '150px', borderRadius: '50%', margin: '0 auto 20px', display: 'block' }}
-              />
+              <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+                <TeamAvatar src={selectedMember.image} name={selectedMember.name} size={150} />
+              </div>
               <h3 style={{ textAlign: 'center', marginBottom: '8px', color: '#fff' }}>{selectedMember.name}</h3>
               <p style={{ color: 'var(--primary-accent)', textAlign: 'center', fontWeight: '600', marginBottom: '20px' }}>
                 {selectedMember.role}
@@ -141,8 +159,17 @@ const About = () => {
         )}
 
         <style>{`
-          @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+          @keyframes fadeIn  { from { opacity: 0; } to { opacity: 1; } }
           @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+          /* Grayscale hover on team photo */
+          .avatar-circle img {
+            filter: grayscale(100%);
+            transition: filter 0.4s ease, transform 0.4s ease;
+          }
+          .team-member:hover .avatar-circle img {
+            filter: grayscale(0%);
+            transform: scale(1.04);
+          }
         `}</style>
       </div>
     </PageTransition>
