@@ -280,31 +280,46 @@ const Home = () => {
             margin-top: 2px;
           }
 
-          /* ── Tablet: 2-col grid ── */
+          /* simple float (no rotation) for smaller screens */
+          @keyframes tFloatSimple {
+            0%, 100% { transform: translateY(0px);   }
+            40%       { transform: translateY(-14px); }
+            70%       { transform: translateY(5px);  }
+          }
+
+          /* ── Tablet: staggered 2-col — виглядає розкидано ── */
           @media (max-width: 1100px) {
             .t-cloud {
               position: static;
               min-height: auto;
               display: grid;
               grid-template-columns: repeat(2, 1fr);
-              gap: 20px;
+              gap: 24px;
+              align-items: start;
+              padding-bottom: 50px;
             }
             .t-wrap {
               position: static;
               width: 100%;
-              animation: tFloat var(--dur, 5s) ease-in-out var(--delay, 0s) infinite;
+              transform: none;
+              animation: tFloatSimple var(--dur, 5s) ease-in-out var(--delay, 0s) infinite;
             }
-            @keyframes tFloat {
-              0%   { transform: translateY(0px);   }
-              50%  { transform: translateY(-10px);  }
-              100% { transform: translateY(0px);   }
+            /* Зміщуємо парні картки вниз — шаховий розкид */
+            .t-wrap:nth-child(even) { margin-top: 56px; }
+            .t-wrap:nth-child(odd)  { margin-top: 0; }
+            /* 7-а картка — центруємо в лівій колонці */
+            .t-wrap:nth-child(7) {
+              grid-column: 1;
+              margin-top: 30px;
             }
           }
 
-          /* ── Mobile: 1-col ── */
-          @media (max-width: 600px) {
-            .t-cloud { grid-template-columns: 1fr; }
-            .t-wrap  { animation: none; }
+          /* ── Mobile: 1-col зі зміщенням через margin ── */
+          @media (max-width: 580px) {
+            .t-cloud { grid-template-columns: 1fr; gap: 16px; padding-bottom: 20px; }
+            .t-wrap:nth-child(even) { margin-top: 0; margin-left: 18px; }
+            .t-wrap:nth-child(odd)  { margin-left: 0; }
+            .t-wrap:nth-child(7)    { grid-column: 1; margin-top: 0; margin-left: 9px; }
           }
         `}</style>
       </section>
