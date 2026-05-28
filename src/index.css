@@ -701,107 +701,141 @@ footer p {
     margin: 0 0 8px 0;
 }
 
-/* RESPONSIVE */
-
+/* ═══════════════════════════════════════════════
+   RESPONSIVE — TABLET (≤1024px)
+═══════════════════════════════════════════════ */
 @media (max-width: 1024px) {
-    header {
-        padding: 0 40px;
-    }
-
-    .container {
-        padding: 0 40px;
-    }
-
-    .grid-2 {
-        gap: 35px;
-    }
-
-    nav ul {
-        gap: 30px;
-    }
-
-    .page-header h1 {
-        font-size: 3.5rem;
-    }
+    header { padding: 0 40px; }
+    .container { padding: 0 40px; }
+    .grid-2 { gap: 35px; }
+    nav ul { gap: 22px; }
+    .page-header h1 { font-size: 3.5rem; }
+    h1 { font-size: 3rem; }
+    h2 { font-size: 2rem; }
 }
 
+/* ═══════════════════════════════════════════════
+   RESPONSIVE — MOBILE (≤768px)
+═══════════════════════════════════════════════ */
 @media (max-width: 768px) {
-    header {
-        height: 80px;
-        padding: 0 20px;
-    }
+    /* Header */
+    header { height: 70px; padding: 0 20px; }
 
-    nav ul {
-        gap: 20px;
-        flex-wrap: wrap;
-    }
+    /* Typography */
+    h1 { font-size: 2rem; letter-spacing: 1px; }
+    h2 { font-size: 1.6rem; letter-spacing: 1px; }
+    h3 { font-size: 1.3rem; }
 
+    /* Page header — centre on mobile */
     .page-header {
-        padding: 60px 0 40px;
+        align-items: center;
+        text-align: center;
+        padding: 50px 0 36px;
+        margin-bottom: 40px;
     }
+    .page-header h1 { font-size: 2.2rem; letter-spacing: 0; }
+    .page-subtitle  { font-size: 1rem; }
 
-    .page-header h1 {
-        font-size: 2.5rem;
-    }
+    /* Layout */
+    .container { padding: 0 18px; }
+    section    { padding: 60px 0; }
 
+    /* Grids */
     .grid-2, .grid-3 {
         grid-template-columns: 1fr;
-        gap: 25px;
+        gap: 20px;
     }
+    .grid-3 { margin: 40px auto; }
 
-    .container {
-        padding: 0 20px;
-    }
+    /* Cards */
+    .card { padding: 28px 22px; }
 
-    .card {
-        padding: 30px;
-    }
+    /* Buttons */
+    .btn { padding: 13px 28px; font-size: 0.85rem; }
 
+    /* Stats bar */
     .stats-bar {
-        padding: 40px 30px;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+        padding: 40px 20px;
     }
 
-    section {
-        padding: 60px 0;
+    /* Contact section (Layout.jsx) */
+    #contact-section > div {
+        padding: 0 18px !important;
     }
+    #contact-section > div > div {
+        grid-template-columns: 1fr !important;
+        gap: 40px !important;
+    }
+
+    /* Workshop — sidebar → horizontal scroll tabs */
+    .workshop-layout {
+        grid-template-columns: 1fr !important;
+        height: auto !important;
+    }
+    .workshop-sidebar {
+        border-right: none !important;
+        border-bottom: 1px solid rgba(255,215,0,0.15) !important;
+        padding: 12px 0 !important;
+    }
+    .workshop-tools {
+        flex-direction: row !important;
+        overflow-x: auto !important;
+        padding: 0 12px !important;
+        gap: 6px !important;
+        scrollbar-width: none;
+    }
+    .workshop-tools::-webkit-scrollbar { display: none; }
+    .workshop-tool-btn {
+        white-space: nowrap !important;
+        border-left: none !important;
+        border-bottom: 3px solid transparent !important;
+        padding: 10px 16px !important;
+        flex-shrink: 0 !important;
+    }
+    .workshop-tool-btn.active {
+        border-bottom-color: #FFD700 !important;
+        border-left: none !important;
+    }
+    .workshop-beta { display: none !important; }
+    .workshop-chat { height: 420px !important; }
 }
 
+/* ═══════════════════════════════════════════════
+   RESPONSIVE — SMALL MOBILE (≤480px)
+═══════════════════════════════════════════════ */
 @media (max-width: 480px) {
-    header {
-        height: 70px;
-        padding: 0 15px;
+    header { height: 64px; padding: 0 14px; }
+
+    h1 { font-size: 1.7rem; }
+    h2 { font-size: 1.4rem; }
+
+    .page-header h1 { font-size: 1.8rem; }
+    .page-subtitle  { font-size: 0.9rem; }
+
+    .container { padding: 0 14px; }
+    section    { padding: 44px 0; }
+    .card      { padding: 20px 16px; }
+    .btn       { padding: 12px 22px; font-size: 0.82rem; }
+
+    /* Stats — stack */
+    .stats-bar {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        padding: 30px 16px;
     }
 
-    nav ul {
-        gap: 12px;
+    /* Grant ticker cards — smaller on phone */
+    #contact-section a[href^="/grants"] {
+        min-width: 190px !important;
+        max-width: 190px !important;
+        padding: 14px 14px !important;
     }
 
-    nav a, nav button {
-        font-size: 0.8rem;
-    }
+    /* Dashboard table — hide date column */
+    .dashboard-date { display: none; }
 
-    .page-header {
-        padding: 40px 0;
-    }
-
-    .page-header h1 {
-        font-size: 1.8rem;
-    }
-
-    .container {
-        padding: 0 15px;
-    }
-
-    .card {
-        padding: 20px;
-    }
-
-    .btn {
-        padding: 12px 24px;
-        font-size: 0.85rem;
-    }
-
-    section {
-        padding: 40px 0;
-    }
+    /* Forms */
+    .form-input { padding: 14px 16px; font-size: 0.95rem; }
 }

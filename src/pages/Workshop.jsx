@@ -192,7 +192,7 @@ const Workshop = () => {
           <p className="page-subtitle">{t('workshop.subtitle')}</p>
         </section>
 
-        <div style={{
+        <div className="workshop-layout" style={{
           display: 'grid',
           gridTemplateColumns: '240px 1fr',
           gap: '0',
@@ -205,7 +205,7 @@ const Workshop = () => {
           height: '620px',
         }}>
           {/* Sidebar */}
-          <div style={{
+          <div className="workshop-sidebar" style={{
             borderRight: '1px solid rgba(255,215,0,0.15)',
             padding: '24px 0',
             background: 'rgba(0,0,0,0.3)',
@@ -218,11 +218,12 @@ const Workshop = () => {
                 {t('workshop.tools')}
               </p>
             </div>
-            <div style={{ padding: '12px 0', display: 'flex', flexDirection: 'column' }}>
+            <div className="workshop-tools" style={{ padding: '12px 0', display: 'flex', flexDirection: 'column' }}>
               {TOOLS.map(tool => (
                 <button
                   key={tool.id}
                   onClick={() => setActiveTool(tool.id)}
+                  className={`workshop-tool-btn${activeTool === tool.id ? ' active' : ''}`}
                   style={{
                     width: '100%',
                     padding: '14px 22px',
@@ -253,7 +254,7 @@ const Workshop = () => {
               ))}
             </div>
 
-            <div style={{ margin: '20px 20px 0', padding: '16px', background: 'rgba(255,215,0,0.06)', borderRadius: '12px', border: '1px solid rgba(255,215,0,0.15)' }}>
+            <div className="workshop-beta" style={{ margin: '20px 20px 0', padding: '16px', background: 'rgba(255,215,0,0.06)', borderRadius: '12px', border: '1px solid rgba(255,215,0,0.15)' }}>
               <p style={{ fontSize: '0.75rem', color: '#FFD700', fontWeight: '700', marginBottom: '6px' }}>
                 {t('workshop.betaLabel')}
               </p>
@@ -264,7 +265,7 @@ const Workshop = () => {
           </div>
 
           {/* Main chat panel */}
-          <div style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden', minWidth: 0 }}>
+          <div className="workshop-chat" style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden', minWidth: 0 }}>
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeTool}
