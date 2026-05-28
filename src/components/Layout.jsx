@@ -30,14 +30,16 @@ const LOOP_REV = [...GRANTS].reverse().concat([...GRANTS].reverse());
 
 const GrantCard = ({ grant }) => {
   const [hovered, setHovered] = useState(false);
+  const isMobile = typeof window !== 'undefined' && window.innerWidth <= 480;
+  const cardW = isMobile ? '180px' : '240px';
   return (
     <Link
       to={`/grants/${grant.id}`}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
-        minWidth: '240px',
-        maxWidth: '240px',
+        minWidth: cardW,
+        maxWidth: cardW,
         background: hovered ? `${grant.color}12` : 'rgba(255,255,255,0.04)',
         border: `1px solid ${hovered ? grant.color : grant.color + '35'}`,
         borderRadius: '14px',
@@ -158,19 +160,13 @@ const Layout = ({ children }) => {
       <main style={{ paddingTop: '80px', minHeight: '100vh' }}>{children}</main>
 
       {/* ── Contact + Grants ── */}
-      <section id="contact-section" style={{ padding: '100px 0', background: 'rgba(255,215,0,0.02)' }}>
-        <div style={{ maxWidth: '1300px', margin: '0 auto', padding: '0 60px' }}>
-
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: '380px 1fr',
-            gap: '80px',
-            alignItems: 'start',
-          }}>
+      <section id="contact-section">
+        <div className="contact-wrap">
+          <div className="contact-grid">
 
             {/* LEFT — form */}
-            <div>
-              <h2 style={{ fontSize: '1.8rem', marginBottom: '10px', textAlign: 'left', lineHeight: '1.3' }}>
+            <div className="contact-form-col">
+              <h2 className="contact-heading">
                 {t('contact.title') || 'Contact Us'}
               </h2>
               <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem', marginBottom: '32px', lineHeight: '1.6' }}>
@@ -198,14 +194,13 @@ const Layout = ({ children }) => {
             </div>
 
             {/* RIGHT — ticker */}
-            <div>
-              <h2 style={{ fontSize: '1.8rem', marginBottom: '8px', textAlign: 'left', lineHeight: '1.3' }}>
+            <div className="contact-ticker-col">
+              <h2 className="contact-heading">
                 {t('contact.grantsTitle') || 'Live Grant Opportunities'}
               </h2>
               <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginBottom: '28px' }}>
                 {t('contact.grantsPause') || 'Hover to pause'}
               </p>
-
               <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
                 <TickerRow items={LOOP}     animName="tickerScroll"        duration={38} />
                 <TickerRow items={LOOP_REV} animName="tickerScrollReverse" duration={48} />
@@ -216,10 +211,53 @@ const Layout = ({ children }) => {
         </div>
 
         <style>{`
+          /* ── Contact section layout ── */
+          #contact-section {
+            padding: 100px 0;
+            background: rgba(255,215,0,0.02);
+          }
+          .contact-wrap {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 60px;
+          }
+          .contact-grid {
+            display: grid;
+            grid-template-columns: 380px 1fr;
+            gap: 80px;
+            align-items: start;
+          }
+          .contact-heading {
+            font-size: 1.8rem !important;
+            margin-bottom: 10px;
+            text-align: left;
+            line-height: 1.3;
+          }
+
+          /* ── Ticker animations ── */
           @keyframes tickerScroll        { from { transform: translateX(0);    } to { transform: translateX(-50%); } }
           @keyframes tickerScrollReverse { from { transform: translateX(-50%); } to { transform: translateX(0);    } }
-          @media (max-width: 900px) {
-            #contact-section > div > div { grid-template-columns: 1fr !important; gap: 50px !important; }
+
+          /* ── Tablet ── */
+          @media (max-width: 1024px) {
+            .contact-wrap { padding: 0 40px; }
+            .contact-grid { grid-template-columns: 320px 1fr; gap: 50px; }
+          }
+
+          /* ── Mobile ── */
+          @media (max-width: 768px) {
+            #contact-section  { padding: 60px 0; }
+            .contact-wrap     { padding: 0 18px; }
+            .contact-grid     { grid-template-columns: 1fr; gap: 44px; }
+            .contact-heading  { font-size: 1.5rem !important; text-align: center; }
+            .contact-form-col p,
+            .contact-ticker-col p { text-align: center; }
+          }
+
+          /* ── Ticker card size on small screens ── */
+          @media (max-width: 480px) {
+            #contact-section  { padding: 44px 0; }
+            .contact-heading  { font-size: 1.3rem !important; }
           }
         `}</style>
       </section>
