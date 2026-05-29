@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Background -->
+  <rect width="64" height="64" rx="10" fill="#0a0b10"/>
+  <!-- Letter I - main stroke -->
+  <rect x="28" y="10" width="8" height="44" rx="1" fill="#FFD700"/>
+  <!-- Top serif -->
+  <rect x="18" y="10" width="28" height="7" rx="1" fill="#FFD700"/>
+  <!-- Bottom serif -->
+  <rect x="18" y="47" width="28" height="7" rx="1" fill="#FFD700"/>
+  <!-- Diagonal slash accent -->
+  <line x1="38" y1="12" x2="48" y2="28" stroke="#FFD700" stroke-width="2.5" stroke-linecap="round" opacity="0.6"/>
+</svg>
