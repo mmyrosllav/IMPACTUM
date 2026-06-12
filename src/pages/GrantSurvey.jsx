@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 // eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { supabase } from '../lib/supabase';
 import PageTransition from '../components/PageTransition';
+import { usePageTitle } from '../hooks/usePageTitle';
 
 const questions = [
   {
@@ -131,12 +134,24 @@ const getResults = (answers, t) => {
 
 const GrantSurvey = () => {
   const { t } = useTranslation();
+  usePageTitle(t('nav.survey'));
+  const { user } = useSelector((state) => state.auth);
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState({});
   const [done, setDone] = useState(false);
 
   const current = questions[step];
   const progress = ((step) / questions.length) * 100;
+
+  // Зберігаємо відповіді як лід для менеджера; user_id — якщо авторизований
+  const saveResponse = async (finalAnswers) => {
+    const { error } = await supabase.from('survey_responses').insert({
+      user_id: user?.id ?? null,
+      answers: finalAnswers,
+    });
+    // Збій збереження не блокує показ результатів — лише логуємо
+    if (error) console.error('[Survey] save failed:', error.message);
+  };
 
   const handleAnswer = (value) => {
     const newAnswers = { ...answers, [current.id]: value };
@@ -145,6 +160,7 @@ const GrantSurvey = () => {
       setStep(step + 1);
     } else {
       setDone(true);
+      saveResponse(newAnswers);
     }
   };
 

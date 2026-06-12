@@ -12,15 +12,23 @@ const Settings = () => {
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
 
-  const handleDeleteAccount = async () => {
-    if (window.confirm('DANGER: This will permanently delete your account data. Proceed?')) {
-      // Видаляємо через Supabase Admin API — потребує Edge Function для повного видалення
-      // Поки що просто виходимо з акаунту
-      await supabase.auth.signOut();
-      dispatch(logout());
-      toast.success('Account deleted');
-      navigate('/');
+  const handleDeleteData = async () => {
+    if (!window.confirm(t('settings.deleteConfirm'))) return;
+
+    // Видаляємо дані користувача (RLS дозволяє видаляти лише свої рядки).
+    // Повне видалення auth-акаунту вимагає Edge Function з service_role —
+    // тому чесно повідомляємо, що саме зроблено.
+    const { error } = await supabase.from('orders').delete().eq('user_id', user.id);
+
+    if (error) {
+      toast.error(t('settings.deleteError'));
+      return;
     }
+
+    await supabase.auth.signOut();
+    dispatch(logout());
+    toast.success(t('settings.dataDeleted'));
+    navigate('/');
   };
 
   return (
@@ -50,13 +58,13 @@ const Settings = () => {
               <span style={{ fontSize: '1.8rem' }}>⚠️</span>
               <h3 style={{ margin: 0, color: '#ef4444' }}>{t('settings.dangerZone')}</h3>
             </div>
-            <p style={{ fontSize: '0.9rem', marginTop: '15px', color: 'var(--text-muted)', lineHeight: '1.6' }}>{t('settings.deleteWarning') || 'Once you delete your account, there is no going back. All your data will be permanently removed.'}</p>
+            <p style={{ fontSize: '0.9rem', marginTop: '15px', color: 'var(--text-muted)', lineHeight: '1.6' }}>{t('settings.deleteWarning')}</p>
             <button
               className="btn"
               style={{ background: '#ef4444', marginTop: '25px', width: '100%' }}
-              onClick={handleDeleteAccount}
+              onClick={handleDeleteData}
             >
-              🗑️ {t('settings.deleteAccount')}
+              {t('settings.deleteData')}
             </button>
           </div>
         </div>

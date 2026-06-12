@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import PageTransition from '../components/PageTransition';
+import { usePageTitle } from '../hooks/usePageTitle';
 
 // Initials avatar shown when image fails to load
 const AvatarFallback = ({ name, size = 200 }) => {
@@ -38,6 +39,7 @@ const TeamAvatar = ({ src, name, size = 200, style = {} }) => {
 
 const About = () => {
   const { t } = useTranslation();
+  usePageTitle(t('nav.about'));
   const [selectedMember, setSelectedMember] = useState(null);
 
   const team = [

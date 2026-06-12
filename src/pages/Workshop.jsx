@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 // eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from 'framer-motion';
 import PageTransition from '../components/PageTransition';
+import { usePageTitle } from '../hooks/usePageTitle';
 
 const TOOLS = [
   { id: 'search', icon: '🔍', key: 'workshop.toolSearch' },
@@ -180,6 +181,7 @@ const ChatPanel = ({ toolId, toolName, toolIcon, t }) => {
 
 const Workshop = () => {
   const { t } = useTranslation();
+  usePageTitle(t('nav.workshop'));
   const [activeTool, setActiveTool] = useState('consultant');
 
   const currentTool = TOOLS.find(tool => tool.id === activeTool);

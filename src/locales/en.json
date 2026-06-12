@@ -116,7 +116,21 @@
     "alreadyHaveAccount": "Already have an account?",
     "dontHaveAccount": "Don't have an account?",
     "loginHere": "Login here",
-    "registerHere": "Register here"
+    "registerHere": "Register here",
+    "invalidCredentials": "Invalid email or password",
+    "registerSuccess": "Account created!",
+    "nameTooShort": "Name is too short",
+    "invalidEmail": "Invalid email",
+    "passwordShort": "Password must be at least 6 characters",
+    "checkEmail": "Check your email",
+    "confirmLink": "We sent you a confirmation link.",
+    "goToLogin": "Go to login",
+    "forgotPassword": "Forgot password?",
+    "forgotTitle": "Reset Password",
+    "forgotDesc": "Enter your email — we'll send a reset link",
+    "sendResetLink": "Send reset link",
+    "backToLogin": "Back to login",
+    "resetLinkSent": "Reset link sent to {{email}}"
   },
   "settings": {
     "title": "Settings",
@@ -124,7 +138,11 @@
     "accountInfo": "Account Info",
     "dangerZone": "Danger Zone",
     "deleteAccount": "Delete My Account",
-    "deleteWarning": "Once you delete your account, there is no going back. All your data will be permanently removed."
+    "deleteWarning": "Data deletion is irreversible. All your orders will be wiped from the database and you will be signed out.",
+    "deleteData": "Delete my data",
+    "deleteConfirm": "WARNING: all your orders will be permanently deleted and you will be signed out. Proceed?",
+    "deleteError": "Failed to delete data",
+    "dataDeleted": "Your data has been deleted, session ended"
   },
   "games": {
     "title": "Game Center",
@@ -214,5 +232,37 @@
     "aiReplySuffix": "Our AI agents are in beta. Full functionality coming soon.",
     "betaLabel": "⚡ BETA",
     "betaDesc": "AI tools are in development. Demo mode shows simulated responses."
+  },
+  "dashboard": {
+    "greeting": "Hello, {{name}}!",
+    "orders": "Orders",
+    "completed": "Completed",
+    "myOrders": "My Orders",
+    "newOrder": "+ New Order",
+    "loading": "Loading...",
+    "noOrders": "No orders yet",
+    "viewServices": "Browse Services",
+    "service": "Service",
+    "date": "Date",
+    "status": "Status",
+    "action": "Action",
+    "delete": "Delete",
+    "deleteConfirm": "Delete this order?",
+    "deleteError": "Delete failed",
+    "deleteSuccess": "Order deleted",
+    "fetchError": "Failed to load orders",
+    "statusPending": "Pending",
+    "statusActive": "Active",
+    "statusCompleted": "Completed"
+  },
+  "servicesExtra": {
+    "details": "Details",
+    "order": "Order",
+    "orderNow": "Order Now",
+    "close": "Close",
+    "price": "Price",
+    "loginRequired": "Sign in to place an order",
+    "orderError": "Error. Please try again.",
+    "orderSuccess": "{{name}} — order received!"
   }
 }

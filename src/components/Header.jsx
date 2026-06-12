@@ -64,7 +64,16 @@ const Header = () => {
         />
       )}
 
-      <div className="burger" onClick={() => setIsMenuOpen(!isMenuOpen)} style={{ display: 'none', cursor: 'pointer', zIndex: '1001' }}>
+      <div
+        className="burger"
+        role="button"
+        tabIndex={0}
+        aria-label={isMenuOpen ? 'Закрити меню' : 'Відкрити меню'}
+        aria-expanded={isMenuOpen}
+        onClick={() => setIsMenuOpen(!isMenuOpen)}
+        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setIsMenuOpen(!isMenuOpen); }}
+        style={{ display: 'none', cursor: 'pointer', zIndex: '1001' }}
+      >
         <div style={{ width: '25px', height: '2px', background: '#fff', margin: '5px 0', transition: '0.3s', transform: isMenuOpen ? 'rotate(45deg) translate(5px, 5px)' : '' }}></div>
         <div style={{ width: '25px', height: '2px', background: '#fff', margin: '5px 0', opacity: isMenuOpen ? 0 : 1 }}></div>
         <div style={{ width: '25px', height: '2px', background: '#fff', margin: '5px 0', transition: '0.3s', transform: isMenuOpen ? 'rotate(-45deg) translate(5px, -5px)' : '' }}></div>

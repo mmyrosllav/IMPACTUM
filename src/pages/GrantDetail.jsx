@@ -217,7 +217,7 @@ const GRANTS_DATA = {
 
 const GrantDetail = () => {
   const { id } = useParams();
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
   const lang = i18n.language?.startsWith('uk') ? 'uk' : 'en';
 
   const grant = GRANTS_DATA[id];

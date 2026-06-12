@@ -2,9 +2,11 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import PageTransition from '../components/PageTransition';
+import { usePageTitle } from '../hooks/usePageTitle';
 
 const News = () => {
   const { t } = useTranslation();
+  usePageTitle(t('nav.news'));
   const { user } = useSelector((state) => state.auth);
   const [threads, setThreads] = useState([
     {

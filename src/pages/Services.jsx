@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -7,14 +7,13 @@ import { toast } from 'react-hot-toast';
 // eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from 'framer-motion';
 import PageTransition from '../components/PageTransition';
-import SkeletonCard from '../components/SkeletonCard';
+import { usePageTitle } from '../hooks/usePageTitle';
 
 const Services = () => {
   const { t } = useTranslation();
+  usePageTitle(t('services.title'));
   const [activeTab, setActiveTab] = useState('All');
-  const [isLoading, setIsLoading] = useState(false);
   const [selectedService, setSelectedService] = useState(null);
-  const isFirstRender = useRef(true);
 
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
@@ -30,27 +29,13 @@ const Services = () => {
     { id: 6, category: 'Monitoring', name: t('services.ngoMonitoring.name'), price: '8,000 ₴', shortDesc: t('services.ngoMonitoring.shortDesc'), fullDesc: t('services.ngoMonitoring.fullDesc') },
   ];
 
-  useEffect(() => {
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
-      return;
-    }
-    const timerId = setTimeout(() => {
-      setIsLoading(true);
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 800);
-    }, 100);
-    return () => clearTimeout(timerId);
-  }, [activeTab]);
-
-  const filteredServices = activeTab === 'All' 
+  const filteredServices = activeTab === 'All'
     ? servicesData 
     : servicesData.filter(s => s.category === activeTab);
 
   const handleOrder = async (serviceName) => {
     if (!user) {
-      toast.error('Увійдіть, щоб зробити замовлення');
+      toast.error(t('servicesExtra.loginRequired'));
       navigate('/login');
       return;
     }
@@ -59,9 +44,9 @@ const Services = () => {
       service_name: serviceName,
     });
     if (error) {
-      toast.error('Помилка. Спробуйте ще раз.');
+      toast.error(t('servicesExtra.orderError'));
     } else {
-      toast.success(`✅ ${serviceName} — замовлення прийнято!`);
+      toast.success(t('servicesExtra.orderSuccess', { name: serviceName }));
       navigate('/dashboard');
     }
   };
@@ -94,11 +79,8 @@ const Services = () => {
         </div>
 
         <div className="grid-3">
-          {isLoading ? (
-            [1, 2, 3].map(n => <SkeletonCard key={n} />)
-          ) : (
-            <AnimatePresence mode='popLayout'>
-              {filteredServices.map((service) => (
+          <AnimatePresence mode='popLayout'>
+            {filteredServices.map((service) => (
                 <motion.div
                   layout
                   key={service.id}
@@ -138,13 +120,12 @@ const Services = () => {
                       style={{ flex: 1, background: 'rgba(255, 215, 0, 0.2)' }}
                       onClick={() => handleOrder(service.name)}
                     >
-                      ✓ Order
+                      {t('servicesExtra.order')}
                     </button>
                   </div>
                 </motion.div>
-              ))}
-            </AnimatePresence>
-          )}
+            ))}
+          </AnimatePresence>
         </div>
 
         {selectedService && (
@@ -233,7 +214,7 @@ const Services = () => {
               </div>
 
               <div style={{ background: 'rgba(255, 215, 0, 0.05)', padding: '20px', borderRadius: '12px', marginBottom: '30px', borderLeft: '4px solid var(--primary-accent)' }}>
-                <p style={{ margin: '0 0 10px 0', color: 'var(--text-muted)', fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Price</p>
+                <p style={{ margin: '0 0 10px 0', color: 'var(--text-muted)', fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '1px' }}>{t('servicesExtra.price')}</p>
                 <p style={{ margin: 0, fontSize: '1.8rem', fontWeight: 'bold', color: 'var(--primary-accent)' }}>{selectedService.price}</p>
               </div>
 
@@ -246,14 +227,14 @@ const Services = () => {
                     setSelectedService(null);
                   }}
                 >
-                  Order Now
+                  {t('servicesExtra.orderNow')}
                 </button>
                 <button
                   className="btn btn-outline"
                   style={{ flex: 1 }}
                   onClick={() => setSelectedService(null)}
                 >
-                  Close
+                  {t('servicesExtra.close')}
                 </button>
               </div>
             </div>

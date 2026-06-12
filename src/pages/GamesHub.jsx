@@ -4,10 +4,12 @@ import TicTacToe from '../games/TicTacToe';
 import Snake from '../games/Snake';
 import MiniCrossword from '../games/MiniCrossword';
 import PageTransition from '../components/PageTransition';
+import { usePageTitle } from '../hooks/usePageTitle';
 import '../styles/games-hub.css';
 
 const GamesHub = () => {
   const { t } = useTranslation();
+  usePageTitle(t('nav.games'));
   const [selectedGame, setSelectedGame] = useState(null);
 
   const games = [

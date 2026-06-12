@@ -57,7 +57,7 @@ const Login = () => {
                 />
               </div>
 
-              <div style={{ marginBottom: '30px' }}>
+              <div style={{ marginBottom: '12px' }}>
                 <label style={{ fontSize: '0.85rem', color: 'var(--text-muted)', display: 'block', marginBottom: '8px' }}>
                   {t('auth.password')}
                 </label>
@@ -70,6 +70,12 @@ const Login = () => {
                   required
                   disabled={loading}
                 />
+              </div>
+
+              <div style={{ textAlign: 'right', marginBottom: '24px' }}>
+                <Link to="/forgot-password" style={{ color: 'var(--text-muted)', fontSize: '0.82rem', textDecoration: 'none' }}>
+                  {t('auth.forgotPassword')}
+                </Link>
               </div>
 
               <button
