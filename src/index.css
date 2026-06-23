@@ -847,8 +847,8 @@ footer p {
     /* Dashboard table — hide date column */
     .dashboard-date { display: none; }
 
-    /* Forms */
-    .form-input { padding: 14px 16px; font-size: 0.95rem; }
+    /* Forms — 16px мінімум, щоб iOS/Android не зумили при фокусі */
+    .form-input { padding: 14px 16px; font-size: 16px; }
 }
 
 /* ═══════════════════════════════════════════════
@@ -874,4 +874,81 @@ footer p {
 @media (max-width: 768px) {
     .blob-3, .blob-4 { display: none; }
     .lava-blob { filter: blur(60px); }
+}
+
+/* ═══════════════════════════════════════════════
+   MOBILE CROSS-PLATFORM HARDENING (Android + iOS)
+═══════════════════════════════════════════════ */
+
+/* Android: не роздувати текст; iOS: те саме */
+html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
+/* Android Chrome: прибрати синій спалах при тапі */
+* {
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    /* Прибирає «гумовий» overscroll/pull-to-refresh поверх контенту */
+    overscroll-behavior-y: contain;
+    /* Плавний інерційний скрол на iOS */
+    -webkit-overflow-scrolling: touch;
+}
+
+/* iOS: нормалізувати вигляд полів (прибрати власні скруглення/тіні),
+   16px шрифт глобально гарантує відсутність авто-зуму при фокусі */
+.form-input,
+input,
+textarea,
+select {
+    -webkit-appearance: none;
+    appearance: none;
+    font-size: 16px;
+}
+
+/* iOS: прибрати дефолтний вигляд кнопок */
+button,
+.btn {
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+/* Тач-таргети ≥ 44px (iOS HIG) / 48px (Android Material) */
+@media (max-width: 768px) {
+    /* Бургер: розширюємо зону тапу padding'ом, зсув компенсуємо margin'ом */
+    .burger {
+        padding: 11px;
+        margin: -11px;
+        box-sizing: content-box;
+    }
+
+    /* Пункти меню в висувній панелі — більша зона дотику (~44px) */
+    nav ul li a,
+    nav ul li button {
+        display: inline-flex;
+        align-items: center;
+        padding: 10px 0;
+        min-height: 28px;
+    }
+
+    /* Safe-area: контент header не лізе під виріз/чубчик */
+    header {
+        padding-left: max(20px, env(safe-area-inset-left));
+        padding-right: max(20px, env(safe-area-inset-right));
+    }
+
+    /* Висувне меню враховує safe-area справа (notch у landscape) */
+    nav {
+        padding-right: max(40px, env(safe-area-inset-right)) !important;
+    }
+}
+
+@media (max-width: 480px) {
+    header {
+        padding-left: max(14px, env(safe-area-inset-left));
+        padding-right: max(14px, env(safe-area-inset-right));
+    }
 }
