@@ -26,6 +26,9 @@
 
 html {
     scroll-behavior: smooth;
+    /* iOS Safari: кліпінг саме на html (body недостатньо) — нема «їздіння» вбік */
+    overflow-x: hidden;
+    width: 100%;
 }
 
 body {
@@ -918,11 +921,12 @@ button,
 
 /* Тач-таргети ≥ 44px (iOS HIG) / 48px (Android Material) */
 @media (max-width: 768px) {
-    /* Бургер: розширюємо зону тапу padding'ом, зсув компенсуємо margin'ом */
+    /* Бургер: зону тапу розширюємо ВЛІВО/вгору/вниз — ніколи вправо,
+       інакше виліз би за правий край екрана й сторінка «їздить» */
     .burger {
-        padding: 11px;
-        margin: -11px;
         box-sizing: content-box;
+        padding: 12px 0 12px 12px;
+        margin: -12px 0 -12px -12px;
     }
 
     /* Пункти меню в висувній панелі — більша зона дотику (~44px) */
