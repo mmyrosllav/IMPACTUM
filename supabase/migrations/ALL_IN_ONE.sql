@@ -1,8 +1,3 @@
--- ═══════════════════════════════════════════════════════════════
---  IMPACTUM — ПОВНА МІГРАЦІЯ (запустити одним блоком)
---  Supabase Dashboard → SQL Editor → вставити все → Run
---  Безпечно запускати повторно (idempotent).
--- ═══════════════════════════════════════════════════════════════
 
 -- ───────────────────────────────────────────────────────────────
 -- 1. ENUM статусів замовлення
@@ -131,4 +126,4 @@ create index if not exists orders_user_id_idx          on public.orders (user_id
 create index if not exists survey_responses_user_id_idx on public.survey_responses (user_id);
 create index if not exists threads_created_at_idx       on public.threads (created_at desc);
 
--- ✅ Готово
+
