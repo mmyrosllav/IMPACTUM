@@ -902,14 +902,27 @@ body {
 }
 
 /* iOS: нормалізувати вигляд полів (прибрати власні скруглення/тіні),
-   16px шрифт глобально гарантує відсутність авто-зуму при фокусі */
+   16px шрифт глобально гарантує відсутність авто-зуму при фокусі.
+   ВАЖЛИВО: чекбокси й радіо виключені — інакше appearance:none робить
+   їх невидимими порожніми квадратами */
 .form-input,
-input,
+input:not([type="checkbox"]):not([type="radio"]),
 textarea,
 select {
     -webkit-appearance: none;
     appearance: none;
     font-size: 16px;
+}
+
+/* Чекбокси/радіо — нативний вигляд + золотий акцент */
+input[type="checkbox"],
+input[type="radio"] {
+    -webkit-appearance: auto;
+    appearance: auto;
+    accent-color: #FFD700;
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
 }
 
 /* iOS: прибрати дефолтний вигляд кнопок */
