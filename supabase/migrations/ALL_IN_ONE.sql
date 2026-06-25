@@ -53,6 +53,11 @@ drop policy if exists "orders_delete_own" on public.orders;
 create policy "orders_delete_own" on public.orders
   for delete using (auth.uid() = user_id);
 
+-- Дозволяємо доповнювати власні замовлення (телефон, побажання) з кабінету
+drop policy if exists "orders_update_own" on public.orders;
+create policy "orders_update_own" on public.orders
+  for update using (auth.uid() = user_id) with check (auth.uid() = user_id);
+
 -- ───────────────────────────────────────────────────────────────
 -- 4. Відповіді анкети підбору грантів
 -- ───────────────────────────────────────────────────────────────

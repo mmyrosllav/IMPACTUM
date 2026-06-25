@@ -156,7 +156,11 @@ const Dashboard = () => {
         </div>
       </div>
 
-      <OrderDetailsModal order={selectedOrder} onClose={() => setSelectedOrder(null)} />
+      <OrderDetailsModal
+        order={selectedOrder}
+        onClose={() => setSelectedOrder(null)}
+        onUpdated={() => fetchOrders(user.id)}
+      />
 
       <style>{`
         .table-row-hover:hover { background: rgba(255,255,255,0.03); }
