@@ -130,7 +130,9 @@
     "forgotDesc": "Enter your email — we'll send a reset link",
     "sendResetLink": "Send reset link",
     "backToLogin": "Back to login",
-    "resetLinkSent": "Reset link sent to {{email}}"
+    "resetLinkSent": "Reset link sent to {{email}}",
+    "consent": "I consent to the processing of my personal data",
+    "consentRequired": "You must consent to personal data processing to register"
   },
   "settings": {
     "title": "Settings",
@@ -263,6 +265,18 @@
     "price": "Price",
     "loginRequired": "Sign in to place an order",
     "orderError": "Error. Please try again.",
-    "orderSuccess": "{{name}} — order received!"
+    "orderSuccess": "{{name}} — order received!",
+    "orderModalTitle": "Place an order",
+    "orderPhone": "Phone number",
+    "orderNote": "Additional info (optional)",
+    "orderNotePh": "Describe your project or requirements…",
+    "orderConfirm": "Confirm order",
+    "orderCancel": "Cancel",
+    "phoneRequired": "Please provide a phone number",
+    "orderSaved": "Order placed! Our manager will contact you."
+  },
+  "orderDetails": {
+    "phoneLabel": "Phone",
+    "noteLabel": "Your notes"
   }
 }

@@ -42,7 +42,20 @@ const OrderDetailsModal = ({ order, onClose }) => {
             <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '1px' }}>Статус</p>
             <p style={{ color: 'var(--primary-accent)', fontWeight: '800' }}>{order.status.toUpperCase()}</p>
           </div>
+          {order.phone && (
+            <div>
+              <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '1px' }}>Телефон</p>
+              <p style={{ fontWeight: '600' }}>{order.phone}</p>
+            </div>
+          )}
         </div>
+
+        {order.note && (
+          <div style={{ marginBottom: '28px' }}>
+            <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '1px' }}>Ваші побажання</p>
+            <p style={{ fontSize: '0.95rem', lineHeight: '1.6', color: '#fff' }}>{order.note}</p>
+          </div>
+        )}
 
         <div style={{ background: 'rgba(255,215,0,0.05)', border: '1px solid rgba(255,215,0,0.15)', borderRadius: '12px', padding: '20px', marginBottom: '28px' }}>
           <h4 style={{ marginBottom: '10px', fontSize: '0.9rem', color: 'var(--primary-accent)' }}>Наступні кроки:</h4>

@@ -8,6 +8,7 @@ import PageTransition from '../components/PageTransition';
 const Register = () => {
   const { t } = useTranslation();
   const [formData, setFormData] = useState({ name: '', email: '', password: '' });
+  const [consent, setConsent]   = useState(false);
   const [loading, setLoading]   = useState(false);
   const [emailSent, setEmailSent] = useState(false);
   const navigate = useNavigate();
@@ -18,6 +19,7 @@ const Register = () => {
     if (formData.name.trim().length < 2)  return toast.error(t('auth.nameTooShort') || 'Ім\'я занадто коротке');
     if (!formData.email.includes('@'))    return toast.error(t('auth.invalidEmail') || 'Невірний email');
     if (formData.password.length < 6)     return toast.error(t('auth.passwordShort') || 'Пароль мінімум 6 символів');
+    if (!consent)                         return toast.error(t('auth.consentRequired'));
 
     setLoading(true);
 
@@ -114,11 +116,22 @@ const Register = () => {
                 />
               </div>
 
+              <label style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', marginBottom: '24px', cursor: 'pointer', fontSize: '0.82rem', color: 'var(--text-muted)', lineHeight: '1.5' }}>
+                <input
+                  type="checkbox"
+                  checked={consent}
+                  onChange={(e) => setConsent(e.target.checked)}
+                  disabled={loading}
+                  style={{ width: '18px', height: '18px', accentColor: '#FFD700', marginTop: '1px', flexShrink: 0, cursor: 'pointer' }}
+                />
+                <span>{t('auth.consent')}</span>
+              </label>
+
               <button
                 type="submit"
                 className="btn"
-                style={{ width: '100%', marginBottom: '20px', opacity: loading ? 0.7 : 1 }}
-                disabled={loading}
+                style={{ width: '100%', marginBottom: '20px', opacity: (loading || !consent) ? 0.55 : 1 }}
+                disabled={loading || !consent}
               >
                 {loading ? '...' : t('auth.register')}
               </button>

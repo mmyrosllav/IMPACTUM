@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import emailjs from '@emailjs/browser';
 import { supabase } from '../lib/supabase';
 import { toast } from 'react-hot-toast';
 // eslint-disable-next-line no-unused-vars
@@ -9,11 +10,22 @@ import { motion, AnimatePresence } from 'framer-motion';
 import PageTransition from '../components/PageTransition';
 import { usePageTitle } from '../hooks/usePageTitle';
 
+// EmailJS — той самий конфіг, що і для contact-форми
+const EJS_SERVICE  = import.meta.env.VITE_EMAILJS_SERVICE_ID  ?? '';
+const EJS_TEMPLATE = import.meta.env.VITE_EMAILJS_TEMPLATE_ID ?? '';
+const EJS_KEY      = import.meta.env.VITE_EMAILJS_PUBLIC_KEY  ?? '';
+
 const Services = () => {
   const { t } = useTranslation();
   usePageTitle(t('services.title'));
   const [activeTab, setActiveTab] = useState('All');
   const [selectedService, setSelectedService] = useState(null);
+
+  // ── Оформлення замовлення ──
+  const [orderService, setOrderService] = useState(null); // обрана послуга для замовлення
+  const [orderPhone, setOrderPhone]     = useState('');
+  const [orderNote, setOrderNote]       = useState('');
+  const [orderSubmitting, setOrderSubmitting] = useState(false);
 
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
@@ -33,22 +45,60 @@ const Services = () => {
     ? servicesData 
     : servicesData.filter(s => s.category === activeTab);
 
-  const handleOrder = async (serviceName) => {
+  // Крок 1 — відкриваємо модалку оформлення (або редірект на вхід)
+  const openOrder = (service) => {
     if (!user) {
       toast.error(t('servicesExtra.loginRequired'));
       navigate('/login');
       return;
     }
+    setSelectedService(null);          // закрити модалку деталей, якщо відкрита
+    setOrderPhone('');
+    setOrderNote('');
+    setOrderService(service);
+  };
+
+  // Крок 2 — зберігаємо в БД + відправляємо email менеджеру
+  const submitOrder = async (e) => {
+    e.preventDefault();
+    if (!orderPhone.trim()) return toast.error(t('servicesExtra.phoneRequired'));
+
+    setOrderSubmitting(true);
+
+    // 1) Зберігаємо замовлення в Supabase
     const { error } = await supabase.from('orders').insert({
-      user_id: user.id,
-      service_name: serviceName,
+      user_id:      user.id,
+      service_name: orderService.name,
+      phone:        orderPhone.trim(),
+      note:         orderNote.trim() || null,
     });
+
     if (error) {
       toast.error(t('servicesExtra.orderError'));
-    } else {
-      toast.success(t('servicesExtra.orderSuccess', { name: serviceName }));
-      navigate('/dashboard');
+      setOrderSubmitting(false);
+      return;
     }
+
+    // 2) Відправляємо сповіщення менеджеру (не блокує — лише логуємо збій)
+    if (EJS_SERVICE && EJS_TEMPLATE && EJS_KEY) {
+      try {
+        await emailjs.send(EJS_SERVICE, EJS_TEMPLATE, {
+          name:    user.name,
+          phone:   orderPhone.trim(),
+          message: `Замовлення послуги: "${orderService.name}" (${orderService.price}).\n` +
+                   `Email: ${user.email}\n` +
+                   `Побажання: ${orderNote.trim() || '—'}`,
+        }, EJS_KEY);
+      } catch (err) {
+        console.error('[Order] EmailJS error:', err);
+      }
+    }
+
+    // 3) Готово — закриваємо модалку й ведемо в кабінет
+    setOrderSubmitting(false);
+    setOrderService(null);
+    toast.success(t('servicesExtra.orderSaved'));
+    navigate('/dashboard');
   };
 
   return (
@@ -118,7 +168,7 @@ const Services = () => {
                     <button
                       className="btn"
                       style={{ flex: 1, padding: '13px 8px', whiteSpace: 'nowrap', fontSize: '0.78rem', letterSpacing: '0.2px', background: 'rgba(255, 215, 0, 0.2)' }}
-                      onClick={() => handleOrder(service.name)}
+                      onClick={() => openOrder(service)}
                     >
                       {t('servicesExtra.order')}
                     </button>
@@ -222,10 +272,7 @@ const Services = () => {
                 <button
                   className="btn"
                   style={{ flex: 1 }}
-                  onClick={() => {
-                    handleOrder(selectedService.name);
-                    setSelectedService(null);
-                  }}
+                  onClick={() => openOrder(selectedService)}
                 >
                   {t('servicesExtra.orderNow')}
                 </button>
@@ -237,6 +284,64 @@ const Services = () => {
                   {t('servicesExtra.close')}
                 </button>
               </div>
+            </div>
+          </div>
+        )}
+
+        {/* ── Модалка оформлення замовлення ── */}
+        {orderService && (
+          <div
+            onClick={() => !orderSubmitting && setOrderService(null)}
+            style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, backdropFilter: 'blur(4px)', animation: 'fadeIn 0.3s ease', padding: '20px' }}
+          >
+            <div
+              onClick={(e) => e.stopPropagation()}
+              style={{ background: 'rgba(20,21,28,0.97)', border: '1.5px solid var(--glass-border)', borderRadius: '20px', padding: '40px', maxWidth: '520px', width: '100%', backdropFilter: 'blur(20px)', animation: 'slideUp 0.3s cubic-bezier(0.4,0,0.2,1)', maxHeight: '88vh', overflow: 'auto' }}
+            >
+              <span style={{ fontSize: '0.65rem', color: 'var(--primary-accent)', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '1.5px' }}>
+                {t('servicesExtra.orderModalTitle')}
+              </span>
+              <h2 style={{ fontSize: '1.5rem', margin: '8px 0 4px' }}>{orderService.name}</h2>
+              <p className="price" style={{ fontSize: '1.3rem', marginBottom: '24px' }}>{orderService.price}</p>
+
+              <form onSubmit={submitOrder} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                <div>
+                  <label style={{ fontSize: '0.85rem', color: 'var(--text-muted)', display: 'block', marginBottom: '8px' }}>
+                    {t('servicesExtra.orderPhone')} *
+                  </label>
+                  <input
+                    type="tel"
+                    className="form-input"
+                    placeholder="+380…"
+                    value={orderPhone}
+                    onChange={(e) => setOrderPhone(e.target.value)}
+                    required
+                    disabled={orderSubmitting}
+                  />
+                </div>
+                <div>
+                  <label style={{ fontSize: '0.85rem', color: 'var(--text-muted)', display: 'block', marginBottom: '8px' }}>
+                    {t('servicesExtra.orderNote')}
+                  </label>
+                  <textarea
+                    className="form-input"
+                    rows="3"
+                    placeholder={t('servicesExtra.orderNotePh')}
+                    value={orderNote}
+                    onChange={(e) => setOrderNote(e.target.value)}
+                    disabled={orderSubmitting}
+                    style={{ resize: 'none' }}
+                  />
+                </div>
+                <div style={{ display: 'flex', gap: '12px', marginTop: '8px' }}>
+                  <button type="submit" className="btn" style={{ flex: 1, opacity: orderSubmitting ? 0.6 : 1 }} disabled={orderSubmitting}>
+                    {orderSubmitting ? '...' : t('servicesExtra.orderConfirm')}
+                  </button>
+                  <button type="button" className="btn btn-outline" style={{ flex: 1 }} onClick={() => setOrderService(null)} disabled={orderSubmitting}>
+                    {t('servicesExtra.orderCancel')}
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
         )}
