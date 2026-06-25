@@ -160,7 +160,9 @@ header {
 
 .css-logo {
     position: relative;
-    width: 140px;
+    width: max-content;
+    min-width: 140px;
+    padding-right: 16px;
     height: 55px;
 }
 
