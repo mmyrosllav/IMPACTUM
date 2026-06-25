@@ -110,14 +110,14 @@ const Services = () => {
                   <div style={{ display: 'flex', gap: '10px', width: '100%', marginTop: 'auto' }}>
                     <button
                       className="btn"
-                      style={{ flex: 1 }}
+                      style={{ flex: 1, padding: '13px 8px', whiteSpace: 'nowrap', fontSize: '0.78rem', letterSpacing: '0.2px' }}
                       onClick={() => setSelectedService(service)}
                     >
-                      📖 {t('services.orderNow')}
+                      {t('servicesExtra.details')}
                     </button>
                     <button
                       className="btn"
-                      style={{ flex: 1, background: 'rgba(255, 215, 0, 0.2)' }}
+                      style={{ flex: 1, padding: '13px 8px', whiteSpace: 'nowrap', fontSize: '0.78rem', letterSpacing: '0.2px', background: 'rgba(255, 215, 0, 0.2)' }}
                       onClick={() => handleOrder(service.name)}
                     >
                       {t('servicesExtra.order')}
