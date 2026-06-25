@@ -126,7 +126,7 @@ const Header = () => {
 
       <style>{`
         body { overflow-x: hidden; }
-        @media (max-width: 1300px) {
+        @media (max-width: 1024px) {
           .burger { display: block !important; }
           nav {
             position: fixed;

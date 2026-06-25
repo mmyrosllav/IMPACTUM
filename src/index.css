@@ -203,7 +203,7 @@ nav {
 nav ul {
     display: flex;
     list-style: none;
-    gap: 20px;
+    gap: 28px;
     align-items: center;
 }
 
@@ -211,7 +211,7 @@ nav a, nav button {
     color: var(--text-main);
     text-decoration: none;
     font-weight: 600;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     white-space: nowrap;
     transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     position: relative;
@@ -714,6 +714,18 @@ footer > div > div:last-child {
 
 footer p {
     margin: 0 0 8px 0;
+}
+
+/* ═══════════════════════════════════════════════
+   NAV — стиснення на ноутбуках (1025–1366px),
+   щоб повний залогінений nav (~9 пунктів) вмістився
+   й не налазив на логотип
+═══════════════════════════════════════════════ */
+@media (min-width: 1025px) and (max-width: 1366px) {
+    header { padding: 0 30px; }
+    nav ul { gap: 14px; }
+    nav a, nav button { font-size: 0.84rem; }
+    nav button { padding: 10px 18px; }
 }
 
 /* ═══════════════════════════════════════════════
