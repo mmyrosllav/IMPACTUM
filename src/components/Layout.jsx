@@ -128,6 +128,7 @@ const Layout = ({ children }) => {
   const phoneRef   = useRef();
   const messageRef = useRef();
   const [submitting, setSubmitting] = useState(false);
+  const [consent, setConsent] = useState(false);
 
   // Reactive breakpoints
   const width    = useWindowWidth();
@@ -136,6 +137,7 @@ const Layout = ({ children }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!consent) return toast.error(t('auth.consentRequired'));
     setSubmitting(true);
 
     const name    = nameRef.current.value.trim();
@@ -160,6 +162,7 @@ const Layout = ({ children }) => {
       nameRef.current.value    = '';
       phoneRef.current.value   = '';
       messageRef.current.value = '';
+      setConsent(false);
     }
 
     setSubmitting(false);
@@ -214,11 +217,21 @@ const Layout = ({ children }) => {
                   rows="4"
                   style={{ resize: 'none' }}
                 />
+                <label style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', marginTop: '4px', cursor: 'pointer', fontSize: '0.8rem', color: 'var(--text-muted)', lineHeight: '1.5' }}>
+                  <input
+                    type="checkbox"
+                    checked={consent}
+                    onChange={(e) => setConsent(e.target.checked)}
+                    disabled={submitting}
+                    style={{ width: '18px', height: '18px', accentColor: '#FFD700', marginTop: '1px', flexShrink: 0, cursor: 'pointer' }}
+                  />
+                  <span>{t('auth.consent')}</span>
+                </label>
                 <button
                   type="submit"
                   className="btn"
-                  style={{ marginTop: '6px', opacity: submitting ? 0.7 : 1 }}
-                  disabled={submitting}
+                  style={{ marginTop: '6px', opacity: (submitting || !consent) ? 0.6 : 1 }}
+                  disabled={submitting || !consent}
                 >
                   {submitting ? '...' : (t('contact.send') || 'Send Request')}
                 </button>
