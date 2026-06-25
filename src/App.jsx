@@ -9,8 +9,6 @@ import ScrollToTop from './components/ScrollToTop';
 import ProtectedRoute from './components/ProtectedRoute';
 import ErrorBoundary from './components/ErrorBoundary';
 
-// Кожна сторінка — окремий чанк: головна вантажиться швидко,
-// решта підтягується при переході
 const Home = lazy(() => import('./pages/Home'));
 const About = lazy(() => import('./pages/About'));
 const Login = lazy(() => import('./pages/Login'));
@@ -39,14 +37,12 @@ function App() {
   const { user, loading } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
-  // Слухаємо зміни auth-стану від Supabase (вхід, вихід, refresh токена)
   useEffect(() => {
-    // Перевіряємо поточну сесію при старті
+
     supabase.auth.getSession().then(({ data: { session } }) => {
       dispatch(setUser(mapSupabaseUser(session?.user ?? null)));
     });
 
-    // Підписуємось на зміни
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       dispatch(setUser(mapSupabaseUser(session?.user ?? null)));
     });
@@ -54,7 +50,6 @@ function App() {
     return () => subscription.unsubscribe();
   }, [dispatch]);
 
-  // Показуємо порожній екран поки перевіряємо сесію
   if (loading) {
     return (
       <div style={{

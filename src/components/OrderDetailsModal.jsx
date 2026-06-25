@@ -71,7 +71,6 @@ const OrderDetailsModal = ({ order, onClose, onUpdated }) => {
           </div>
         </div>
 
-        {/* ── Доповнення замовлення (поки воно в очікуванні) ── */}
         {isPending ? (
           <div style={{ background: 'rgba(255,215,0,0.05)', border: '1px solid rgba(255,215,0,0.2)', borderRadius: '12px', padding: '22px', marginBottom: '24px' }}>
             <h4 style={{ marginBottom: '6px', fontSize: '1rem', color: 'var(--primary-accent)' }}>Продовжити замовлення</h4>

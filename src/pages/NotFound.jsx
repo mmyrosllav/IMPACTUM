@@ -6,19 +6,19 @@ const NotFound = () => {
   const { t } = useTranslation();
   return (
     <PageTransition>
-      <div className="container" style={{ 
-        height: '80vh', 
-        display: 'flex', 
-        flexDirection: 'column', 
-        justifyContent: 'center', 
-        alignItems: 'center', 
-        textAlign: 'center' 
+      <div className="container" style={{
+        height: '80vh',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        textAlign: 'center'
       }}>
-        {/* Великий стилізований текст 404 */}
-        <h1 style={{ 
-          fontSize: '10rem', 
-          fontWeight: '900', 
-          marginBottom: '0', 
+
+        <h1 style={{
+          fontSize: '10rem',
+          fontWeight: '900',
+          marginBottom: '0',
           lineHeight: '1',
           background: 'linear-gradient(135deg, var(--primary-accent) 0%, var(--secondary-accent) 100%)',
           WebkitBackgroundClip: 'text',
@@ -27,7 +27,7 @@ const NotFound = () => {
         }}>
           404
         </h1>
-        
+
         <h2 style={{ fontSize: '2rem', marginBottom: '20px' }}>{t('notfound.title') || 'Page Not Found'}</h2>
 
         <p style={{
@@ -43,13 +43,12 @@ const NotFound = () => {
           {t('notfound.returnHome') || 'Return to Homepage'}
         </Link>
 
-        {/* Декоративний елемент (орб), щоб заповнити простір */}
-        <div className="orb" style={{ 
-          width: '300px', 
-          height: '300px', 
-          background: 'var(--primary-accent)', 
-          top: '50%', 
-          left: '50%', 
+        <div className="orb" style={{
+          width: '300px',
+          height: '300px',
+          background: 'var(--primary-accent)',
+          top: '50%',
+          left: '50%',
           transform: 'translate(-50%, -50%)',
           zIndex: '-1',
           opacity: 0.1

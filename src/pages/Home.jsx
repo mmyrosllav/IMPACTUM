@@ -138,7 +138,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ── Testimonials cloud ── */}
       <section style={{ background: 'rgba(255,255,255,0.015)', padding: '80px 0 140px', overflow: 'hidden' }}>
         <div className="container" style={{ maxWidth: '1300px' }}>
           <h2 style={{ textAlign: 'center', marginBottom: '70px' }}>{t('home.clientSuccess')}</h2>
@@ -186,7 +185,7 @@ const Home = () => {
         </div>
 
         <style>{`
-          /* ── 3-колонковий grid з вертикальним розкидом ── */
+
           .t-cloud {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -195,14 +194,12 @@ const Home = () => {
             padding: 10px 0 60px;
           }
 
-          /* Кожна картка плаває зі своєю фазою і швидкістю */
           .t-wrap {
             width: 100%;
             animation: tFloat var(--dur, 5s) ease-in-out var(--delay, 0s) infinite;
             will-change: transform;
           }
 
-          /* Вертикальний розкид через margin-top */
           .t-wrap:nth-child(1) { margin-top: 20px; }
           .t-wrap:nth-child(2) { margin-top: 0px;  }
           .t-wrap:nth-child(3) { margin-top: 58px; }
@@ -218,7 +215,6 @@ const Home = () => {
             100% { transform: rotate(var(--rot, 0deg)) translateY(0px);   }
           }
 
-          /* ── Card face ── */
           .t-card {
             background: rgba(14, 15, 24, 0.82);
             border: 1.5px solid;
@@ -238,7 +234,6 @@ const Home = () => {
             transform: scale(1.04);
           }
 
-          /* Кольорова смужка зверху */
           .t-accent-line {
             position: absolute;
             top: 0; left: 0; right: 0;
@@ -269,7 +264,6 @@ const Home = () => {
           .t-name { font-weight: 700; font-size: 0.84rem; color: #fff; }
           .t-role { font-size: 0.71rem; color: var(--text-muted); margin-top: 2px; }
 
-          /* ── Tablet: 2-col шахово ── */
           @media (max-width: 900px) {
             .t-cloud {
               grid-template-columns: repeat(2, 1fr);
@@ -284,7 +278,6 @@ const Home = () => {
             .t-wrap:nth-child(7) { grid-column: 1; margin-top: 0; }
           }
 
-          /* ── Mobile: 1-col ── */
           @media (max-width: 520px) {
             .t-cloud { grid-template-columns: 1fr; gap: 14px; padding-bottom: 20px; }
             .t-wrap:nth-child(n) { margin-top: 0 !important; grid-column: auto; }

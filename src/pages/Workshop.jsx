@@ -94,7 +94,7 @@ const ChatPanel = ({ toolId, toolName, toolIcon, t }) => {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%', minHeight: '500px' }}>
-      {/* Chat header */}
+
       <div style={{
         padding: '20px 25px',
         borderBottom: '1px solid rgba(255,215,0,0.15)',
@@ -107,7 +107,6 @@ const ChatPanel = ({ toolId, toolName, toolIcon, t }) => {
         </div>
       </div>
 
-      {/* Messages */}
       <div ref={messagesRef} style={{ flex: 1, overflowY: 'auto', padding: '20px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
         {!started && (
           <div style={{ textAlign: 'center', marginTop: '40px' }}>
@@ -157,7 +156,6 @@ const ChatPanel = ({ toolId, toolName, toolIcon, t }) => {
         )}
       </div>
 
-      {/* Input */}
       <div style={{ padding: '16px 20px', borderTop: '1px solid rgba(255,215,0,0.12)', display: 'flex', gap: '10px' }}>
         <input
           value={input}
@@ -206,7 +204,7 @@ const Workshop = () => {
           overflow: 'hidden',
           height: '620px',
         }}>
-          {/* Sidebar */}
+
           <div className="workshop-sidebar" style={{
             borderRight: '1px solid rgba(255,215,0,0.15)',
             padding: '24px 0',
@@ -266,7 +264,6 @@ const Workshop = () => {
             </div>
           </div>
 
-          {/* Main chat panel */}
           <div className="workshop-chat" style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden', minWidth: 0 }}>
             <AnimatePresence mode="wait">
               <motion.div

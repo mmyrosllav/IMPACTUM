@@ -1,8 +1,4 @@
-/* ═══════════════════════════════════════════════
-   GAMES — shared + per-game styles
-   ═══════════════════════════════════════════════ */
 
-/* ── Container ── */
 .game-container {
   background: rgba(14, 15, 22, 0.7);
   border: 1.5px solid rgba(255, 215, 0, 0.18);
@@ -16,7 +12,6 @@
   animation: gameSlideUp 0.45s ease-out;
 }
 
-/* Wide variant — for crossword */
 .game-wide {
   max-width: 920px;
 }
@@ -26,7 +21,6 @@
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ── Header ── */
 .game-header {
   text-align: center;
   margin-bottom: 32px;
@@ -65,17 +59,11 @@
   border: 1px solid rgba(255, 215, 0, 0.25);
 }
 
-/* ── Reset button ── */
 .btn-reset {
   width: 100%;
   padding: 15px;
   margin-top: 24px;
 }
-
-
-/* ══════════════════════════════════
-   TIC TAC TOE
-   ══════════════════════════════════ */
 
 .tictactoe-board {
   display: grid;
@@ -134,7 +122,6 @@
   100% { transform: scale(1) rotate(0); }
 }
 
-/* Game status */
 .game-status {
   text-align: center;
   padding: 16px 20px;
@@ -157,11 +144,6 @@
   from { opacity: 0; transform: scale(0.75); }
   to   { opacity: 1; transform: scale(1); }
 }
-
-
-/* ══════════════════════════════════
-   SNAKE
-   ══════════════════════════════════ */
 
 .snake-grid {
   display: grid;
@@ -211,7 +193,6 @@
   50%       { transform: scale(1.15); }
 }
 
-/* Controls */
 .controls {
   display: flex;
   flex-direction: column;
@@ -249,7 +230,6 @@
 .control-btn:hover  { background: rgba(255, 215, 0, 0.15); border-color: rgba(255, 215, 0, 0.4); transform: scale(1.08); }
 .control-btn:active { transform: scale(0.93); }
 
-/* Game-over overlay */
 .game-over-overlay {
   position: absolute;
   inset: 0;
@@ -266,11 +246,6 @@
 .game-over-content { text-align: center; }
 .game-over-content h3 { font-size: 2rem; margin-bottom: 8px; color: #f43f5e; }
 .game-over-content p  { font-size: 1.1rem; color: var(--text-muted); }
-
-
-/* ══════════════════════════════════
-   CROSSWORD
-   ══════════════════════════════════ */
 
 .crossword-wrapper {
   display: grid;
@@ -345,7 +320,6 @@
   opacity: 0.4;
 }
 
-/* Clues panel */
 .clues {
   display: flex;
   flex-direction: column;
@@ -380,7 +354,6 @@
   font-weight: 700;
 }
 
-/* Solved banner */
 .solved-message {
   text-align: center;
   padding: 16px 20px;
@@ -396,11 +369,6 @@
   font-weight: 700;
   color: #4ade80;
 }
-
-
-/* ══════════════════════════════════
-   RESPONSIVE
-   ══════════════════════════════════ */
 
 @media (max-width: 960px) {
   .game-wide {
@@ -418,7 +386,6 @@
     white-space: normal;
   }
 
-  /* Crossword: stack vertically on mobile */
   .crossword-wrapper {
     grid-template-columns: 1fr;
   }
@@ -445,7 +412,6 @@
     max-height: none;
   }
 
-  /* Snake controls */
   .controls > div {
     grid-template-columns: repeat(3, 46px);
     grid-template-rows: repeat(3, 46px);
@@ -457,7 +423,6 @@
     font-size: 1.1rem;
   }
 
-  /* TicTacToe */
   .tictactoe-board {
     max-width: 100%;
   }

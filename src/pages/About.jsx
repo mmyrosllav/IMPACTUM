@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import PageTransition from '../components/PageTransition';
 import { usePageTitle } from '../hooks/usePageTitle';
 
-// Initials avatar shown when image fails to load
 const AvatarFallback = ({ name, size = 200 }) => {
   const initials = name
     ? name.split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase()
@@ -163,7 +162,7 @@ const About = () => {
         <style>{`
           @keyframes fadeIn  { from { opacity: 0; } to { opacity: 1; } }
           @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-          /* Grayscale hover on team photo */
+
           .avatar-circle img {
             filter: grayscale(100%);
             transition: filter 0.4s ease, transform 0.4s ease;

@@ -15,9 +15,6 @@ const Settings = () => {
   const handleDeleteData = async () => {
     if (!window.confirm(t('settings.deleteConfirm'))) return;
 
-    // Видаляємо дані користувача (RLS дозволяє видаляти лише свої рядки).
-    // Повне видалення auth-акаунту вимагає Edge Function з service_role —
-    // тому чесно повідомляємо, що саме зроблено.
     const { error } = await supabase.from('orders').delete().eq('user_id', user.id);
 
     if (error) {

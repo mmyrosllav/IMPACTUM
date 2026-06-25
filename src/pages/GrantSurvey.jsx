@@ -105,7 +105,6 @@ const getResults = (answers, t) => {
     });
   }
 
-  // Always include at least 3 results
   const defaults = [
     {
       name: 'EBRD Grant Programme',
@@ -143,13 +142,12 @@ const GrantSurvey = () => {
   const current = questions[step];
   const progress = ((step) / questions.length) * 100;
 
-  // Зберігаємо відповіді як лід для менеджера; user_id — якщо авторизований
   const saveResponse = async (finalAnswers) => {
     const { error } = await supabase.from('survey_responses').insert({
       user_id: user?.id ?? null,
       answers: finalAnswers,
     });
-    // Збій збереження не блокує показ результатів — лише логуємо
+
     if (error) console.error('[Survey] save failed:', error.message);
   };
 
@@ -176,7 +174,6 @@ const GrantSurvey = () => {
               <p className="page-subtitle">{t('survey.subtitle')}</p>
             </section>
 
-            {/* Progress bar */}
             <div style={{ marginBottom: '40px', width: '100%' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
                 <span style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>
@@ -262,7 +259,7 @@ const GrantSurvey = () => {
             )}
           </>
         ) : (
-          /* Results */
+
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
             <section className="page-header" style={{ marginBottom: '50px' }}>
               <h1>{t('survey.resultsTitle')}</h1>

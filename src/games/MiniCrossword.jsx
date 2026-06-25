@@ -36,7 +36,6 @@ const MiniCrossword = () => {
     newGrid[row][col].char = value.toUpperCase().slice(-1);
     setGrid(newGrid);
 
-    // Check if puzzle is solved
     const allFilled = newGrid.every(r => r.every(cell => cell.char !== ''));
     if (allFilled) {
       const isCorrect = newGrid.every((r, rIdx) =>

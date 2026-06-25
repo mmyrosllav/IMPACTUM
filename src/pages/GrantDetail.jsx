@@ -238,7 +238,6 @@ const GrantDetail = () => {
     <PageTransition>
       <div className="container" style={{ paddingTop: '120px', paddingBottom: '80px', maxWidth: '900px' }}>
 
-        {/* Back link */}
         <Link
           to="/"
           style={{ color: 'var(--text-muted)', fontSize: '0.9rem', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '6px', marginBottom: '40px' }}
@@ -248,7 +247,6 @@ const GrantDetail = () => {
           ← {lang === 'uk' ? 'Назад' : 'Back'}
         </Link>
 
-        {/* Header */}
         <div style={{
           background: `linear-gradient(135deg, ${grant.color}10, transparent)`,
           border: `1.5px solid ${grant.color}30`,
@@ -304,7 +302,6 @@ const GrantDetail = () => {
           </div>
         </div>
 
-        {/* Description */}
         <div className="card" style={{ marginBottom: '20px', padding: '32px', textAlign: 'left' }}>
           <h2 style={{ fontSize: '1.2rem', marginBottom: '16px', color: grant.color }}>
             {lang === 'uk' ? 'Про програму' : 'About the Programme'}
@@ -315,7 +312,7 @@ const GrantDetail = () => {
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '32px' }}>
-          {/* Eligibility */}
+
           <div className="card" style={{ padding: '32px', textAlign: 'left' }}>
             <h2 style={{ fontSize: '1.2rem', marginBottom: '20px', color: grant.color }}>
               {lang === 'uk' ? 'Хто може подати' : 'Who Can Apply'}
@@ -330,7 +327,6 @@ const GrantDetail = () => {
             </ul>
           </div>
 
-          {/* Steps */}
           <div className="card" style={{ padding: '32px', textAlign: 'left' }}>
             <h2 style={{ fontSize: '1.2rem', marginBottom: '20px', color: grant.color }}>
               {lang === 'uk' ? 'Як подати заявку' : 'How to Apply'}
@@ -351,7 +347,6 @@ const GrantDetail = () => {
           </div>
         </div>
 
-        {/* CTA */}
         <div style={{
           background: 'rgba(255,215,0,0.05)',
           border: '1.5px solid rgba(255,215,0,0.2)',

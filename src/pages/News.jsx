@@ -83,7 +83,6 @@ const News = () => {
           <p className="page-subtitle">{t('news.subtitle')}</p>
         </section>
 
-        {/* Write Thread Button */}
         {user && (
           <div style={{ marginBottom: '40px', textAlign: 'center' }}>
             <button
@@ -99,7 +98,6 @@ const News = () => {
           </div>
         )}
 
-        {/* New Thread Form */}
         {showNewThread && (
           <div
             className="card"
@@ -145,7 +143,6 @@ const News = () => {
           </div>
         )}
 
-        {/* Filter Tabs */}
         <div style={{ display: 'flex', gap: '10px', marginBottom: '30px', flexWrap: 'wrap' }}>
           <button
             onClick={() => setSelectedTab('grants')}
@@ -163,7 +160,6 @@ const News = () => {
           </button>
         </div>
 
-        {/* Threads List */}
         <div style={{ maxWidth: '800px', margin: '0 auto' }}>
           {filteredThreads.length === 0 ? (
             <div className="card" style={{ textAlign: 'center', padding: '40px' }}>

@@ -7,7 +7,6 @@ import { supabase } from '../lib/supabase';
 import Header from './Header';
 import Footer from './Footer';
 
-// ─── EmailJS config ──────────────────────────────────────────────
 const EJS_SERVICE  = import.meta.env.VITE_EMAILJS_SERVICE_ID  ?? '';
 const EJS_TEMPLATE = import.meta.env.VITE_EMAILJS_TEMPLATE_ID ?? '';
 const EJS_KEY      = import.meta.env.VITE_EMAILJS_PUBLIC_KEY  ?? '';
@@ -28,7 +27,6 @@ const GRANTS = [
 const LOOP     = [...GRANTS, ...GRANTS];
 const LOOP_REV = [...GRANTS].reverse().concat([...GRANTS].reverse());
 
-// ─── Reactive window-width hook ─────────────────────────────────
 const useWindowWidth = () => {
   const [width, setWidth] = useState(
     typeof window !== 'undefined' ? window.innerWidth : 1200
@@ -41,7 +39,6 @@ const useWindowWidth = () => {
   return width;
 };
 
-// ─── Grant card ─────────────────────────────────────────────────
 const GrantCard = ({ grant }) => {
   const [hovered, setHovered] = useState(false);
   const width  = useWindowWidth();
@@ -94,7 +91,6 @@ const GrantCard = ({ grant }) => {
   );
 };
 
-// ─── Ticker row (pauses on hover) ───────────────────────────────
 const TickerRow = ({ items, animName, duration }) => {
   const [paused, setPaused] = useState(false);
   return (
@@ -121,7 +117,6 @@ const TickerRow = ({ items, animName, duration }) => {
   );
 };
 
-// ─── Layout ─────────────────────────────────────────────────────
 const Layout = ({ children }) => {
   const { t } = useTranslation();
   const nameRef    = useRef();
@@ -130,7 +125,6 @@ const Layout = ({ children }) => {
   const [submitting, setSubmitting] = useState(false);
   const [consent, setConsent] = useState(false);
 
-  // Reactive breakpoints
   const width    = useWindowWidth();
   const isMobile = width <= 768;
   const isTablet = width <= 1024;
@@ -168,7 +162,6 @@ const Layout = ({ children }) => {
     setSubmitting(false);
   };
 
-  // ── Computed responsive styles ───────────────────────────────
   const sectionPad  = isMobile ? '60px 0'  : '100px 0';
   const wrapPad     = isMobile ? '0 18px'  : isTablet ? '0 40px'  : '0 60px';
   const gridCols    = isMobile ? '1fr'      : isTablet ? '300px 1fr' : '380px 1fr';
@@ -189,7 +182,6 @@ const Layout = ({ children }) => {
       <Header />
       <main style={{ paddingTop: '80px', minHeight: '100vh' }}>{children}</main>
 
-      {/* ── Contact + Grants section ── */}
       <section id="contact-section" style={{ padding: sectionPad, background: 'rgba(255,215,0,0.02)' }}>
         <div style={{ maxWidth: '1300px', margin: '0 auto', padding: wrapPad }}>
           <div style={{
@@ -199,7 +191,6 @@ const Layout = ({ children }) => {
             alignItems: 'start',
           }}>
 
-            {/* LEFT — contact form */}
             <div>
               <h2 style={{ fontSize: headingSize, marginBottom: '10px', textAlign: headingAlign, lineHeight: '1.3', fontFamily: 'var(--font-main)' }}>
                 {t('contact.title') || 'Contact Us'}
@@ -238,7 +229,6 @@ const Layout = ({ children }) => {
               </form>
             </div>
 
-            {/* RIGHT — ticker */}
             <div>
               <h2 style={{ fontSize: headingSize, marginBottom: '10px', textAlign: headingAlign, lineHeight: '1.3', fontFamily: 'var(--font-main)' }}>
                 {t('contact.grantsTitle') || 'Live Grant Opportunities'}

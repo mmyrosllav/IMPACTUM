@@ -18,8 +18,8 @@ const Header = () => {
   };
 
   const handleLogout = async () => {
-    await supabase.auth.signOut(); // Supabase очищає сесію
-    dispatch(logout());            // Redux очищає UI-стан
+    await supabase.auth.signOut();
+    dispatch(logout());
     setIsMenuOpen(false);
     navigate('/');
   };
@@ -50,7 +50,6 @@ const Header = () => {
         </div>
       </Link>
 
-      {/* Overlay — closes menu on tap outside */}
       {isMenuOpen && (
         <div
           onClick={closeMenu}
@@ -140,7 +139,7 @@ const Header = () => {
             box-shadow: -12px 0 40px rgba(0,0,0,0.7);
             padding: 100px 40px 40px;
             z-index: 999;
-            /* GPU-accelerated slide — no more "hanging" */
+
             transform: translateX(100%);
             transition: transform 0.38s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             will-change: transform;

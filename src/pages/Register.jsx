@@ -27,18 +27,18 @@ const Register = () => {
       email:    formData.email,
       password: formData.password,
       options: {
-        data: { name: formData.name.trim() }, // зберігається в user_metadata
+        data: { name: formData.name.trim() },
       },
     });
 
     if (error) {
       toast.error(error.message);
     } else if (data.session) {
-      // Email confirmation вимкнено — одразу авторизований
+
       toast.success(t('auth.registerSuccess') || 'Акаунт створено!');
       navigate('/dashboard');
     } else {
-      // Email confirmation увімкнено — просимо перевірити пошту
+
       setEmailSent(true);
     }
 

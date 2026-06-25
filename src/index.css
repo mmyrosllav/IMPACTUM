@@ -1,4 +1,3 @@
-/* --- IMPACTUM PREMIUM LUXURY REDESIGN --- */
 
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600;800&family=Orbitron:wght@900&family=Unbounded:wght@700;900&display=swap');
 
@@ -26,7 +25,7 @@
 
 html {
     scroll-behavior: smooth;
-    /* iOS Safari: кліпінг саме на html (body недостатньо) — нема «їздіння» вбік */
+
     overflow-x: hidden;
     width: 100%;
 }
@@ -39,8 +38,6 @@ body {
     overflow-x: hidden;
     min-height: 100vh;
 }
-
-/* PREMIUM LAVA LAMP BACKGROUND */
 
 .floating-bg {
     position: fixed;
@@ -128,8 +125,6 @@ body {
     66% { transform: translate(30px, 40px) scale(0.98); }
 }
 
-/* HEADER */
-
 header {
     position: fixed;
     top: 0;
@@ -200,7 +195,7 @@ header {
 nav {
     display: flex;
     align-items: center;
-    /* Заповнюємо всю ширину від логотипа до правого краю */
+
     flex: 1;
     margin-left: 50px;
 }
@@ -208,7 +203,7 @@ nav {
 nav ul {
     display: flex;
     list-style: none;
-    /* Рівномірний розподіл пунктів по всій ширині шапки */
+
     width: 100%;
     justify-content: space-between;
     gap: 28px;
@@ -271,9 +266,6 @@ nav button:hover {
     transform: translateY(-3px);
 }
 
-/* HEADINGS - FUTURISTIC YELLOW */
-
-/* Unbounded uppercase — лише для великих заголовків */
 h1, h2 {
     font-family: 'Unbounded', 'Orbitron', sans-serif;
     color: #FFD700;
@@ -283,7 +275,6 @@ h1, h2 {
     line-height: 1.3;
 }
 
-/* Менші заголовки — читабельний Manrope без uppercase */
 h3, h4, h5, h6 {
     font-family: 'Manrope', sans-serif;
     color: #FFD700;
@@ -315,8 +306,6 @@ h4 {
     font-weight: 700;
     letter-spacing: 1.5px;
 }
-
-/* MAIN CONTENT */
 
 main {
     padding-top: 90px;
@@ -379,8 +368,6 @@ section:nth-child(odd) {
     letter-spacing: 0.5px;
 }
 
-/* CARDS - PREMIUM DESIGN */
-
 .card {
     background: linear-gradient(135deg, rgba(255, 215, 0, 0.08) 0%, rgba(255, 199, 0, 0.08) 100%);
     border: 1.5px solid rgba(255, 215, 0, 0.25);
@@ -416,8 +403,6 @@ section:nth-child(odd) {
     font-weight: 400;
 }
 
-/* BUTTONS */
-
 .btn {
     background: linear-gradient(135deg, rgba(255, 215, 0, 0.25) 0%, rgba(255, 199, 0, 0.15) 100%);
     color: #FFD700;
@@ -435,7 +420,7 @@ section:nth-child(odd) {
 }
 
 .btn:hover {
-    /* Суцільна заливка: чорний текст завжди має контраст ≥ 12:1 */
+
     background: linear-gradient(135deg, #FFD700 0%, #FFC700 100%);
     border-color: #FFD700;
     transform: translateY(-2px);
@@ -454,8 +439,6 @@ section:nth-child(odd) {
     border-color: #FFD700;
     box-shadow: 0 20px 50px rgba(255, 215, 0, 0.25);
 }
-
-/* GRIDS */
 
 .grid-2 {
     display: grid;
@@ -485,8 +468,6 @@ section:nth-child(odd) {
     width: 100%;
 }
 
-/* FORM INPUTS */
-
 .form-input {
     width: 100%;
     padding: 18px 20px;
@@ -511,8 +492,6 @@ section:nth-child(odd) {
     background: linear-gradient(135deg, rgba(30, 30, 30, 0.8) 0%, rgba(20, 20, 20, 0.8) 100%);
     box-shadow: 0 0 30px rgba(255, 215, 0, 0.25), inset 0 0 20px rgba(255, 215, 0, 0.05);
 }
-
-/* STATS BAR */
 
 .stats-bar {
     display: grid;
@@ -557,8 +536,6 @@ section:nth-child(odd) {
     font-weight: 600;
 }
 
-/* TEAM MEMBER */
-
 .team-member {
     text-align: center;
     animation: fadeInUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -574,8 +551,6 @@ section:nth-child(odd) {
     font-size: 1.6rem;
     font-weight: 800;
 }
-
-/* ANIMATIONS */
 
 @keyframes fadeInDown {
     from {
@@ -663,8 +638,6 @@ section:nth-child(odd) {
     animation: fadeInUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-/* FOOTER */
-
 footer {
     background: linear-gradient(135deg, rgba(255, 215, 0, 0.08) 0%, rgba(255, 199, 0, 0.06) 100%);
     border-top: 2px solid rgba(255, 215, 0, 0.2);
@@ -724,11 +697,6 @@ footer p {
     margin: 0 0 8px 0;
 }
 
-/* ═══════════════════════════════════════════════
-   NAV — стиснення на ноутбуках (1025–1366px),
-   щоб повний залогінений nav (~9 пунктів) вмістився
-   й не налазив на логотип
-═══════════════════════════════════════════════ */
 @media (min-width: 1101px) and (max-width: 1366px) {
     header { padding: 0 28px; }
     nav { margin-left: 16px; }
@@ -737,9 +705,6 @@ footer p {
     nav button { padding: 10px 14px; }
 }
 
-/* ═══════════════════════════════════════════════
-   RESPONSIVE — TABLET (≤1024px)
-═══════════════════════════════════════════════ */
 @media (max-width: 1024px) {
     header { padding: 0 40px; }
     .container { padding: 0 40px; }
@@ -750,19 +715,14 @@ footer p {
     h2 { font-size: 2rem; }
 }
 
-/* ═══════════════════════════════════════════════
-   RESPONSIVE — MOBILE (≤768px)
-═══════════════════════════════════════════════ */
 @media (max-width: 768px) {
-    /* Header */
+
     header { height: 70px; padding: 0 20px; }
 
-    /* Typography */
     h1 { font-size: 2rem; letter-spacing: 1px; }
     h2 { font-size: 1.6rem; letter-spacing: 1px; }
     h3 { font-size: 1.3rem; }
 
-    /* Page header — centre on mobile */
     .page-header {
         align-items: center;
         text-align: center;
@@ -772,31 +732,25 @@ footer p {
     .page-header h1 { font-size: 2.2rem; letter-spacing: 0; }
     .page-subtitle  { font-size: 1rem; }
 
-    /* Layout */
     .container { padding: 0 18px; }
     section    { padding: 60px 0; }
 
-    /* Grids */
     .grid-2, .grid-3 {
         grid-template-columns: 1fr;
         gap: 20px;
     }
     .grid-3 { margin: 40px auto; }
 
-    /* Cards */
     .card { padding: 28px 22px; }
 
-    /* Buttons */
     .btn { padding: 13px 28px; font-size: 0.85rem; }
 
-    /* Stats bar */
     .stats-bar {
         grid-template-columns: 1fr 1fr;
         gap: 24px;
         padding: 40px 20px;
     }
 
-    /* Contact section (Layout.jsx) */
     #contact-section > div {
         padding: 0 18px !important;
     }
@@ -805,7 +759,6 @@ footer p {
         gap: 40px !important;
     }
 
-    /* Workshop — sidebar → horizontal scroll tabs */
     .workshop-layout {
         grid-template-columns: 1fr !important;
         height: auto !important;
@@ -838,9 +791,6 @@ footer p {
     .workshop-chat { height: 420px !important; }
 }
 
-/* ═══════════════════════════════════════════════
-   RESPONSIVE — SMALL MOBILE (≤480px)
-═══════════════════════════════════════════════ */
 @media (max-width: 480px) {
     header { height: 64px; padding: 0 14px; }
 
@@ -855,33 +805,23 @@ footer p {
     .card      { padding: 20px 16px; }
     .btn       { padding: 12px 22px; font-size: 0.82rem; }
 
-    /* Stats — stack */
     .stats-bar {
         grid-template-columns: 1fr;
         gap: 16px;
         padding: 30px 16px;
     }
 
-    /* Grant ticker cards — smaller on phone */
     #contact-section a[href^="/grants"] {
         min-width: 190px !important;
         max-width: 190px !important;
         padding: 14px 14px !important;
     }
 
-    /* Dashboard table — hide date column */
     .dashboard-date { display: none; }
 
-    /* Forms — 16px мінімум, щоб iOS/Android не зумили при фокусі */
     .form-input { padding: 14px 16px; font-size: 16px; }
 }
 
-/* ═══════════════════════════════════════════════
-   ACCESSIBILITY & PERFORMANCE
-═══════════════════════════════════════════════ */
-
-/* Поважаємо людей із вестибулярними розладами:
-   вимикаємо декоративні анімації, лишаємо тільки миттєві переходи */
 @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
@@ -894,39 +834,27 @@ footer p {
     .lava-blob { display: none; }
 }
 
-/* Мобільні: blur(100px) на 4 блобах — найдорожча GPU-операція.
-   Лишаємо 2 блоби з меншим блюром */
 @media (max-width: 768px) {
     .blob-3, .blob-4 { display: none; }
     .lava-blob { filter: blur(60px); }
 }
 
-/* ═══════════════════════════════════════════════
-   MOBILE CROSS-PLATFORM HARDENING (Android + iOS)
-═══════════════════════════════════════════════ */
-
-/* Android: не роздувати текст; iOS: те саме */
 html {
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
 }
 
-/* Android Chrome: прибрати синій спалах при тапі */
 * {
     -webkit-tap-highlight-color: transparent;
 }
 
 body {
-    /* Прибирає «гумовий» overscroll/pull-to-refresh поверх контенту */
+
     overscroll-behavior-y: contain;
-    /* Плавний інерційний скрол на iOS */
+
     -webkit-overflow-scrolling: touch;
 }
 
-/* iOS: нормалізувати вигляд полів (прибрати власні скруглення/тіні),
-   16px шрифт глобально гарантує відсутність авто-зуму при фокусі.
-   ВАЖЛИВО: чекбокси й радіо виключені — інакше appearance:none робить
-   їх невидимими порожніми квадратами */
 .form-input,
 input:not([type="checkbox"]):not([type="radio"]),
 textarea,
@@ -936,7 +864,6 @@ select {
     font-size: 16px;
 }
 
-/* Чекбокси/радіо — нативний вигляд + золотий акцент */
 input[type="checkbox"],
 input[type="radio"] {
     -webkit-appearance: auto;
@@ -947,24 +874,20 @@ input[type="radio"] {
     flex-shrink: 0;
 }
 
-/* iOS: прибрати дефолтний вигляд кнопок */
 button,
 .btn {
     -webkit-appearance: none;
     appearance: none;
 }
 
-/* Тач-таргети ≥ 44px (iOS HIG) / 48px (Android Material) */
 @media (max-width: 768px) {
-    /* Бургер: зону тапу розширюємо ВЛІВО/вгору/вниз — ніколи вправо,
-       інакше виліз би за правий край екрана й сторінка «їздить» */
+
     .burger {
         box-sizing: content-box;
         padding: 12px 0 12px 12px;
         margin: -12px 0 -12px -12px;
     }
 
-    /* Пункти меню в висувній панелі — більша зона дотику (~44px) */
     nav ul li a,
     nav ul li button {
         display: inline-flex;
@@ -973,13 +896,11 @@ button,
         min-height: 28px;
     }
 
-    /* Safe-area: контент header не лізе під виріз/чубчик */
     header {
         padding-left: max(20px, env(safe-area-inset-left));
         padding-right: max(20px, env(safe-area-inset-right));
     }
 
-    /* Висувне меню враховує safe-area справа (notch у landscape) */
     nav {
         padding-right: max(40px, env(safe-area-inset-right)) !important;
     }

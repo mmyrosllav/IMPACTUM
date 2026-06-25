@@ -16,8 +16,6 @@ const Dashboard = () => {
   const [loading, setLoading]         = useState(true);
   const [selectedOrder, setSelectedOrder] = useState(null);
 
-  // ─── Завантаження замовлень ───────────────────────────────────
-  // Явний фільтр по user_id — другий рубіж захисту на додачу до RLS
   const fetchOrders = async (userId) => {
     const { data, error } = await supabase
       .from('orders')
@@ -39,7 +37,6 @@ const Dashboard = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
-  // ─── Видалення замовлення ─────────────────────────────────────
   const handleDelete = async (e, id) => {
     e.stopPropagation();
     if (!window.confirm(t('dashboard.deleteConfirm'))) return;
@@ -56,7 +53,7 @@ const Dashboard = () => {
   const getStatusStyle = (status) => {
     if (status === 'Completed') return { color: '#10b981', background: 'rgba(16,185,129,0.1)' };
     if (status === 'Active')    return { color: '#60a5fa', background: 'rgba(96,165,250,0.1)' };
-    return { color: '#FFD700', background: 'rgba(255,215,0,0.1)' }; // Pending
+    return { color: '#FFD700', background: 'rgba(255,215,0,0.1)' };
   };
 
   const getStatusLabel = (status) => {
@@ -69,7 +66,6 @@ const Dashboard = () => {
     <PageTransition>
       <div className="container" style={{ paddingTop: '120px', paddingBottom: '80px' }}>
 
-        {/* Header */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '40px', flexWrap: 'wrap', gap: '20px' }}>
           <div>
             <h1>{t('dashboard.greeting', { name: user?.name })}</h1>
@@ -89,7 +85,6 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Orders table */}
         <div className="card">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', flexWrap: 'wrap', gap: '12px' }}>
             <h3 style={{ margin: 0 }}>{t('dashboard.myOrders')}</h3>

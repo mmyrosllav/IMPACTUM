@@ -10,7 +10,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import PageTransition from '../components/PageTransition';
 import { usePageTitle } from '../hooks/usePageTitle';
 
-// EmailJS — той самий конфіг, що і для contact-форми
 const EJS_SERVICE  = import.meta.env.VITE_EMAILJS_SERVICE_ID  ?? '';
 const EJS_TEMPLATE = import.meta.env.VITE_EMAILJS_TEMPLATE_ID ?? '';
 const EJS_KEY      = import.meta.env.VITE_EMAILJS_PUBLIC_KEY  ?? '';
@@ -21,8 +20,7 @@ const Services = () => {
   const [activeTab, setActiveTab] = useState('All');
   const [selectedService, setSelectedService] = useState(null);
 
-  // ── Оформлення замовлення ──
-  const [orderService, setOrderService] = useState(null); // обрана послуга для замовлення
+  const [orderService, setOrderService] = useState(null);
   const [orderPhone, setOrderPhone]     = useState('');
   const [orderNote, setOrderNote]       = useState('');
   const [orderSubmitting, setOrderSubmitting] = useState(false);
@@ -42,30 +40,27 @@ const Services = () => {
   ];
 
   const filteredServices = activeTab === 'All'
-    ? servicesData 
+    ? servicesData
     : servicesData.filter(s => s.category === activeTab);
 
-  // Крок 1 — відкриваємо модалку оформлення (або редірект на вхід)
   const openOrder = (service) => {
     if (!user) {
       toast.error(t('servicesExtra.loginRequired'));
       navigate('/login');
       return;
     }
-    setSelectedService(null);          // закрити модалку деталей, якщо відкрита
+    setSelectedService(null);
     setOrderPhone('');
     setOrderNote('');
     setOrderService(service);
   };
 
-  // Крок 2 — зберігаємо в БД + відправляємо email менеджеру
   const submitOrder = async (e) => {
     e.preventDefault();
     if (!orderPhone.trim()) return toast.error(t('servicesExtra.phoneRequired'));
 
     setOrderSubmitting(true);
 
-    // 1) Зберігаємо замовлення в Supabase
     const { error } = await supabase.from('orders').insert({
       user_id:      user.id,
       service_name: orderService.name,
@@ -79,7 +74,6 @@ const Services = () => {
       return;
     }
 
-    // 2) Відправляємо сповіщення менеджеру (не блокує — лише логуємо збій)
     if (EJS_SERVICE && EJS_TEMPLATE && EJS_KEY) {
       try {
         await emailjs.send(EJS_SERVICE, EJS_TEMPLATE, {
@@ -94,7 +88,6 @@ const Services = () => {
       }
     }
 
-    // 3) Готово — закриваємо модалку й ведемо в кабінет
     setOrderSubmitting(false);
     setOrderService(null);
     toast.success(t('servicesExtra.orderSaved'));
@@ -109,12 +102,12 @@ const Services = () => {
           <p className="page-subtitle">{t('services.subtitle')}</p>
         </section>
 
-        <div style={{ 
-          display: 'flex', 
-          justifyContent: 'center', 
-          gap: '12px', 
+        <div style={{
+          display: 'flex',
+          justifyContent: 'center',
+          gap: '12px',
           marginBottom: '60px',
-          flexWrap: 'wrap' 
+          flexWrap: 'wrap'
         }}>
           {categories.map(cat => (
             <button
@@ -288,7 +281,6 @@ const Services = () => {
           </div>
         )}
 
-        {/* ── Модалка оформлення замовлення ── */}
         {orderService && (
           <div
             onClick={() => !orderSubmitting && setOrderService(null)}
