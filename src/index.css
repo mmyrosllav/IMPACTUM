@@ -198,11 +198,17 @@ header {
 nav {
     display: flex;
     align-items: center;
+    /* Заповнюємо всю ширину від логотипа до правого краю */
+    flex: 1;
+    margin-left: 50px;
 }
 
 nav ul {
     display: flex;
     list-style: none;
+    /* Рівномірний розподіл пунктів по всій ширині шапки */
+    width: 100%;
+    justify-content: space-between;
     gap: 28px;
     align-items: center;
 }
@@ -721,11 +727,12 @@ footer p {
    щоб повний залогінений nav (~9 пунктів) вмістився
    й не налазив на логотип
 ═══════════════════════════════════════════════ */
-@media (min-width: 1025px) and (max-width: 1366px) {
-    header { padding: 0 30px; }
-    nav ul { gap: 14px; }
-    nav a, nav button { font-size: 0.84rem; }
-    nav button { padding: 10px 18px; }
+@media (min-width: 1101px) and (max-width: 1366px) {
+    header { padding: 0 28px; }
+    nav { margin-left: 16px; }
+    nav ul { gap: 10px; }
+    nav a, nav button { font-size: 0.82rem; }
+    nav button { padding: 10px 14px; }
 }
 
 /* ═══════════════════════════════════════════════

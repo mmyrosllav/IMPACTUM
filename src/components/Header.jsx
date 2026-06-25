@@ -126,7 +126,7 @@ const Header = () => {
 
       <style>{`
         body { overflow-x: hidden; }
-        @media (max-width: 1024px) {
+        @media (max-width: 1100px) {
           .burger { display: block !important; }
           nav {
             position: fixed;
@@ -146,7 +146,8 @@ const Header = () => {
             will-change: transform;
           }
           nav.nav-active { transform: translateX(0); }
-          nav ul { flex-direction: column; align-items: flex-start; gap: 30px; }
+          nav { flex: none; margin-left: 0; }
+          nav ul { flex-direction: column; align-items: flex-start; justify-content: flex-start; width: auto; gap: 30px; }
         }
       `}</style>
     </header>
